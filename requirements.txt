@@ -3,3 +3,4 @@ Django==3.1.4
 numpy==1.19.3
 python-dateutil==2.8.1
 gunicorn
+django-heroku

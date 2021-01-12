@@ -1,0 +1,49 @@
+{% extends 'pauli/layout.html' %}
+{% load static %}
+
+{% block title %}
+2add 
+{% endblock %}
+
+{% block body %}
+<input type="hidden" id='quiz-id' value="{{ result.id }}">
+<input type="hidden" id="row_count" value="{{ row_count }}">
+<input type="hidden" id="col_count" value="{{ col_count }}">
+
+<hr>
+<div id="result-info">
+    <p><small>submitted on: {{ result.timestamp }}  by: </small><strong>{{ result.user }}</strong></p>
+    <h5>test type: {{ result.large }}</h5>
+    {% if result.result %}
+        <p>correct rate: {{ result.result }}%</p>
+    {% else %}
+        <p>correct rate: 0%</p>
+    {% endif %}
+    <p>time left: {{ timeleft }}</p>
+    <p>test id: {{ result.id }}</p>
+</div>
+<canvas id="myChart"></canvas>
+  <div class="container-sm" id='{{ result.large }}'>
+    {% for arr in result_arr %}
+        <div class="progress">
+            {% for answer in arr %}
+                {% if answer == 1 %}
+                    <div class="progress-bar bg-success" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
+                {% elif answer == -1 %}
+                    <div class ="progress-bar bg-danger" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
+                {% else %}
+                    <div class ="progress-bar bg-warning" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
+
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+    
+    
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="{% static 'pauli/result_chart.js' %}"></script>
+{% endblock %}

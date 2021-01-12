@@ -1,0 +1,44 @@
+{% extends 'pauli/layout.html' %}
+{% load static %}
+
+{% block title %}
+Small test  
+{% endblock %}
+{% block body %}
+    <div id='test-header'>
+        <h3>Small Test</h3>
+        <input type='hidden' id='user-time' value="{{ time }}">
+        <div id='timer'>timer</div>
+    </div>
+    <form method="POST" action="{% url 'finish' %}">
+        {% csrf_token %}
+        <input type="hidden" id="quiz_id" name='quiz_id' value="{{ quiz_id }}">
+        <div id='test-window' class="container-sm">
+            {% for nums in numbers %}
+                <div id="col-{{ forloop.counter }}">
+                    {% for num in nums %}
+                        <div id="{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class='num-box'>
+                            <p>{{ num }}</p>
+                            {% if forloop.counter < 5 %}
+                                <input id="i-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" type="text" class='num-input'  maxlength="1">
+                            {% else %}
+                                <input id="h-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" type="hidden"  maxlength="1">
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+        <input id='finish' class='btn btn-lg btn-success float-end' type="submit" value="Finish">
+
+    </form>
+
+    <div id='loading-quiz'>
+        <h3>Loading the quiz...</h3>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'pauli/test.js' %}"></script>
+{% endblock %}

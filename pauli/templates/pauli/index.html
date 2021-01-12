@@ -1,0 +1,32 @@
+{% extends 'pauli/layout.html' %}
+
+{% block title %}
+2add
+{% endblock %}
+
+{% block body %}
+    <div id ='index-info' class='container-sm'>
+        <h1>2add</h1>
+        <p>2add is an online version of Kraepelin-pauli arithmetic test, in this test you just have to calculate a number and the one below it and input the 
+        <strong>LAST</strong> digit of its <strong>SUM</strong> between them. make sure that your answer is right or you will get a minus score.</p>
+        <p><small>*press tab to skip a number</small></p>
+        <p><small>*answer as many as you can within the time limit</small></p>
+    </div>
+
+    <div id='test-option' class="container-fluid">
+        <div id='small-test'>
+            <a href="{% url 'small' %}">
+                <button class='btn btn-lg btn-success'>Take the small test</button>
+            </a>
+            <p>time limit: 60 seconds</p>
+            <p>this test only have 50 numbers, this is only an introduction on how the test works.</p>
+        </div>
+        <div id='large-test'>
+            <a href="{% url 'large' %}">
+                <button class='btn btn-lg btn-success' >Take the large test</button>
+            </a>
+            <p>time limit: 1 hour</p>
+            <p>the real stress test, with thousands of numbers.</p>
+        </div>
+    </div>
+{% endblock %}

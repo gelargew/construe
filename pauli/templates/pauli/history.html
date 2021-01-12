@@ -1,0 +1,22 @@
+{% extends 'pauli/layout.html' %}
+
+{% block title %}
+2add 
+{% endblock %}
+
+{% block body %}
+<h3>Test history</h3>
+
+<a class='btn btn-lg btn-dark' href="{% url 'index' %}">Back to homepage</a>
+<hr>
+<div class="list-group">
+    {% for quiz in quizzes %}
+        <a href="{% url 'result' quiz.id %}" class="list-group-item list-group-item-action">
+            by: <strong>{{ quiz.user }}</strong> -- result: {{ quiz.result }}% -- type: {{ quiz.large }}
+            <small class='result-date'>date: {{ quiz.timestamp }}</small>
+        </a>
+    {% endfor %}
+    </div>
+
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.core.files.storage import default_storage
+from django.contrib.staticfiles.storage import staticfiles_storage
 import re
 from datetime import datetime, timezone, timedelta
 import numpy as np
@@ -10,19 +10,23 @@ def get_quiz(title):
     Retrieves a list of strings numbers for the quiz. If no such
     quiz exists, the function returns None.
     """
-    try:
-        f = default_storage.open(f"quiz/{title}.md", 'r')
-        if title == 'small':
-
-            return [nums[0:5] for nums in f.readlines()]
-
-        else:
-
-            return [nums[0:50] for nums in f.readlines()]
-
-    except FileNotFoundError:
+    url = staticfiles_storage.url(f"quiz/{title}.md")
+    print(url)
+    #try:
         
-        return ''
+    f = open(url, 'r')
+    print(f)
+    if title == 'small':
+
+        return [nums[0:5] for nums in f.readlines()]
+
+    else:
+
+        return [nums[0:50] for nums in f.readlines()]
+
+    # except FileNotFoundError:
+        
+    #     return ''
 
 
 def get_answer(title):
@@ -30,7 +34,8 @@ def get_answer(title):
     Retrieves a list of the answers for the quiz
     """
     try:
-        f = default_storage.open(f"quiz/{title}_answer.md", 'r')
+        url = staticfiles_storage.url(f"quiz/{title}_answer.md")
+        f = open(url, 'r')
 
         return list(re.sub('\n', '', f.read()))
 

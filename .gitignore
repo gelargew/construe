@@ -1,0 +1,6 @@
+__pychace__/
+migrations/
+.db.sqlite3
+.Procfile
+.Pipfile
+.package-lock

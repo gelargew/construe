@@ -29,22 +29,22 @@ K-pauli
     
 </div>
 <canvas id="myChart"></canvas>
-  <div class="container-sm" id='{{ result.large }}'>
-    {% for arr in result_arr %}
-        <div class="progress">
-            {% for answer in arr %}
-                {% if answer == 1 %}
-                    <div class="progress-bar bg-success" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
-                {% elif answer == -1 %}
-                    <div class ="progress-bar bg-danger" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
-                {% else %}
-                    <div class ="progress-bar bg-warning" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
+<div class="container-sm" id='{{ result.large }}'>
+{% for arr in result_arr %}
+    <div class="progress">
+        {% for answer in arr %}
+            {% if answer == 1 %}
+                <div class="progress-bar bg-success" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
+            {% elif answer == -1 %}
+                <div class ="progress-bar bg-danger" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
+            {% else %}
+                <div class ="progress-bar bg-warning" role="progressbar"  aria-valuenow="{{ progress_val }}" aria-valuemin="0" aria-valuemax="100"></div>
 
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% endfor %}
+            {% endif %}
+        {% endfor %}
     </div>
+{% endfor %}
+</div>
     
     
 {% endblock %}

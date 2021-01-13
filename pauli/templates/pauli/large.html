@@ -22,7 +22,7 @@ Large test
                         <div id="box-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class='num-box'>
                             <p>{{ num }}</p>
                             {% if forloop.counter < 50 %}
-                                <input id="i-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" type="text" class='num-input'  maxlength="1">
+                                <input id="i-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" type="text" class='num-input'  maxlength="1" pattern="\d*">
                             {% else %}
                                 <input id="h-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" type="hidden"  maxlength="1">
                             {% endif %}

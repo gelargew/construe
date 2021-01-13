@@ -4,66 +4,27 @@ from datetime import datetime, timezone, timedelta
 import numpy as np
 from numpy.core.arrayprint import array_repr
 from numpy.core.numeric import array_equal
+from numpy.lib import stride_tricks
+
+def last_digit(arr):
+    return arr % 10
 
 def get_quiz(title):
     """
-    Retrieves a list of strings numbers for the quiz. If no such
-    quiz exists, the function returns None.
+    Retrieves a list of numbers for the quiz , a string of its answers and a string of the quiz itself.
     """
-    url = staticfiles_storage.url(f"quiz/{title}.md")
-    print(url)
-    #try:
-        
-    f = open(url, 'r')
-    print(f)
-    if title == 'small':
+    dimension = (10, 5) if title == 'small' else (100, 50)
 
-        return [nums[0:5] for nums in f.readlines()]
+    arr = np.random.randint(0, 10, dimension)
+    answers = (arr[:, :-1] + arr[:, 1:]) % 10
+    answers = answers.astype(str).reshape(-1)
 
-    else:
+    return (
+        [[num for num in nums] for nums in arr],
+        ','.join(answers),
+        ','.join(arr.astype(str).reshape(-1))
+        )
 
-        return [nums[0:50] for nums in f.readlines()]
-
-    # except FileNotFoundError:
-        
-    #     return ''
-
-
-def get_answer(title):
-    """
-    Retrieves a list of the answers for the quiz
-    """
-    try:
-        url = staticfiles_storage.url(f"quiz/{title}_answer.md")
-        f = open(url, 'r')
-
-        return list(re.sub('\n', '', f.read()))
-
-    except  FileNotFoundError:
-
-        return ''
-
-
-def results(title, answer):
-    """
-    compare user answers with the correct answers, return the score
-    """
-    answer = answer.split(',')
-    correct_answer = get_answer(title)
-    result = 0
-    for ca, ua in zip(correct_answer, answer):
-        if ca == ua:
-            result += 1
-        elif ua == '':
-            continue
-        else:
-            result -=1
-    if title == 'large':
-        result = result/4900*100
-    else:
-        result = result/40*100
-
-    return round(result, 2)
 
 
 def correct_rate(quiz):
@@ -71,8 +32,7 @@ def correct_rate(quiz):
     return a 2d array with 1, 0, -1 for correct, empty, and wrong answers. then the correct percentage of each column
     """
     user_ans = quiz.answers.split(',')
-    correct_ans = get_answer(quiz.size())
-
+    correct_ans = quiz.quiz_ans.split(',')  
     arr = np.array(list(map(lambda x, y: check(x, y), user_ans, correct_ans)))
     arr = np.reshape(arr, quiz.dimension())
 
@@ -82,24 +42,33 @@ def correct_rate(quiz):
 def chart_data(quiz):
     
     arr = correct_rate(quiz)
-    correct = [round(np.count_nonzero(l == 1)/len(l)*100, 2) for l in arr]
-    wrong = [round(np.count_nonzero(l == -1)/len(l)*100, 2) for l in arr]
-    empty = [round(np.count_nonzero(l == 0)/len(l)*100, 2) for l in arr]
-    print(correct, 'correct')
+    correct = [round(np.count_nonzero(l == 1), 2) for l in arr]
+    wrong = [round(np.count_nonzero(l == -1), 2) for l in arr]
+    empty = [round(np.count_nonzero(l == 0), 2) for l in arr]
+    r, c = quiz.dimension()
 
     return {
         'correct': correct,
         'wrong': wrong,
-        'empty': empty
+        'empty': empty,
+        'correct_count': sum(correct),
+        'wrong_count': sum(wrong),
+        'empty_count': sum(empty),
+        'size': r * c
     }
 
 
-def test_is_expired(quiz):
+def test_not_valid(quiz):
     """
-    return True if the test already past 2 hours or the timer smaller than 5 second left
+    return True if the test already past 2 hours or finished
     """
+    if not quiz or quiz.status == 'finished':
+        
+        return True
 
-    if not quiz or datetime.now(timezone.utc) - quiz.timestamp > timedelta(hours=2) or quiz.time < 5*1000:
+    elif datetime.now(timezone.utc) - quiz.timestamp > timedelta(hours=2):
+        quiz.status = 'expired'
+        quiz.save()
 
         return True
 

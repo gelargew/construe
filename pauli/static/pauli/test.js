@@ -67,23 +67,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000)
 
     document.querySelector('form').addEventListener('submit', () => {
-        time = 0
-        save_answer(num_input, time)
+        save_answer(num_input, time, 'finished')
     })
 })
 
-const save_answer = (num_input, time)  => {
+const save_answer = (num_input, time, finished='pending')  => {
     let answers = []
     num_input.forEach(e => {
     answers.push(e.value)
     })
-    console.log(answers.length)
     fetch('/answer', {
         method: 'PUT',
         body: JSON.stringify({
             answers: answers,
             quiz_id: document.querySelector('#quiz_id').value,
-            time: time
+            time: time,
+            finished: finished
         })
     })
     .then(response => {

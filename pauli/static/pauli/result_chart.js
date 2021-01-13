@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`/chart/${quiz_id}`)
     .then(response => response.json())
     .then(data => {
+        const size = data.size
+        document.querySelector('#correct_count').textContent = `correct: ${data.correct_count}/${size}`
+        document.querySelector('#wrong_count').textContent = `wrong: ${data.wrong_count}/${size}`
+        document.querySelector('#empty_count').textContent = `empty: ${data.empty_count}/${size}`
         var ctx = document.querySelector('#myChart').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create

@@ -30,12 +30,13 @@ def small(request):
     render small test page
     """
     quiz = Quiz.objects.filter(large=False).first()
-    if util.test_is_expired(quiz):
-        quiz = Quiz(user=request.user, time=60000, answers=','*39)
+    numbers = util.get_quiz('small')
+    if util.test_not_valid(quiz):
+        quiz = Quiz(user=request.user, time=60000, quiz=numbers[2], answers=','*39, quiz_ans=numbers[1])
         quiz.save()
    
     context = {
-        'numbers': util.get_quiz('small'),
+        'numbers': numbers[0],
         'quiz_id': quiz.id,
         'time': quiz.time,
     }
@@ -49,12 +50,13 @@ def large(request):
     render large test page
     """
     quiz = Quiz.objects.filter(large=True).first()
-    if util.test_is_expired(quiz):
-        quiz = Quiz(large=True, user=request.user, time=3600000, answers=','*4899)
+    numbers = util.get_quiz('large')
+    if util.test_not_valid(quiz):
+        quiz = Quiz(large=True, user=request.user, time=3600000, answers=','*4899, quiz=numbers[2], quiz_ans=numbers[1])
         quiz.save()
     
     context = {
-        'numbers': util.get_quiz('large'),
+        'numbers': numbers[0],
         'quiz_id': quiz.id,
         'time': quiz.time,
     }
@@ -114,16 +116,18 @@ def save_answer(request):
 
     data = json.loads(request.body)
     quiz_id = data.get('quiz_id')
+    print(data)
     if quiz_id:
+        print(data.get('status'))
         ans = ','.join(data.get('answers'))
         quiz_id = int(quiz_id)
         quiz = Quiz.objects.get(id=quiz_id)
         quiz.answers = ans
-        quiz.result = util.results(quiz.size(), ans)
         time = data.get('time')
         if time > 6000:
             quiz.timeleft = time
         quiz.time = time
+        quiz.status = data.get('finished')
         quiz.save()   
     
     return JsonResponse({'cool': 'cool'})

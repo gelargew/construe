@@ -14,13 +14,17 @@
 <div id="result-info">
     <p><small>submitted on: {{ result.timestamp }}  by: </small><strong>{{ result.user }}</strong></p>
     <h5>test type: {{ result.large }}</h5>
-    {% if result.result %}
-        <p>correct rate: {{ result.result }}%</p>
-    {% else %}
-        <p>correct rate: 0%</p>
-    {% endif %}
-    <p>time left: {{ timeleft }}</p>
-    <p>test id: {{ result.id }}</p>
+    <div id='answer-rates'>
+        <li id='correct_count'></li>
+        <li id='wrong_count'></li>
+        <li id='empty_count'></li>
+    </div>
+    <div id='misc-info'>
+        <p>time left: {{ timeleft }}</p>
+        <p>test id: {{ result.id }}</p>
+        <p>status: {{ result.status }}</p>
+    </div>
+    
 </div>
 <canvas id="myChart"></canvas>
   <div class="container-sm" id='{{ result.large }}'>

@@ -6,8 +6,15 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "*"
 djangorestframework = "*"
+gunicorn = "*"
+asgiref = "==3.2.10"
+numpy = "==1.19.3"
+python-dateutil = "==2.8.1"
+django-heroku = "==0.3.1"
+psycopg2 = "==2.8.6"
+whitenoise = "==5.2.0"
+Django = "==3.1.4"
 
 [requires]
 python_version = "3.9"

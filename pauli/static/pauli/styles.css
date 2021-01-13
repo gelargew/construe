@@ -118,3 +118,8 @@ input[type=text]:focus {
 #finish-option a {
     margin: 10px;
 }
+
+#misc-info {
+    float: right;
+    margin-top: -60px;
+}

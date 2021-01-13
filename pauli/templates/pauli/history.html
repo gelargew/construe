@@ -12,7 +12,7 @@
 <div class="list-group">
     {% for quiz in quizzes %}
         <a href="{% url 'result' quiz.id %}" class="list-group-item list-group-item-action">
-            by: <strong>{{ quiz.user }}</strong> -- result: {{ quiz.result }}% -- type: {{ quiz.large }}
+            by: <strong>{{ quiz.user }}</strong> -- status: {{ quiz.status }} -- type: {{ quiz.large }}
             <small class='result-date'>date: {{ quiz.timestamp }}</small>
         </a>
     {% endfor %}

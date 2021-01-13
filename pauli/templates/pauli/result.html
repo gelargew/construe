@@ -1,5 +1,6 @@
 {% extends 'pauli/layout.html' %}
 {% load static %}
+{% load l10n %}
 
 {% block title %}
 2add 
@@ -12,7 +13,9 @@
 
 <hr>
 <div id="result-info">
-    <p><small>submitted on: {{ result.timestamp }}  by: </small><strong>{{ result.user }}</strong></p>
+    {% localize on %}
+    <p><small>submitted on: {{ result.timestamp }} UTC  by: </small><strong>{{ result.user }}</strong></p>
+    {% endlocalize %}
     <h5>test type: {{ result.large }}</h5>
     <div id='test-info'>
         <div id='answer-rates'>

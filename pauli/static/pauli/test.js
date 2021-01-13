@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const next = document.querySelector(`#i-${col}-${row+1}`)
 
                     if (next) {
-                        window.scrollBy(0, 70)
+                        window.scrollBy(0, 67)
                         next.focus()
                         
                     }
@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (column) {
                             column.focus()
                             columns_control(col)
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth'
+                            })
                         }
                     }
                 }

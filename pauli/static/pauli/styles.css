@@ -85,14 +85,15 @@ input[type=text]:focus {
 #small {
     display: none;
     transform: rotateZ(-90deg) rotateY(180deg);
-    max-width: 400px;
     margin-bottom: -100px;
-    margin-top: -100px;
+    max-width: 400px;
+    max-height: 80vw;
+    overflow: auto;
 }
 
 #small .progress {
-    min-height: 40px;
-    margin: 20px;
+    min-height: 20px;
+    margin: 15px;
 }
 
 #large {
@@ -119,7 +120,8 @@ input[type=text]:focus {
     margin: 10px;
 }
 
-#misc-info {
-    float: right;
-    margin-top: -60px;
+#test-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

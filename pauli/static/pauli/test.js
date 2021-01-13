@@ -38,8 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             column.focus()
                             columns_control(col)
                             window.scrollTo({
-                                top: 0,
-                                behavior: 'smooth'
+                                top: 0
                             })
                         }
                     }

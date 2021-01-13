@@ -1,6 +1,5 @@
 {% extends 'pauli/layout.html' %}
 {% load static %}
-{% load l10n %}
 
 {% block title %}
 2add 
@@ -13,9 +12,7 @@
 
 <hr>
 <div id="result-info">
-    {% localize on %}
-    <p><small>submitted on: {{ result.timestamp }} UTC  by: </small><strong>{{ result.user }}</strong></p>
-    {% endlocalize %}
+    <p><small>submitted on: <span class='date_submitted'>{{ result.timestamp }} UTC</span>  by: </small><strong>{{ result.user }}</strong></p>
     <h5>test type: {{ result.large }}</h5>
     <div id='test-info'>
         <div id='answer-rates'>
@@ -55,4 +52,5 @@
 {% block script %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="{% static 'pauli/result_chart.js' %}"></script>
+    <script src="{% static 'pauli/dateformat.js' %}"></script>
 {% endblock %}

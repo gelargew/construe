@@ -1,4 +1,5 @@
 {% extends 'pauli/layout.html' %}
+{% load static %}
 
 {% block title %}
 2add 
@@ -13,10 +14,14 @@
     {% for quiz in quizzes %}
         <a href="{% url 'result' quiz.id %}" class="list-group-item list-group-item-action">
             by: <strong>{{ quiz.user }}</strong> -- status: {{ quiz.status }} -- type: {{ quiz.large }}
-            <small class='result-date'>date: {{ quiz.timestamp }} UTC</small>
+            <small class='result-date'>date: <span class='date_submitted'>{{ quiz.timestamp }} UTC</span></small>
         </a>
     {% endfor %}
     </div>
 
 
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'pauli/dateformat.js' %}"></script>
 {% endblock %}

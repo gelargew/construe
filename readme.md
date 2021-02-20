@@ -1,4 +1,13 @@
-K-Pauli test
+#K-Pauli test
+
+####How to Run
+
+```
+-pip install numpy django
+-py manage.py makemigrations
+-py manage.py migrate
+-py manage.py runserver
+```
 
 this is an arithmetic test web application based on Kraepelin-pauli-test, a one page  test consists of thousands of numbers that is verticaly separated by an input field. Test takers only need to fill the input with the last digit sum of the number exactly above and exactly below it.
 

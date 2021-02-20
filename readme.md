@@ -1,6 +1,6 @@
-#K-Pauli test
+# K-Pauli test
 
-####How to Run
+#### How to Run
 
 ```
 -pip install numpy django

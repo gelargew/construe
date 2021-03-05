@@ -22,15 +22,27 @@ class Category(models.Model):
         return self.name
 
 
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    categories = models.ManyToManyField(Category, related_name='categories', blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
+    author = models.ForeignKey(Author, related_name='author', on_delete=models.PROTECT, blank=True, null=True, default=None)
     category = models.ManyToManyField(Category, related_name='books', blank=True)
     added = models.DateTimeField(auto_now_add=True)
     year = models.DateTimeField(null = True, blank=True)
     available = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='bookAssets/', blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.title} - available: {self.available}'
+
+
 
     def returned(self):
         self.available += 1

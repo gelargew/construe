@@ -17,9 +17,16 @@ body {
 header {
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 99%;
   background: #333;
   padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+header h4 {
+  position: relative;
+  margin: 0px 5px;
 }
 
 main {
@@ -90,4 +97,16 @@ li:hover {
 ::-webkit-scrollbar-thumb {
   background: #333;
   width: 3px;
+}
+
+.rentbox {
+  position: fixed;
+  z-index: 10;
+  background: rgba(49, 49, 49, 0.97);
+  width: 70%;
+  height: 70%;
+  left: 15%;
+  top: 15%;
+  box-shadow: 10px 10px 5px rgb(39, 39, 39, 0.5);
+  border-radius: 25px;
 }

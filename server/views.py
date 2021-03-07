@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from server.models import Book
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.conf import settings
@@ -30,6 +30,15 @@ class user_list(generics.ListCreateAPIView):
 class user_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+@api_view(['GET'])
+def my_profile(request):
+    if request.user.is_authenticated:
+        serializer = UserSerializer(request.user)
+
+        return Response(serializer.data)
+    
+    return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 def book_image(request, filename):

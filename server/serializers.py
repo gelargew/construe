@@ -23,7 +23,7 @@ class BookSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id', 'username', 'email', 'password', 'is_authenticated', 'is_staff')
 
     def create(self, validated_data):
         password = validated_data.pop('password')

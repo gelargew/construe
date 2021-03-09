@@ -100,13 +100,20 @@ li:hover {
 }
 
 .rentbox {
+  padding: 20px;
   position: fixed;
   z-index: 10;
   background: rgba(49, 49, 49, 0.97);
-  width: 70%;
-  height: 70%;
+  width: 50%;
+  height: 50%;
   left: 15%;
   top: 15%;
   box-shadow: 10px 10px 5px rgb(39, 39, 39, 0.5);
-  border-radius: 25px;
+  border-radius: 10px;
+}
+
+
+.button-exit {
+  float: right;
+  margin: 0;
 }

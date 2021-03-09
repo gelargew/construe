@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { RentBox } from './RentBox'
 
 
@@ -13,6 +13,7 @@ export function Content({book, setBook}) {
         setRentBox(false)
         }
     }
+    useEffect(hideBox, [book])
 
     return (
         <>
@@ -37,7 +38,7 @@ export function Content({book, setBook}) {
                 <h1>yo</h1>
             </div>
         </div>
-        {rentBox && <RentBox />}
+        {rentBox && <RentBox hideBox={hideBox} />}
         </>
     )
 }

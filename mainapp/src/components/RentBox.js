@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 
 
-export function RentBox() {
+export function RentBox({hideBox}) {
     
     return (
         <div className='rentbox' >
-            <h1>rent Box</h1>
+            <p className='button-exit' onClick={hideBox}>X</p>
         </div>
     )
 }

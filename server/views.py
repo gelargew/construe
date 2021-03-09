@@ -1,12 +1,16 @@
 from django.http.response import HttpResponse
+from rest_framework.serializers import Serializer
 from server.models import Book
-from django.shortcuts import render
+from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 from PIL import Image
+import json
 
 from .models import Book
 from .serializers import *
@@ -21,29 +25,3 @@ class book_list(generics.ListCreateAPIView):
 class book_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-
-class user_list(generics.ListCreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-class user_detail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-@api_view(['GET'])
-def my_profile(request):
-    if request.user.is_authenticated:
-        serializer = UserSerializer(request.user)
-
-        return Response(serializer.data)
-    
-    return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-def book_image(request, filename):
-    file_url = f'bookAssets/{filename}'
-    with open(file_url, 'rb') as f:
-        img = Image.open(f)
-        print(img)
-        return HttpResponse(img, content_type='image/jpg')

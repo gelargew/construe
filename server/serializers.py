@@ -18,22 +18,3 @@ class BookSerializer(serializers.ModelSerializer):
             book.category.add(cat)
 
         return book 
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password', 'is_authenticated', 'is_staff')
-
-    def create(self, validated_data):
-        password = validated_data.pop('password')
-        user = User.objects.create(**validated_data)
-        user.set_password(password)
-
-        return user
-
-    def update(self, instance, validated_data):
-        password = validated_data.pop('password')
-        instance.set_password(password)
-
-        return instance

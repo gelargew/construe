@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { render } from 'react-dom'
-import { Footer } from './Footer'
 import { Header } from './Header'
 import { Main } from './Main'
 
@@ -21,8 +20,8 @@ const App = () => {
 
     return (
     <>
-        <Header user={user} setUser={setUser} setPage={setPage} />
-        <Main page={page} setPage={setPage} />
+        <Header user={user} setUser={setUser} setPage={setPage} page={page}/>
+        <Main page={page} setPage={setPage} setUser={setUser} user={user} />
     </>
     )
 }

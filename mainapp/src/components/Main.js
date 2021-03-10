@@ -3,8 +3,9 @@ import { Sidebar } from './Sidebar'
 import { Content } from './Content'
 import { Register, Login } from './auth'
 import { Home } from './Home'
+import { StaffPage } from './StaffPage'
 
-export function Main({ page, setPage }) {
+export function Main({ page, setPage, setUser, user }) {
     const [book, setBook] = useState(0)
     useEffect(() => {
         if (page != 'Books') {
@@ -18,10 +19,12 @@ export function Main({ page, setPage }) {
             {page === 'Home' ? 
             <Home /> :
             page === 'Login' ? 
-            <Login setUser={setUser} /> :
+            <Login setUser={setUser} setPage={setPage} /> :
             page ==='Register' ?
-            <Register setUser={setUser} /> :
-            <Content book={book} setBook={setBook} />}
+            <Register setUser={setUser} setPage={setPage} /> :
+            page === 'StaffPage' ?
+            <StaffPage /> :
+            <Content book={book} setPage={setPage} user={user} />}
         </main>
     )
 }

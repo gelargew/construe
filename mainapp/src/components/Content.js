@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { RentBox } from './RentBox'
 
 
-export function Content({book, setBook}) {
+export function Content({book, user, setPage}) {
     const [rentBox, setRentBox] = useState(false)
 
     const showBox = () => {
-        setRentBox(true)
+        if (user.is_authenticated) {
+            setRentBox(true)
+        }
+        else {
+            setPage('Login')
+        }    
     }
     const hideBox = () => {
         if (rentBox) {
@@ -38,7 +43,7 @@ export function Content({book, setBook}) {
                 <h1>yo</h1>
             </div>
         </div>
-        {rentBox && <RentBox hideBox={hideBox} />}
+        {rentBox && <RentBox hideBox={hideBox} book={book}/>}
         </>
     )
 }

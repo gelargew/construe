@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 CONTRACT_STATUS = (
+    ('waiting', 'waiting'),
     ('active', 'active'),
     ('returned', 'returned'),
     ('late', 'late')
@@ -58,23 +59,33 @@ class Book(models.Model):
 class Contract(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     book = models.ForeignKey(Book, on_delete=models.PROTECT)
-    expiry = models.DateTimeField(default=timezone.now() + timedelta(7), blank=True)
-    status = models.CharField(choices=CONTRACT_STATUS, default='active', max_length=36)
+    expiry = models.DateTimeField(default=timezone.now() + timedelta(days=1), blank=True)
+    status = models.CharField(choices=CONTRACT_STATUS, default='waiting', max_length=36)
+    duration = models.IntegerField(default=1, blank=True)
+
+    class Meta:
+        ordering = ['-expiry']
 
     def __str__(self) -> str:
         return f'{self.user} book: {self.book.title}'
 
-    def save(self, *args, **kwargs):
-        if 'duration' in kwargs:
-            duration = int(kwargs['duration'])       
-            self.expiry = timezone.now() + timedelta(duration)
-        super().save(*args, **kwargs)
-        self.book.rented()
     
-    def delete(self, *args, **kwargs):
-        if self.status == 'returned':
+
+    def save(self, duration=7):
+        if self.book.quantity < 1:
+            return
+        super().save()
+
+    
+    def delete(self):
+        if self.status == 'returned' or self.status == 'waiting':
             super().delete()
 
-    def returnBook(self, *args, **kwargs):
+    def returnBook(self):
         self.book.returned()
         
+    def accepted(self):
+        self.status = 'active'
+        self.book.rented()
+        self.expiry = timezone.now() + timedelta(days=self.duration*7)
+        super().save()

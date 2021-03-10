@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from PIL import Image
 
-from .models import Book, Category
+from .models import Book, Category, Contract
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -18,3 +18,11 @@ class BookSerializer(serializers.ModelSerializer):
             book.category.add(cat)
 
         return book 
+
+
+class ContractSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contract
+        fields = '__all__'
+
+    

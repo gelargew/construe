@@ -1,12 +1,12 @@
 import React from 'react'
 
-const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-const headers = {
+export const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+export const headers = {
     'Content-Type': 'application/json; charset=UTF-8',
     'X-CSRFToken': csrftoken,
 }
 
-export function Login({user, setUser}) {
+export function Login({ setUser, setPage }) {
     const loginUser = async (e) => {
         e.preventDefault()
         const res = await fetch('auth/login/', {
@@ -21,6 +21,8 @@ export function Login({user, setUser}) {
         if (res.status === 200) {
             const data = await res.json()  
             setUser(data)
+            setPage('Books')
+            
         }
         else {
             throw new Error()
@@ -47,7 +49,7 @@ export function Login({user, setUser}) {
 }
 
 
-export function Register({user, setUser}) {
+export function Register({ setUser, setPage }) {
     console.log('register')
     const registerUser = async (e) => {
         e.preventDefault()
@@ -61,16 +63,15 @@ export function Register({user, setUser}) {
                 'email': e.target.email.value
             })
         })
-        console.log(res)
         if (res.status === 201) {
             const data = await res.json()  
             setUser(data)
+            setPage('Books')
         }
     }
     return (
         <div>
-            <h1>fff</h1>
-            <h2>hehehe</h2>
+            <h2>Register Page</h2>
             <form onSubmit={registerUser}>
                 <label for="username">
                     Username: 

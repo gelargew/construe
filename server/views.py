@@ -31,8 +31,11 @@ class contract_list(generics.ListCreateAPIView):
     serializer_class = ContractSerializer
 
     def get_queryset(self):
-        limit = timezone.now() - timedelta(days=1)
-        contracts = Contract.objects.filter(expiry__gte=limit)
+        filter = {'expiry__gte': timezone.now(), 'status__in': ('waiting', 'active', 'late')}
+        if self.request.user.is_staff:
+            contracts = Contract.objects.filter(**filter)
+        else:
+            contracts = Contract.objects.filter(user=self.request.user, **filter)
 
         return contracts
 
@@ -44,3 +47,24 @@ def contract_create(request):
     contract.save(duration=data['duration'])
 
     return HttpResponse(status=status.HTTP_401_UNAUTHORIZED)
+
+
+def contract(request, pk, type=None):
+    if request.method != 'PATCH' or not type:
+        return HttpResponse(status=400)
+
+    contract = Contract.objects.get(pk=pk)
+    if type == 'accept' and request.user.is_staff:
+        if contract.accept():
+            return HttpResponse(status=status.HTTP_200_OK)
+    
+    elif type == 'retrieve' and request.user.is_staff:
+        contract.returnBook()
+        return HttpResponse(status=status.HTTP_200_OK)
+    
+    elif type == 'cancel':
+        contract.cancel()
+        return HttpResponse(status=status.HTTP_200_OK)
+
+    return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
+

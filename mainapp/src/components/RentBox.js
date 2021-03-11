@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { headers } from './auth'
 
 
 export function RentBox({ hideBox, book }) {
     const [duration, setDuration] = useState('1 week')
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-    const headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'X-CSRFToken': csrftoken,
-    }
     const handleSelect = (e) => {
         setDuration(e.target.value)
     }

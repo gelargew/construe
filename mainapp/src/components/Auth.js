@@ -1,11 +1,9 @@
 import React from 'react'
 
-export const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
-export const headers = {
+const headers = {
     'Content-Type': 'application/json; charset=UTF-8',
-    'X-CSRFToken': csrftoken,
+    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
 }
-
 export function Login({ setUser, setPage }) {
     const loginUser = async (e) => {
         e.preventDefault()

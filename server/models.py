@@ -8,7 +8,9 @@ CONTRACT_STATUS = (
     ('waiting', 'waiting'),
     ('active', 'active'),
     ('returned', 'returned'),
-    ('late', 'late')
+    ('late', 'late'),
+    ('book unavailable', 'book unavailable'),
+    ('cancelled', 'cancelled')
 )
 
 # Create your models here.
@@ -42,9 +44,7 @@ class Book(models.Model):
     image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     def __str__(self) -> str:
-        return f'{self.title} - quantity: {self.quantity}'
-
-
+        return f'{self.title} - {"" if self.quantity > 0 else "*out of order"}'
 
     def returned(self):
         self.quantity += 1
@@ -64,12 +64,10 @@ class Contract(models.Model):
     duration = models.IntegerField(default=1, blank=True)
 
     class Meta:
-        ordering = ['-expiry']
+        ordering = ['-expiry', '-status']
 
     def __str__(self) -> str:
-        return f'{self.user} book: {self.book.title}'
-
-    
+        return f'{self.user} book: {self.book.title}'  
 
     def save(self, duration=7):
         if self.book.quantity < 1:
@@ -83,9 +81,21 @@ class Contract(models.Model):
 
     def returnBook(self):
         self.book.returned()
+        self.status = 'returned'
+        super().save()
         
-    def accepted(self):
+    def accept(self):
+        if self.book.quantity < 1:
+            self.status = 'book unavailable'
+            return False
+
         self.status = 'active'
         self.book.rented()
         self.expiry = timezone.now() + timedelta(days=self.duration*7)
+        super().save()
+        return True
+
+    def cancel(self):
+        self.status = 'cancelled'
+
         super().save()

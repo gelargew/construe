@@ -126,3 +126,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL ='/media/'
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%a, %d %b'
+}

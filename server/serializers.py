@@ -21,8 +21,12 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class ContractSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    book = serializers.StringRelatedField()
+    
     class Meta:
         model = Contract
         fields = '__all__'
+        
 
     

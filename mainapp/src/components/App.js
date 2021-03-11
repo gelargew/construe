@@ -3,7 +3,6 @@ import { render } from 'react-dom'
 import { Header } from './Header'
 import { Main } from './Main'
 
-
 const App = () => {
     const [user, setUser] = useState({ username: 'Guest', is_authenticated: false })
     const [page, setPage] = useState('Home')

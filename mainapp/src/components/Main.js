@@ -23,7 +23,7 @@ export function Main({ page, setPage, setUser, user }) {
             page ==='Register' ?
             <Register setUser={setUser} setPage={setPage} /> :
             page === 'StaffPage' ?
-            <StaffPage /> :
+            <StaffPage user={user} /> :
             <Content book={book} setPage={setPage} user={user} />}
         </main>
     )

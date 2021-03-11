@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { Contract } from './Contract';
 
 
-export function StaffPage() {
-    const [orders, setOrders] = useState([])
-    useEffect(async () => {
+export function StaffPage({user}) {
+    const [contracts, setContracts] = useState([])
+    const [reload, setReload] = useState(0)    
+    
+    const getContracts = async () => {
         const res = await fetch('api/contracts/')
         const data = await res.json()
+        setContracts(data)
+        console.log(data)  
+    }
+    
+    useEffect(() => {
+        getContracts()
+        let interval = setInterval(getContracts, 20000)      
+        return () => clearInterval(interval)
+    }, [reload])
 
-        console.log(data)
-    }, [])
     return (
         <div className='staff-page'>
-            <h3>Transactions</h3>
+            <h3>orders</h3>
             <div>
-
+                {contracts.map(contract => {
+                    return <Contract key={contract.id} contract={contract} user={user} setReload={setReload} />
+                })}
             </div>
         </div>
     )

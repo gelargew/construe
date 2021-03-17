@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { RentBox } from './RentBox'
 
 
-export function Content({book, user, setPage}) {
+export function BookDetail({book, user, setPage}) {
     const [rentBox, setRentBox] = useState(false)
 
     const showBox = () => {

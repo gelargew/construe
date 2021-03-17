@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { headers } from './auth'
 
+const headers = {
+    'Content-Type': 'application/json; charset=UTF-8',
+    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+}
 
 export function RentBox({ hideBox, book }) {
     const [duration, setDuration] = useState('1 week')

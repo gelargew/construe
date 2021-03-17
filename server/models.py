@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+
 CONTRACT_STATUS = (
     ('waiting', 'waiting'),
     ('active', 'active'),
@@ -13,7 +14,19 @@ CONTRACT_STATUS = (
     ('cancelled', 'cancelled')
 )
 
-# Create your models here.
+CONTRACT_TYPE = (
+    ('rent', 'rent'),
+    ('donate', 'donate'),
+    ('request', 'request')
+)
+
+BOOK_STATUS = (
+    ('active', 'active'),
+    ('request', 'request'),
+    ('donate-request', 'donate-request')
+)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -39,9 +52,10 @@ class Book(models.Model):
     category = models.ManyToManyField(Category, related_name='books', blank=True)
     description = models.TextField(blank=True, default='no description')
     added = models.DateTimeField(auto_now_add=True)
-    year = models.DateTimeField(null = True, blank=True)
-    quantity = models.IntegerField(default=0)
+    year = models.CharField(null = True, blank=True, max_length=50)
+    quantity = models.IntegerField(default=1)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
+    status = models.CharField(choices=BOOK_STATUS, null=True, blank=True, max_length=36)
 
     def __str__(self) -> str:
         return f'{self.title} - {"" if self.quantity > 0 else "*out of order"}'
@@ -62,9 +76,10 @@ class Contract(models.Model):
     expiry = models.DateTimeField(default=timezone.now() + timedelta(days=1), blank=True)
     status = models.CharField(choices=CONTRACT_STATUS, default='waiting', max_length=36)
     duration = models.IntegerField(default=1, blank=True)
+    contract_type = models.CharField(choices=CONTRACT_TYPE, blank=True, default='rent', max_length=36)
 
     class Meta:
-        ordering = ['-expiry', '-status']
+        ordering = ['expiry', '-status']
 
     def __str__(self) -> str:
         return f'{self.user} book: {self.book.title}'  
@@ -73,7 +88,6 @@ class Contract(models.Model):
         if self.book.quantity < 1:
             return
         super().save()
-
     
     def delete(self):
         if self.status == 'returned' or self.status == 'waiting':

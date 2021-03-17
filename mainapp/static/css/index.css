@@ -33,7 +33,7 @@ main {
   height: 90%;
   padding-top: 1.7rem;
   flex: 1;
-  background: #555;
+  background: #111;
   display: flex;
   flex-direction: row;
 }

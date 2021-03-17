@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from PIL import Image
 
-from .models import Book, Category, Contract
+from .models import Book, Category, Contract, Author
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -12,8 +12,10 @@ class BookSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        author_name = validated_data.pop('author')
+        author = Author.objects.get_or_create(name=author_name)[0]
         category = validated_data.pop('category')
-        book = Book.objects.create(**validated_data)
+        book = Book.objects.create(author=author, **validated_data)
         for cat in category:
             book.category.add(cat)
 

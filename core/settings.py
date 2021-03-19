@@ -128,5 +128,7 @@ STATIC_URL = '/static/'
 MEDIA_URL ='/media/'
 
 REST_FRAMEWORK = {
-    'DATETIME_FORMAT': '%a, %d %b'
+    'DATETIME_FORMAT': '%a, %d %b',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 2,
 }

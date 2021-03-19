@@ -8,6 +8,7 @@ from .views import book_create, book_list, contract_create, contract_list, contr
 
 urlpatterns = [
     path('books/', book_list.as_view()),
+    path('books/<str:pattern>/', book_list.as_view()),
     path('book/create/', book_create.as_view()),
     path('contracts/', contract_list.as_view()),
     path('contract/create/', contract_create),

@@ -10,16 +10,8 @@ export function Main({ page, setPage, setUser, user }) {
     const [book, setBook] = useState(0)
     const [books, setBooks] = useState([])
 
-    useEffect( async () => {
-        const res = await fetch('api/books/')
-        const data = await res.json()
-        setBooks(Object.values(data))
-        console.log(data)
-    }, [])
     useEffect(() => {
-        if (page != 'Books') {
-            setBook(0)
-        }
+        if (page != 'Books') setBook(0)
     }, [page])
 
     return (

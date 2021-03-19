@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.http.response import HttpResponse
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import parser_classes
 from server.models import Book
 from rest_framework import generics, status
@@ -7,7 +8,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.views.decorators.csrf import csrf_exempt
 import json
 from rest_framework.response import Response
 
@@ -17,8 +17,14 @@ from .serializers import ContractSerializer, BookSerializer
 # Create your views here.
 
 class book_list(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+    def get_queryset(self):
+        if 'pattern' in self.kwargs:
+            return Book.objects.filter(title__contains=self.kwargs['pattern'])
+
+        return Book.objects.all()
+        
 
 
 class book_create(APIView):
@@ -30,7 +36,7 @@ class book_create(APIView):
         serializer = BookSerializer(book, many=True)
 
         return Response(serializer.data)
-        
+
     def post(self, request, format=None):
         data = request.data
         print(data)
@@ -42,7 +48,7 @@ class book_create(APIView):
             return HttpResponse(status=201)
         print(serializer.errors)
 
-        return HttpResponse(status=200)
+        return Response()
 
 
 
@@ -62,17 +68,22 @@ class contract_list(generics.ListAPIView):
         return contracts
 
 
-def contract_create(request, DonateOrRequest=False):
+def contract_create(request):
     data = json.loads(request.body)
-    if DonateOrRequest:
-        book = Book.objects.create(**data['book'])
+    data = {key:int(data[key]) for key in data if data[key]}
+    if 'book_id' not in data or not request.user.is_authenticated:       
+        return HttpResponse(status=400)
         
-    
-    book = Book.objects.get(id=data['bookId'])
-    contract = Contract(user=request.user, book=book, duration=data['duration'])
+    if 'user_id' in data:
+        if not request.user.is_staff:
+            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+    else: 
+        data |= {'user': request.user}
+    print(data)
+    contract = Contract(**data)
     contract.save()
 
-    return HttpResponse(status=status.HTTP_201_CREATED)
+    return HttpResponse(status=201 if contract else 400)
 
 
 def contract(request, pk, type=None):

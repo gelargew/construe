@@ -18,7 +18,7 @@ export function RentBox({ hideBox, book }) {
             headers: headers,
             body: JSON.stringify({
                 duration: parseInt(e.target.duration.value.charAt(0)),
-                bookId: book.id,              
+                book_id: book.id,              
             })
         })
 

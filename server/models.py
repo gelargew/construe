@@ -84,7 +84,7 @@ class Contract(models.Model):
     def __str__(self) -> str:
         return f'{self.user} book: {self.book.title}'  
 
-    def save(self, duration=7):
+    def save(self):
         if self.book.quantity < 1:
             return
         super().save()

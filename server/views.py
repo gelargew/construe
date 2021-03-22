@@ -24,6 +24,13 @@ class book_list(generics.ListCreateAPIView):
             return Book.objects.filter(title__contains=self.kwargs['pattern'])
 
         return Book.objects.all()
+
+
+class fresh_book_list(generics.ListAPIView):
+    serializer_class = BookSerializer
+
+    def get_queryset(self):
+        return Book.objects.order_by('-pk')[:5]
         
 
 
@@ -109,7 +116,11 @@ def contract(request, pk, type=None):
 
 
 class contracts_update(APIView):
+    """
+    update scheduler, the patch function will validate the date on all contracts with status active and waiting
+    """
     def patch(self, request):
-        contract_updater = Contract_updater.objects.create()
-        print(contract_updater)
-        return HttpResponse(status=201)
+        contract_updater, created = Contract_updater.objects.get_or_create()
+        if created: print('contracts updated')
+
+        return HttpResponse(status=201 if created else 200)

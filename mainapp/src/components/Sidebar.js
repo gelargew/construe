@@ -20,7 +20,7 @@ export function Sidebar({ book, setBook, setPage, books, setBooks }) {
 
     return (
         <div className='sidebar'>
-            sadaosk
+            {/* searchable book list link*/}
             <input type='text' placeholder='Search books...' onChange={e => setUrl('api/books/' + e.target.value)} />
 
             {!books.count ? <p>nothing here ...</p> : 
@@ -29,7 +29,7 @@ export function Sidebar({ book, setBook, setPage, books, setBooks }) {
                     {curBook.title}, <small>{curBook.year}</small>
                 </li>
             )}
-
+            {/* navigation button */}
             <button onClick={() => setUrl(books.previous)} disabled={!books.previous}>
                 <i class="fas fa-caret-left"></i>
             </button>
@@ -38,8 +38,8 @@ export function Sidebar({ book, setBook, setPage, books, setBooks }) {
                 <i class="fas fa-caret-right"></i>
             </button>
             
-            {books.count &&
-                <p><small>showing {books.results.length} of {books.count} books</small></p>
+            {books.count ?
+                <p><small>showing {books.results.length} of {books.count} books</small></p> : ''
             }
         </div>
     )

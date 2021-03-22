@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Sidebar } from './Sidebar'
 import { BookDetail } from './BookDetail'
-import { Register, Login } from './auth'
+import { Register, Login } from './Auth'
 import { Home } from './Home'
 import { StaffPage } from './StaffPage'
 import { CreateContract } from './ContractCreate'

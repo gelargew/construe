@@ -20,7 +20,7 @@ export function Login({ setUser, setPage }) {
             const data = await res.json()  
             setUser(data)
             setPage('Books')
-            
+            updateContracts(data)
         }
         else {
             throw new Error()
@@ -90,4 +90,17 @@ export function Register({ setUser, setPage }) {
             </form>
         </div>
     )
+}
+
+
+
+
+export function updateContracts(user) {
+    // try to check and update status for expired and late contract each time a staff logged in
+    if (user.is_staff) {
+        fetch('api/contract_update/', {
+            method: 'PATCH',
+            headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,}
+        })
+    }
 }

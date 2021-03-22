@@ -3,6 +3,7 @@ from django.conf import settings
 from datetime import timedelta
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ObjectDoesNotExist
 
 
 CONTRACT_STATUS = (
@@ -123,8 +124,12 @@ class Contract_updater(models.Model):
 
     def save(self, *args, **kwargs):
         print(self.date)
-        if Contract_updater.objects.filter(date=self.date).count():
-            return
+        try:
+            if Contract_updater.objects.latest('pk').date != self.date:
+                return
+        except ObjectDoesNotExist:
+            pass
+
 
         contract_late = Contract.objects.filter(expiry__lte=self.date, status='active')
         if contract_late:
@@ -137,7 +142,6 @@ class Contract_updater(models.Model):
         if expired_waiting:
             expired_waiting.update(status='expired')
             for contract in expired_waiting:
-                print(contract)
                 contract.save()
             self.contract_set.add(expired_waiting)
 

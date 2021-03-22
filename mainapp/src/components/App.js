@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import { render } from 'react-dom'
+import { updateContracts } from './Auth'
 import { Header } from './Header'
 import { Main } from './Main'
 
@@ -13,7 +14,7 @@ const App = () => {
         if (res.status === 200) {
             const data = await res.json()
             setUser({...data, type: 'login'})
-            console.log(user)
+            updateContracts(data)
         }
     }, [])
 

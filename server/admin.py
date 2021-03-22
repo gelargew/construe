@@ -3,5 +3,7 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register((Category, Book, Contract))
+
+admin.site.register((Category, Book, Contract, Contract_updater))
+
 

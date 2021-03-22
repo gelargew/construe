@@ -16,7 +16,7 @@ export function Main({ page, setPage, setUser, user }) {
 
     return (
         <main>
-            <Sidebar setBook={setBook} setPage={setPage} books={books} setBooks={setBooks}/>
+            <Sidebar book={book} setBook={setBook} setPage={setPage} books={books} setBooks={setBooks}/>
             {page === 'Home' ? <Home /> :
             page === 'Login' ? <Login setUser={setUser} setPage={setPage} /> :
             page ==='Register' ? <Register setUser={setUser} setPage={setPage} /> :

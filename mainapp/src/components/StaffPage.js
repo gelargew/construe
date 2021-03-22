@@ -22,11 +22,14 @@ export function StaffPage({user}) {
     return (
         <div className='staff-page'>
             <h3>orders</h3>
-            <div>
-                {contracts.map(contract => {
-                    return <Contract key={contract.id} contract={contract} user={user} setReload={setReload} />
-                })}
-            </div>
+            {contracts.count ?                              
+                <div>
+                    {contracts.results.map(contract => {
+                        return <Contract key={contract.id} contract={contract} user={user} setReload={setReload} />
+                    })}
+                </div>:
+                <p>nothing to see here</p>
+            }
         </div>
     )
 }

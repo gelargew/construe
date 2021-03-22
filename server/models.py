@@ -11,7 +11,8 @@ CONTRACT_STATUS = (
     ('returned', 'returned'),
     ('late', 'late'),
     ('book unavailable', 'book unavailable'),
-    ('cancelled', 'cancelled')
+    ('cancelled', 'cancelled'),
+    ('expired', 'expired'),
 )
 
 CONTRACT_TYPE = (
@@ -82,7 +83,7 @@ class Contract(models.Model):
         ordering = ['expiry', '-status']
 
     def __str__(self) -> str:
-        return f'{self.user} book: {self.book.title}'  
+        return f'{self.user} book: {self.book.title} status: {self.status}'  
 
     def save(self):
         if self.book.quantity < 1:
@@ -111,5 +112,33 @@ class Contract(models.Model):
 
     def cancel(self):
         self.status = 'cancelled'
+
+        super().save()
+
+
+
+class Contract_updater(models.Model):
+    contract = models.ManyToManyField(Contract, blank=True)
+    date = models.DateField(blank=True, default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        print(self.date)
+        if Contract_updater.objects.filter(date=self.date).count():
+            return
+
+        contract_late = Contract.objects.filter(expiry__lte=self.date, status='active')
+        if contract_late:
+            contract_late.update(status='late')
+            for contract in contract_late:
+                contract.save()
+            self.contract_set.add(contract_late)
+        
+        expired_waiting = Contract.objects.filter(expiry__lte=self.date, status='waiting')
+        if expired_waiting:
+            expired_waiting.update(status='expired')
+            for contract in expired_waiting:
+                print(contract)
+                contract.save()
+            self.contract_set.add(expired_waiting)
 
         super().save()

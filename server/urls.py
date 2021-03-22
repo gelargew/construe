@@ -3,7 +3,7 @@ from django.urls.conf import include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import book_create, book_list, contract_create, contract_list, contract
+from .views import book_create, book_list, contract_create, contract_list, contract, contracts_update
 
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
     path('book/create/', book_create.as_view()),
     path('contracts/', contract_list.as_view()),
     path('contract/create/', contract_create),
-    path('contract/<str:type>/<int:pk>/', contract)
+    path('contract/<str:type>/<int:pk>/', contract),
+    path('update_contracts/', contracts_update.as_view() )
 ] 

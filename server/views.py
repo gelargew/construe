@@ -1,3 +1,4 @@
+import json
 from django.utils import timezone
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -8,10 +9,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
-import json
 from rest_framework.response import Response
 
-from .models import Book, Contract
+from .models import Book, Contract, Contract_updater
 from .serializers import ContractSerializer, BookSerializer
 
 # Create your views here.
@@ -73,13 +73,17 @@ def contract_create(request):
     data = {key:int(data[key]) for key in data if data[key]}
     if 'book_id' not in data or not request.user.is_authenticated:       
         return HttpResponse(status=400)
-        
+
     if 'user_id' in data:
         if not request.user.is_staff:
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-    else: 
+    
+    else:
+        mycontracts_count = Contract.objects.filter(user=request.user, status__in=('waiting', 'active', 'late')).count()
+        if mycontracts_count > 3:
+            return HttpResponse(status=403)
+
         data |= {'user': request.user}
-    print(data)
     contract = Contract(**data)
     contract.save()
 
@@ -102,3 +106,10 @@ def contract(request, pk, type=None):
         
     return HttpResponse(status=status.HTTP_200_OK)
 
+
+
+class contracts_update(APIView):
+    def patch(self, request):
+        contract_updater = Contract_updater.objects.create()
+        print(contract_updater)
+        return HttpResponse(status=201)

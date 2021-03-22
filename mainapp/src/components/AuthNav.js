@@ -17,6 +17,7 @@ export function AuthNav({ user, setUser, setPage }) {
                 <button onClick={() => setPage('Login')}>Login</button>
                 <button onClick={() => setPage('Register')}>Register</button>
             </>}
+            <strong>{user.username}</strong>
         </div>
     )
 }

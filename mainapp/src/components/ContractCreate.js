@@ -11,7 +11,7 @@ export function CreateContract() {
     useEffect(async () => {
         const response = await fetch(`auth/list/${reloadUsers}`)
         const data = await response.json()
-        setUsers(Object.values(data))
+        setUsers(data)
 
     }, [reloadUsers])
 
@@ -51,7 +51,8 @@ export function CreateContract() {
                     <input id='contract-user-list' list='contract-user-list-data' 
                     onChange={e => setReloadUsers(e.target.value)} />
                     <datalist id='contract-user-list-data'>
-                        {users.map(user => {
+                        {!users.count ? <p>nothing to see here ...</p>:
+                        users.results.map(user => {
                             return <option value={user.username + '/id:' + user.id} user-id={user.id}>{user.email}</option>
                         })}
                     </datalist>
@@ -62,7 +63,8 @@ export function CreateContract() {
                     <input list='contract-book-list-data' id='contract-book-list'
                     onChange={e => setReloadBooks(e.target.value)} />
                     <datalist id='contract-book-list-data' >
-                        {books.map(book => {
+                        {!books.count ? <p>nothing to see here ...</p> :
+                        books.results.map(book => {
                             return <option value={book.title + '/id:' + book.id}>{book.author}</option>
                         })}
                     </datalist>

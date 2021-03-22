@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react'
 import {render} from 'react-dom'
 
 
-export function Sidebar({ setBook, setPage, books, setBooks }) {
+export function Sidebar({ book, setBook, setPage, books, setBooks }) {
     const [url, setUrl] = useState('api/books/')
-    const bookView = (book) => {
+    const bookView = (curBook) => {
         setPage('Books')
-        setBook(book)
+        setBook(curBook)
     }
 
     useEffect(async () => {
@@ -20,14 +20,20 @@ export function Sidebar({ setBook, setPage, books, setBooks }) {
 
     return (
         <div className='sidebar'>
+            sadaosk
             <input type='text' placeholder='Search books...' onChange={e => setUrl('api/books/' + e.target.value)} />
+
             {!books.count ? <p>nothing here ...</p> : 
-            books.results.map(book => 
-                <li onClick={() => bookView(book)}>{book.title}, <small>{book.year}</small></li>)
-            }
+            books.results.map(curBook => 
+                <li onClick={() => bookView(curBook)} className={book == curBook && 'book-selected'}>
+                    {curBook.title}, <small>{curBook.year}</small>
+                </li>
+            )}
+
             <button onClick={() => setUrl(books.previous)} disabled={!books.previous}>
                 <i class="fas fa-caret-left"></i>
             </button>
+            
             <button onClick={() =>setUrl(books.next)} disabled={!books.next}>
                 <i class="fas fa-caret-right"></i>
             </button>

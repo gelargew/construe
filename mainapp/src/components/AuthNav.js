@@ -10,7 +10,7 @@ export function AuthNav({ user, setUser, setPage }) {
         }
     }
     return (
-        <div>
+        <div className='header-auth'>
             {user.is_authenticated ?
             <button onClick={logoutUser}>Logout</button> :
             <>

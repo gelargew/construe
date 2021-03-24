@@ -22,12 +22,6 @@ CONTRACT_TYPE = (
     ('request', 'request')
 )
 
-BOOK_STATUS = (
-    ('active', 'active'),
-    ('request', 'request'),
-    ('donate-request', 'donate-request')
-)
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -50,14 +44,13 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
-    author = models.ForeignKey(Author, related_name='author', on_delete=models.PROTECT, blank=True, null=True, default=None)
+    author = models.CharField(max_length=100, null=True, blank=True)
     category = models.ManyToManyField(Category, related_name='books', blank=True)
     description = models.TextField(blank=True, default='no description')
     added = models.DateTimeField(auto_now_add=True)
     year = models.CharField(null = True, blank=True, max_length=50)
     quantity = models.IntegerField(default=1)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
-    status = models.CharField(choices=BOOK_STATUS, null=True, blank=True, max_length=36)
 
     def __str__(self) -> str:
         return f'{self.title} - {"" if self.quantity > 0 else "*out of order"}'
@@ -70,12 +63,13 @@ class Book(models.Model):
         self.quantity -= 1
         super().save()
 
-    
+def get_default_time():
+    return (timezone.now() + timedelta(days=1)).date()
 
 class Contract(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     book = models.ForeignKey(Book, on_delete=models.PROTECT)
-    expiry = models.DateTimeField(default=timezone.now() + timedelta(days=1), blank=True)
+    expiry = models.DateField(default=get_default_time, blank=True)
     status = models.CharField(choices=CONTRACT_STATUS, default='waiting', max_length=36)
     duration = models.IntegerField(default=1, blank=True)
     contract_type = models.CharField(choices=CONTRACT_TYPE, blank=True, default='rent', max_length=36)
@@ -84,7 +78,7 @@ class Contract(models.Model):
         ordering = ['expiry', '-status']
 
     def __str__(self) -> str:
-        return f'{self.user} book: {self.book.title} status: {self.status}'  
+        return f'{self.user} book: {self.book.title} status: {self.status} {self.expiry}'  
 
     def save(self):
         if self.book.quantity < 1:
@@ -119,16 +113,16 @@ class Contract(models.Model):
 
 
 class Contract_updater(models.Model):
-    contract = models.ManyToManyField(Contract, blank=True)
+    contracts = models.ManyToManyField(Contract, blank=True)
     date = models.DateField(blank=True, default=timezone.now)
 
+    class Meta:
+        verbose_name = 'Daily update'
+
+    def __str__(self) -> str:
+        return f'{self.date}'
+
     def save(self, *args, **kwargs):
-        print(self.date)
-        try:
-            if Contract_updater.objects.latest('pk').date != self.date:
-                return
-        except ObjectDoesNotExist:
-            pass
 
 
         contract_late = Contract.objects.filter(expiry__lte=self.date, status='active')
@@ -136,7 +130,7 @@ class Contract_updater(models.Model):
             contract_late.update(status='late')
             for contract in contract_late:
                 contract.save()
-            self.contract_set.add(contract_late)
+            self.contracts.add(contract_late)
         
         expired_waiting = Contract.objects.filter(expiry__lte=self.date, status='waiting')
         if expired_waiting:

@@ -16,33 +16,36 @@ const quotes = [
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * max)
 }
+const [quote, quotee] = quotes[getRandomInt(quotes.length)]
 
-const getQuote = () => {
-    const len = quotes.length
+export function Home({setPage, setBook}) {
     
-    return quotes[getRandomInt(len)]
-}
-
-
-export function Home() {
-    const [quote, quotee] = getQuote()
-    const [newBooks, setNewBooks] = useState({})
+    const [newBooks, setNewBooks] = useState(0)
 
     useEffect(async () => {
-        const response = await fetch('api/newbooks/')
+        const response = await fetch('api/newly_added/')
         if (response.status < 400) {
             const data = await response.json()
             setNewBooks(data)
         }
     }, [])
 
+    const bookView = (book) => {
+        setBook(book)
+        setPage('Book')
+    }
     return (
-    <div className='Home'>
+    <div className='home'>
         <h1>CONSTRUE</h1>
-        <p>"{quote}" <em>-{quotee}</em></p>
+        <div className='quote'>
+            <p>"{quote}" </p>
+            <em>-{quotee}</em>
+        </div>
         <div>
             <h3>Newly added: </h3>
-        
+            {newBooks ? newBooks.results.map(book => {
+                return <li key={book.id} onClick={() => bookView(book)}>{book.title}</li>
+            }):''}
         </div>
         
     </div>

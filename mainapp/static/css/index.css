@@ -2,6 +2,7 @@ html, body {
   margin: 0;
   height: 100%;
   width: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 body {
   background: #111;
@@ -12,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 }
 
 header {
@@ -28,9 +30,18 @@ header h4 {
   position: relative;
   margin: 0px 5px;
 }
+header h4:hover {
+  cursor: pointer;
+}
+.header-auth {
+  display: flex;
+  justify-content: space-around;
+  min-width: 20%;
+}
 
 main {
   height: 90%;
+  width: 100%;
   padding-top: 1.7rem;
   flex: 1;
   background: #111;
@@ -40,7 +51,8 @@ main {
 
 .sidebar {
   padding: 2rem 10px;
-  background: #444;
+  background: #222;
+  max-width: 200px;
 }
 
 footer {
@@ -50,14 +62,15 @@ footer {
 }
 
 
-.content {
+.book-page {
   flex: 1;
   margin: 1rem 2rem;
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
 
-.content .image {
+.book-page .image {
   margin: 0 20px;
   width: 320px;
   height: 500px;
@@ -65,7 +78,7 @@ footer {
 
 }
 
-.content-detail {
+.book-detail {
   height: 90%;
   width: 100%;
   overflow-y: auto;
@@ -83,6 +96,8 @@ li {
   box-shadow: 0px 1px #222;
   border-radius: 5px;
   transition: 0.3s;
+  height: 1.3em;
+  overflow-y: auto
 }
 
 li:hover, .book-selected {
@@ -118,4 +133,28 @@ li:hover, .book-selected {
 .button-exit {
   float: right;
   margin: 0;
+}
+
+em {
+  width: 100%;
+  margin: auto;
+  font-size: 12px;
+}
+
+button {
+  background: none;
+  border-radius: 10px;
+  outline: none;
+  border:none;
+  color: white;
+}
+button:disabled {
+  opacity: 0.1;
+}
+button:hover:not(:disabled) {
+  background: rgba(68, 68, 68, 0.5);
+  box-shadow: 2px 2px #555;
+  cursor: pointer;
+  transition: 0.3s;
+  transform: translateY(1px)
 }

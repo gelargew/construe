@@ -1,0 +1,16 @@
+.home {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 50px;
+    place-items: center;
+}
+
+h1 {
+    font-family: 'Train One', cursive;
+}
+
+.quote {
+    place-items: center;
+}

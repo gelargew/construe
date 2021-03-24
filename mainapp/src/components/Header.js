@@ -12,7 +12,7 @@ export function Header({ user, setUser, setPage, page }) {
 
     return (
     <header>
-        <h4 onClick={() => setPage('Home')}>Home</h4>
+        <h4 onClick={() => setPage('Home')}>Construe</h4>
         {page}
 
         {user.is_staff && 

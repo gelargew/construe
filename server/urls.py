@@ -10,7 +10,7 @@ urlpatterns = [
     path('books/', book_list.as_view()),
     path('books/<str:pattern>/', book_list.as_view()),
     path('book/create/', book_create.as_view()),
-    path('books/newly_added/', fresh_book_list.as_view()),
+    path('newly_added/', fresh_book_list.as_view()),
     path('contracts/', contract_list.as_view()),
     path('contract/create/', contract_create),
     path('contract/<str:type>/<int:pk>/', contract),

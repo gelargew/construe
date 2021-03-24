@@ -26,7 +26,7 @@ export function Sidebar({ book, setBook, setPage, books, setBooks }) {
             {!books.count ? <p>nothing here ...</p> : 
             books.results.map(curBook => 
                 <li onClick={() => bookView(curBook)} className={book == curBook && 'book-selected'}>
-                    {curBook.title}, <small>{curBook.year}</small>
+                    {curBook.title}
                 </li>
             )}
             {/* navigation button */}

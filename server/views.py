@@ -76,6 +76,12 @@ class contract_list(generics.ListAPIView):
 
 
 def contract_create(request):
+   
+    mycontracts_count = Contract.objects.filter(user=request.user, status__in=('waiting', 'active', 'late')).count()
+    #user can only have up to 3 active contracts at a time
+    if mycontracts_count > 3:
+        return HttpResponse(status=403)
+
     data = json.loads(request.body)
     data = {key:int(data[key]) for key in data if data[key]}
     if 'book_id' not in data or not request.user.is_authenticated:       
@@ -83,14 +89,12 @@ def contract_create(request):
 
     if 'user_id' in data:
         if not request.user.is_staff:
-            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-    
-    else:
-        mycontracts_count = Contract.objects.filter(user=request.user, status__in=('waiting', 'active', 'late')).count()
-        if mycontracts_count > 3:
-            return HttpResponse(status=403)
+            return HttpResponse(status=status.HTTP_400_BAD_REQUEST)
 
+    else: 
         data |= {'user': request.user}
+
+        
     contract = Contract(**data)
     contract.save()
 
@@ -120,7 +124,11 @@ class contracts_update(APIView):
     update scheduler, the patch function will validate the date on all contracts with status active and waiting
     """
     def patch(self, request):
-        contract_updater, created = Contract_updater.objects.get_or_create()
-        if created: print('contracts updated')
-
-        return HttpResponse(status=201 if created else 200)
+        contract = Contract_updater.objects.all().last()
+        if contract and contract.date == timezone.now().date():
+            return HttpResponse(status=200)
+            
+        new_contract = Contract_updater()
+        new_contract.save()
+        
+        return HttpResponse(status=200)

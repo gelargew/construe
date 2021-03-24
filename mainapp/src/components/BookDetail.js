@@ -22,11 +22,12 @@ export function BookDetail({book, user, setPage}) {
 
     return (
         <>
-        <div className='content' onClick={hideBox}>
-            <div>
-                <img className='image' src={book.image} />
-            </div>
-            <div className='content-detail'>
+        <div className='book-page' onClick={hideBox}>
+            {book.image ? 
+            <div>  
+                <img className='image' src={book.image} />               
+            </div>: ''}
+            <div className='book-detail'>
                 <h1>{book.title}</h1>
                 <p>Year : {book.year}</p>
                 <h4>Author: {book.author}</h4>

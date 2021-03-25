@@ -2,21 +2,16 @@
     padding: 2rem 10px;
     background: #222;
     max-width: 200px;
-    transition: 0.8s;
+    transition: 0.1s;
+    overflow: auto;
 }
-
-.sb-hidden:not(.sidebar-toggle) {
-    opacity: 0;
-    z-index: -100;
-}
-
 .sidebar-toggle {
-    position: fixed;
-    left: 20px;
-    top: 40px;
-    background: red;
-    opacity: 0.6;
-    z-index: 10;
+    display: none;
+}
+
+.book-list {
+    height: 70%;
+    overflow: auto;
 }
 
 li {
@@ -33,4 +28,44 @@ li:hover, .book-selected {
     background: #666;
     cursor: pointer;
     transform: translateX(10px);
+}
+
+@media (max-width: 800px) {
+    .main {
+        display: flex;
+        flex-direction: column;
+        height:fit-content;
+        min-height: 100%;
+        width: 100%;
+        padding: 30px;
+    }
+    .book-page .image {
+        width: 90%;
+        height: 400px;
+    }
+
+    .sb-hidden:not(.sidebar-toggle) {
+        opacity: 0;
+        z-index: -100;
+        width: 0px;
+        margin: 0;
+    }
+    .sidebar {
+        padding-top: 50px;
+        z-index: 1;
+        position: fixed;
+        height: 100%;
+        width: 80%;
+        max-width: 80%;
+        opacity: 0.9;
+    }
+    
+    .sidebar-toggle {
+        display: block;
+        position: fixed;
+        left: 20px;
+        top: 40px;
+        opacity: 0.6;
+        z-index: 2;
+    }
 }

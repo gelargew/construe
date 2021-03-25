@@ -22,7 +22,7 @@ export function BookDetail({book, user, setPage}) {
 
     return (
         <>
-        <div className='book-page' onClick={hideBox}>
+        <div className='book-page main' onClick={hideBox}>
             {book.image ? 
             <div>  
                 <img className='image' src={book.image} />               

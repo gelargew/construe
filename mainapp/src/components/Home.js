@@ -35,7 +35,7 @@ export function Home({setPage, setBook}) {
         setPage('Book')
     }
     return (
-    <div className='home'>
+    <div className='home main'>
         <h1>CONSTRUE</h1>
         <div className='quote'>
             <p>"{quote}" </p>

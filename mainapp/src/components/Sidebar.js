@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {render} from 'react-dom'
 
 
-export function Sidebar({ book, setBook, setPage, books, setBooks }) {
-    const [hideSidebar, setHideSideBar] = useState(false)
+export function Sidebar({ book, setBook, setPage, books, setBooks, page }) {
+    const [sidebarHidden, setsidebarHidden] = useState(false)
     const [url, setUrl] = useState('api/books/')
     const bookView = (curBook) => {
         setPage('Books')
@@ -16,22 +16,33 @@ export function Sidebar({ book, setBook, setPage, books, setBooks }) {
             const data = await response.json()
             setBooks(data)
         }
-        console.log(books)
     }, [url])
+
+    useEffect( () => {
+        setsidebarHidden(true)
+    }, [page, book])
 
     return (
         <>
-            <button className='sidebar-toggle' onClick={() => setHideSideBar(!hideSidebar)}>Search</button>
-            <div className={hideSidebar ? 'sidebar sb-hidden' : 'sidebar'}>
+            <button 
+                className='sidebar-toggle' 
+                onClick={() => setsidebarHidden(!sidebarHidden)}>
+                {sidebarHidden ? 'Search':'Back <'}
+            </button>
+
+            <div className={sidebarHidden ? 'sb-hidden sidebar' : 'sidebar'}>
                 {/* searchable book list link*/}
                 <input type='text' placeholder='Search books...' onChange={e => setUrl('api/books/' + e.target.value)} />
 
-                {!books.count ? <p>nothing here ...</p> : 
-                books.results.map(curBook => 
-                    <li onClick={() => bookView(curBook)} className={book == curBook && 'book-selected'}>
-                        {curBook.title}
-                    </li>
-                )}
+                <div className='book-list'>
+                    {!books.count ? <p>nothing here ...</p> : 
+                    books.results.map(curBook => 
+                        <li onClick={() => bookView(curBook)} className={book == curBook && 'book-selected'}>
+                            {curBook.title}
+                        </li>
+                    )}
+                </div>
+
                 {/* navigation button */}
                 <button onClick={() => setUrl(books.previous)} disabled={!books.previous}>
                     <i class="fas fa-caret-left fa-2x"></i>

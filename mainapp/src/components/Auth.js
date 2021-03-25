@@ -27,7 +27,7 @@ export function Login({ setUser, setPage }) {
         }
     }
     return (
-        <div className='auth-page'>
+        <div className='auth-page main'>
             <h2>Login</h2>
             <form onSubmit={loginUser}>
                 <label for="username">
@@ -69,7 +69,7 @@ export function Register({ setUser, setPage }) {
         }
     }
     return (
-        <div className='auth-page'>
+        <div className='auth-page main'>
             <h2>Register Page</h2>
             <form onSubmit={registerUser}>
                 <label for="username">

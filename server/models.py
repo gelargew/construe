@@ -137,6 +137,6 @@ class Contract_updater(models.Model):
             expired_waiting.update(status='expired')
             for contract in expired_waiting:
                 contract.save()
-            self.contract_set.add(expired_waiting)
+            self.contracts.add(expired_waiting)
 
         super().save()

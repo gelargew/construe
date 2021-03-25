@@ -6,7 +6,15 @@ from PIL import Image
 from .models import Book, Category, Contract, Author
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('name',)
+
+
 class BookSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Book
         fields = '__all__'

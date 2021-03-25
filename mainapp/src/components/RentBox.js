@@ -33,14 +33,14 @@ export function RentBox({ hideBox, book }) {
             <p>{book.title}</p>
             <p>duration: {duration} </p>
             <form onSubmit={handleSubmit}>
-                <h1>choose</h1>
+                
                 <select name='duration' onChange={handleSelect}>
                     <option value='1 week'>1 week</option>
                     <option value='2 weeks'>2 weeks</option>
                     <option value='3 weeks'>3 weeks</option>
                     <option value='4 weeks'>4 weeks</option>
                 </select>
-                <button type='submit'>Submit</button>
+                <button className='btn-gray' type='submit'>Submit</button>
             </form>
 
         </div>

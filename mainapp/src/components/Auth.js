@@ -27,7 +27,7 @@ export function Login({ setUser, setPage }) {
         }
     }
     return (
-        <div>
+        <div className='auth-page'>
             <h2>Login</h2>
             <form onSubmit={loginUser}>
                 <label for="username">
@@ -40,7 +40,8 @@ export function Login({ setUser, setPage }) {
                     <input type='password' name='password' placeholder='password' />
                 </label> 
 
-                <button type='submit'>Submit</button>
+                <button type='submit'>Login</button>
+                <a onClick={() => setPage('Register')}>Don't have an account? Register.</a>
             </form>
         </div>
     )
@@ -68,7 +69,7 @@ export function Register({ setUser, setPage }) {
         }
     }
     return (
-        <div>
+        <div className='auth-page'>
             <h2>Register Page</h2>
             <form onSubmit={registerUser}>
                 <label for="username">
@@ -77,7 +78,7 @@ export function Register({ setUser, setPage }) {
                 </label>
                 
                 <label for='email'>
-                    Password: 
+                    Email: 
                     <input type='email' name='email' placeholder='email' />
                 </label> 
 
@@ -86,7 +87,8 @@ export function Register({ setUser, setPage }) {
                     <input type='password' name='password' placeholder='password' />
                 </label> 
 
-                <button type='submit'>Submit</button>
+                <button type='submit'>Register</button>
+                <a onClick={() => setPage('Login')}>Have an account? Login.</a>
             </form>
         </div>
     )

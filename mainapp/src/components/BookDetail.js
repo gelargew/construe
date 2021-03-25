@@ -28,20 +28,12 @@ export function BookDetail({book, user, setPage}) {
                 <img className='image' src={book.image} />               
             </div>: ''}
             <div className='book-detail'>
-                <h1>{book.title}</h1>
-                <p>Year : {book.year}</p>
+                <h2>{book.title}</h2>
                 <h4>Author: {book.author}</h4>
-                <button onClick={showBox}>Rent this book.</button>
+                <p>Categories : {book.category.toString()}</p>
+                <p>Year : {book.year}</p>
+                <button className='btn-gray' onClick={showBox} disabled={!user.is_authenticated}>Rent this book.</button>
                 <p>{book.description}</p>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
-                <h1>yo</h1>
             </div>
         </div>
         {rentBox && <RentBox hideBox={hideBox} book={book}/>}

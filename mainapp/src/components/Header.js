@@ -13,7 +13,6 @@ export function Header({ user, setUser, setPage, page }) {
     return (
     <header>
         <h4 onClick={() => setPage('Home')}>Construe</h4>
-        {page}
 
         {user.is_staff && 
         <button onClick={() => setPage('create contract')}>

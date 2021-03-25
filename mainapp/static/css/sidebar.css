@@ -1,0 +1,36 @@
+.sidebar {
+    padding: 2rem 10px;
+    background: #222;
+    max-width: 200px;
+    transition: 0.8s;
+}
+
+.sb-hidden:not(.sidebar-toggle) {
+    opacity: 0;
+    z-index: -100;
+}
+
+.sidebar-toggle {
+    position: fixed;
+    left: 20px;
+    top: 40px;
+    background: red;
+    opacity: 0.6;
+    z-index: 10;
+}
+
+li {
+    list-style: none;
+    margin: 3px 10px;
+    box-shadow: 0px 1px #222;
+    border-radius: 5px;
+    transition: 0.3s;
+    height: 1.3em;
+    overflow-y: auto
+  }
+  
+li:hover, .book-selected {
+    background: #666;
+    cursor: pointer;
+    transform: translateX(10px);
+}

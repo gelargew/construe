@@ -16,13 +16,13 @@ const quotes = [
 const getRandomInt = (max) => {
     return Math.floor(Math.random() * max)
 }
-const [quote, quotee] = quotes[getRandomInt(quotes.length)]
 
 export function Home({setPage, setBook}) {
-    
+    const [[quote, quotee], setQuote] = useState(['',''])
     const [newBooks, setNewBooks] = useState(0)
 
     useEffect(async () => {
+        setQuote(quotes[getRandomInt(quotes.length)])
         const response = await fetch('api/newly_added/')
         if (response.status < 400) {
             const data = await response.json()

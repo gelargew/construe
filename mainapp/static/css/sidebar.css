@@ -2,6 +2,7 @@
     padding: 2rem 10px;
     background: #222;
     max-width: 200px;
+    width: 40%;
     transition: 0.1s;
     overflow: auto;
 }
@@ -67,5 +68,17 @@ li:hover, .book-selected {
         top: 40px;
         opacity: 0.6;
         z-index: 2;
+    }
+
+    .main form label:not(input) {
+        font-size: 0px;
+    }
+
+    .main form {
+        margin: 50px 0;
+    }
+
+    form input:not([type=button]) {
+        width: 100%;
     }
 }

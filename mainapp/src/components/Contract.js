@@ -30,9 +30,9 @@ export function Contract({ contract, user, setReload}) {
 
     return (
         <p>
-            {user.is_staff && <span>by: {contract.user}</span>}
-            <span>{contract.book}</span>
-            <small>status: {contract.status} until {contract.expiry}</small> 
+            {user.is_staff && <span>by: {contract.user} |</span>}
+            <span> {contract.book} | </span>
+            <small> status: {contract.status} until {contract.expiry} </small> 
             <span>
             {user.is_staff && contract.status === 'waiting' && <button onClick={Accept}>Accept</button>}
             {user.is_staff && (contract.status === 'active' || contract.status === 'late') && <button onClick={Retrieve}>Retrieve</button>}

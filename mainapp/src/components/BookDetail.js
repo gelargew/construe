@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { RentBox } from './RentBox'
 
+const RatingImpressions = {
+    0: 'no rating',
+    1: 'awful',
+    2: 'bad',
+    3: 'alright',
+    4: 'good',
+    5: 'excellence!'
+}
+
+const RatingStyles = ['', 'red', 'orange', 'yellow', 'blue', 'green']
+
 
 export function BookDetail({book, user, setPage}) {
     const [rentBox, setRentBox] = useState(false)
+    const [ratingValue, setRatingValue] = useState(book.rating.rating)
+    const [ratingImpression, setRatingImpression] = useState(RatingImpressions[Math.ceil(book.rating.rating)])
+    const [ratingAlert, setRatingAlert] = useState('')
 
     const showBox = () => {
         if (user.is_authenticated) {
@@ -18,21 +32,61 @@ export function BookDetail({book, user, setPage}) {
         setRentBox(false)
         }
     }
-    useEffect(hideBox, [book])
+
+    useEffect(() => {
+        hideBox
+        setRatingAlert('')
+        setRatingImpression(RatingImpressions[Math.ceil(book.rating.rating)])
+        setRatingValue(book.rating.rating)
+    }, [book])
+
+    const handleRating = (e) => {
+        const tempRating = Math.ceil(e.nativeEvent.offsetX / 20)
+        setRatingValue(tempRating)
+        setRatingImpression(RatingImpressions[tempRating])
+    }
+
+    const handleRatingMouseLeave = (e) => {
+        setRatingValue(book.rating.rating)
+        setRatingImpression(RatingImpressions[Math.ceil(book.rating.rating)])
+    }
+
+    const handleSubmitRating = async () => {
+        const response = await fetch(`api/rating/${book.id}/${ratingValue}/`)
+        const data = await response.json()
+        setRatingValue(data.rating)
+        if (response.status === 201) setRatingAlert('your review has been submitted')
+        else if (response.status === 200) setRatingAlert('your review has been updated')
+    }
 
     return (
         <>
-        <div className='book-page main' onClick={hideBox}>
-            {book.image ? 
-            <div>  
-                <img className='image' src={book.image} />               
-            </div>: ''}
+        <div className='book-page main' onClick={hideBox}>         
+            <div>
+                <picture className='image'>
+                    <source className='image' srcSet={book.image} />
+                    <img className='image' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Noimage.svg/739px-Noimage.svg.png' />               
+                </picture>
+            </div>
             <div className='book-detail'>
                 <h2>{book.title}</h2>
+                rating: <progress 
+                            className='rating' 
+                            max='5' value={ratingValue} 
+                            onMouseMove={handleRating}
+                            onMouseLeave={handleRatingMouseLeave}
+                            onClick={handleSubmitRating}>
+                        </progress> 
+                <span> {ratingImpression} </span>
+                <small> (rated by {book.rating.count} {book.rating.count < 2 ? 'user':'users'})</small>
+                <p className='rating-alert'><small>{ratingAlert}</small></p>
                 <h4>Author: {book.author}</h4>
                 <p>Categories : {book.category.toString()}</p>
                 <p>Year : {book.year}</p>
-                <button className='btn-gray' onClick={showBox} disabled={!user.is_authenticated}>Rent this book.</button>
+                <button className='btn-gray' onClick={showBox} disabled={!user.is_authenticated|book.quantity < 1}>
+                    Rent this book.
+                </button>
+                {book.quantity < 1 && <small>out of order</small>}
                 <p>{book.description}</p>
             </div>
         </div>

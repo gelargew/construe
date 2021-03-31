@@ -20,7 +20,7 @@ export function StaffPage({user}) {
     }, [reload])
 
     return (
-        <div className='staff-page'>
+        <div className='main'>
             <h3>orders</h3>
             {contracts.count ?                              
                 <div>

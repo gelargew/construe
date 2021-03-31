@@ -19,7 +19,7 @@ export function Login({ setUser, setPage }) {
         if (res.status === 200) {
             const data = await res.json()  
             setUser(data)
-            setPage('Books')
+            setPage('Home')
             updateContracts(data)
         }
         else {
@@ -65,7 +65,7 @@ export function Register({ setUser, setPage }) {
         if (res.status === 201) {
             const data = await res.json()  
             setUser(data)
-            setPage('Books')
+            setPage('Home')
         }
     }
     return (

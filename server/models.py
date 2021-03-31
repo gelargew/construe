@@ -16,12 +16,6 @@ CONTRACT_STATUS = (
     ('expired', 'expired'),
 )
 
-CONTRACT_TYPE = (
-    ('rent', 'rent'),
-    ('donate', 'donate'),
-    ('request', 'request')
-)
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -52,8 +46,11 @@ class Book(models.Model):
     quantity = models.IntegerField(default=1)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
 
+    class Meta:
+        ordering = ('title',)
+
     def __str__(self) -> str:
-        return f'{self.title} - {"" if self.quantity > 0 else "*out of order"}'
+        return f'{self.title}'
 
     def returned(self):
         self.quantity += 1
@@ -62,6 +59,7 @@ class Book(models.Model):
     def rented(self):
         self.quantity -= 1
         super().save()
+
 
 def get_default_time():
     return (timezone.now() + timedelta(days=1)).date()
@@ -72,7 +70,6 @@ class Contract(models.Model):
     expiry = models.DateField(default=get_default_time, blank=True)
     status = models.CharField(choices=CONTRACT_STATUS, default='waiting', max_length=36)
     duration = models.IntegerField(default=1, blank=True)
-    contract_type = models.CharField(choices=CONTRACT_TYPE, blank=True, default='rent', max_length=36)
 
     class Meta:
         ordering = ['expiry', '-status']
@@ -113,6 +110,10 @@ class Contract(models.Model):
 
 
 class Contract_updater(models.Model):
+    """
+    this model will update active and waiting contracts that has been expired, 
+    the updated contracts will be written in this model as an update history
+    """
     contracts = models.ManyToManyField(Contract, blank=True)
     date = models.DateField(blank=True, default=timezone.now)
 
@@ -123,8 +124,6 @@ class Contract_updater(models.Model):
         return f'{self.date}'
 
     def save(self, *args, **kwargs):
-
-
         contract_late = Contract.objects.filter(expiry__lte=self.date, status='active')
         if contract_late:
             contract_late.update(status='late')
@@ -140,3 +139,17 @@ class Contract_updater(models.Model):
             self.contracts.add(expired_waiting)
 
         super().save()
+
+
+
+class Rating(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rating = models.PositiveSmallIntegerField(null=True, default=0, blank=True)
+
+    def __str__(self) -> str:
+        return f'{self.user.username} {self.rating} {self.book.title}'
+
+
+
+

@@ -14,7 +14,8 @@ const App = () => {
         if (res.status === 200) {
             const data = await res.json()
             setUser({...data, type: 'login'})
-            updateContracts(data)
+            
+            if (data.is_staff) updateContracts(data)
         }
     }, [])
 

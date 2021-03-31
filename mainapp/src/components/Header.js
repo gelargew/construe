@@ -14,17 +14,6 @@ export function Header({ user, setUser, setPage, page }) {
     <header>
         <h4 onClick={() => setPage('Home')}>Construe</h4>
 
-        {user.is_staff && 
-        <button onClick={() => setPage('create contract')}>
-            New contract
-        </button>}
-
-        {user.is_authenticated &&
-        <button onClick={() => setPage('StaffPage')}>
-            {user.is_staff ? 'contracts':'your rented books'}
-        </button>
-        }
-
         <AuthNav user={user} setUser={setUser} setPage={setPage} />
 
     </header>

@@ -51,12 +51,16 @@ main {
   flex-direction: row;
 }
 
+.main {
+  margin: 1rem 2rem;
+}
+
 .book-page {
   flex: 1;
-  margin: 1rem 2rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
+  overflow: auto;
 }
 
 .book-page .image {
@@ -67,10 +71,16 @@ main {
 
 }
 
-.book-detail {
+@media(min-width: 1200px)  {
+  .book-detail {
   height: 90%;
   width: 100%;
   overflow-y: auto;
+  }
+
+  .book-page {
+    flex-direction: row;
+  }
 }
 
 img {
@@ -137,4 +147,13 @@ button:hover:not(:disabled) {
   cursor: pointer;
   transition: 0.3s;
   transform: translateY(1px)
+}
+
+
+small {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.rating {
+  width: 100px;
 }

@@ -44,11 +44,12 @@ export function CreateContract() {
     }
 
     return (
-        <div>
+        <div className='auth-page main'>
             <form onSubmit={sendForm}>
                 <label>
-                    User: a
+                    User: 
                     <input id='contract-user-list' list='contract-user-list-data' 
+                    placeholder='user'
                     onChange={e => setReloadUsers(e.target.value)} />
                     <datalist id='contract-user-list-data'>
                         {!users.count ? <p>nothing to see here ...</p>:
@@ -61,6 +62,7 @@ export function CreateContract() {
                 <label name='booklist'>
                     Book: 
                     <input list='contract-book-list-data' id='contract-book-list'
+                    placeholder='book'
                     onChange={e => setReloadBooks(e.target.value)} />
                     <datalist id='contract-book-list-data' >
                         {!books.count ? <p>nothing to see here ...</p> :
@@ -72,7 +74,7 @@ export function CreateContract() {
 
                 <label>
                     duration:
-                    <input list='contract-duration-data' id='contract-duration' />
+                    <input list='contract-duration-data' id='contract-duration' placeholder='duration' />
                     <datalist id='contract-duration-data'>
                         <option value='1 week'>1 week</option>
                         <option value='2 weeks'>2 weeks</option>

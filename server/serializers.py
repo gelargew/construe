@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.conf import settings
 from django.contrib.auth.models import User
-from PIL import Image
+from django.db.models import Avg
 
 from .models import Book, Category, Contract, Author
 
@@ -14,6 +14,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
+    rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -33,6 +34,16 @@ class BookSerializer(serializers.ModelSerializer):
             book.category.add(cat)
 
         return book 
+    
+    def get_rating(self, book):
+        ratings = book.ratings.all()
+        count = ratings.count()
+        if count:
+            rating = ratings.aggregate(Avg('rating'))
+            
+            return {'rating': rating['rating__avg'], 'count': count}
+
+        return {'rating': 0, 'count': 0}
 
 
 class ContractSerializer(serializers.ModelSerializer):

@@ -1,17 +1,15 @@
 import json
 from django.utils import timezone
-from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404
-from rest_framework.decorators import parser_classes
+from django.http.response import HttpResponse, JsonResponse
+from django.db.models import Avg
 from server.models import Book
 from rest_framework import generics, status
 from django.conf import settings
-from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
-from .models import Book, Contract, Contract_updater
+from .models import Book, Contract, Contract_updater, Rating
 from .serializers import ContractSerializer, BookSerializer
 
 # Create your views here.
@@ -121,7 +119,7 @@ def contract(request, pk, type=None):
 
 class contracts_update(APIView):
     """
-    update scheduler, the patch function will validate the date on all contracts with status active and waiting
+    update scheduler, the patch function will validate all contracts by expiration date
     """
     def patch(self, request):
         contract = Contract_updater.objects.all().last()
@@ -132,3 +130,17 @@ class contracts_update(APIView):
         new_contract.save()
         
         return HttpResponse(status=200)
+
+    
+
+def update_rating(request, pk, rating):
+    if 0 > rating > 6:
+        return HttpResponse(status=400)
+    book = Book.objects.get(pk=pk)
+    this_rating, created = Rating.objects.get_or_create(book=book, user=request.user)
+    this_rating.rating = rating
+    this_rating.save()
+
+    new_rating = book.ratings.aggregate(Avg('rating'))
+
+    return JsonResponse({'rating': new_rating['rating__avg']}, status=201 if created else 200)

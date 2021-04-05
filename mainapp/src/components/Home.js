@@ -28,11 +28,13 @@ export function Home({setPage, setBook}) {
             const data = await response.json()
             setNewBooks(data)
         }
+        
     }, [])
 
-    const bookView = (book) => {
-        setBook(book)
-        setPage('Book')
+    const bookView = (curBook) => {
+        setPage('Books')
+        setBook(curBook)
+        
     }
     return (
     <div className='home main'>
@@ -43,8 +45,8 @@ export function Home({setPage, setBook}) {
         </div>
         <div>
             <h3>Newly added: </h3>
-            {newBooks ? newBooks.results.map(book => {
-                return <li key={book.id} onClick={() => bookView(book)}>{book.title}</li>
+            {newBooks ? newBooks.results.map(curBook => {
+                return <li key={curBook.id} onClick={() => bookView(curBook)}>{curBook.title}</li>
             }):''}
         </div>
         

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models import Avg
 
-from .models import Book, Category, Contract, Author
+from .models import Book, Category, Comment, Contract, Author
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -55,4 +55,24 @@ class ContractSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 
+
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    comment_owner = serializers.SerializerMethodField()
+    reply_count = serializers.SerializerMethodField()
+    repliable = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ('user', 'id', 'date', 'body', 'reply_count', 'comment_owner', 'repliable')
+
+    def get_reply_count(self, comment):
+        return comment.replies.count()
+
+    def get_comment_owner(self, comment):
+        return comment.user.id == self.context.get('request').user.id
+
+    def get_repliable(self, comment):
+
+        return comment.book != None
     

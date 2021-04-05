@@ -9,8 +9,8 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
-from .models import Book, Contract, Contract_updater, Rating
-from .serializers import ContractSerializer, BookSerializer
+from .models import Book, Comment, Contract, Contract_updater, Rating
+from .serializers import CommentSerializer, ContractSerializer, BookSerializer
 
 # Create your views here.
 
@@ -54,7 +54,6 @@ class book_create(APIView):
         print(serializer.errors)
 
         return Response()
-
 
 
 class contract_list(generics.ListAPIView):
@@ -144,3 +143,30 @@ def update_rating(request, pk, rating):
     new_rating = book.ratings.aggregate(Avg('rating'))
 
     return JsonResponse({'rating': new_rating['rating__avg']}, status=201 if created else 200)
+
+
+
+
+"""
+Reviews and Replies
+"""
+class CommentView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        if self.kwargs['group'] == 'reviews':
+            return Comment.objects.filter(book__pk=self.kwargs['pk'])
+
+        elif self.kwargs['group'] == 'replies':
+            return Comment.objects.filter(comment__pk=self.kwargs['pk'])
+
+        return Comment.objects.all()
+
+    def perform_create(self, serializer):
+        if self.kwargs['group'] == 'reviews':
+            book = Book.objects.get(pk=self.kwargs['pk'])
+            serializer.save(user=self.request.user, book=book)
+        elif self.kwargs['group'] == 'replies':
+            comment = Comment.objects.get(pk=self.kwargs['pk'])
+            serializer.save(user=self.request.user, comment=comment)

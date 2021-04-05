@@ -1,9 +1,5 @@
 import React from 'react'
-
-const headers = {
-    'Content-Type': 'application/json; charset=UTF-8',
-    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-}
+import {headers} from './Auth'
 
 export function Contract({ contract, user, setReload}) {
     const Accept = async (e) => {

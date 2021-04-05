@@ -21,7 +21,7 @@ export function StaffPage({user}) {
 
     return (
         <div className='main'>
-            <h3>orders</h3>
+            <h3>{user.is_staff ? 'orders' : 'your books'}</h3>
             {contracts.count ?                              
                 <div>
                     {contracts.results.map(contract => {

@@ -15,7 +15,7 @@
     overflow: auto;
 }
 
-li {
+.book-list li {
     list-style: none;
     margin: 3px 10px;
     box-shadow: 0px 1px #222;
@@ -25,7 +25,7 @@ li {
     overflow-y: auto
   }
   
-li:hover, .book-selected {
+.book-list li:hover, .book-selected {
     background: #666;
     cursor: pointer;
     transform: translateX(10px);
@@ -41,8 +41,13 @@ li:hover, .book-selected {
         padding: 30px;
     }
     .book-page .image {
-        width: 90%;
+        width: 100%;
         height: 400px;
+    }
+
+    picture {
+        width: 90%;
+        margin: 0 10%;
     }
 
     .sb-hidden:not(.sidebar-toggle) {

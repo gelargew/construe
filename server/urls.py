@@ -3,7 +3,7 @@ from django.urls.conf import include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import book_create, book_list, contract_create, contract_list, contract, contracts_update, fresh_book_list, update_rating
+from .views import CommentView, book_create, book_list, contract_create, contract_list, contract, contracts_update, fresh_book_list, update_rating
 
 
 urlpatterns = [
@@ -15,5 +15,6 @@ urlpatterns = [
     path('contract/create/', contract_create),
     path('contract/<str:type>/<int:pk>/', contract),
     path('contract_update/', contracts_update.as_view()),
-    path('rating/<int:pk>/<int:rating>/', update_rating)
+    path('rating/<int:pk>/<int:rating>/', update_rating),
+    path('comment/<str:group>/<int:pk>/', CommentView.as_view())
 ] 

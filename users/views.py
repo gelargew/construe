@@ -18,7 +18,7 @@ def user_register(request):
     data = json.loads(request.body)
     user = authenticate(**data)
     if not user:
-        user = User.objects.create(**data)
+        user = User.objects.create_user(**data)
         user.save()
         login(request, user)
         response = UserSerializer(user).data
@@ -38,6 +38,7 @@ def user_login(request):
 
     data = json.loads(request.body)
     user = authenticate(**data)
+    print(user)
     if user:
         login(request, user)
         response = UserSerializer(user).data

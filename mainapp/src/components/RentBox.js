@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
+import {headers} from './Auth'
 
-const headers = {
-    'Content-Type': 'application/json; charset=UTF-8',
-    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-}
-
-export function RentBox({ hideBox, book }) {
+export function RentBox({ hideBox, book, setPage }) {
     const [duration, setDuration] = useState('1 week')
     const handleSelect = (e) => {
         setDuration(e.target.value)
@@ -21,9 +17,7 @@ export function RentBox({ hideBox, book }) {
                 book_id: book.id,              
             })
         })
-
-        const duration = e.target.duration.value
-        console.log(duration)
+        if (res.status === 201) setPage('StaffPage')
     }
 
     return (

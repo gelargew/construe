@@ -18,7 +18,7 @@ export function AuthNav({ user, setUser, setPage }) {
 
             {user.is_authenticated &&
             <button onClick={() => setPage('StaffPage')}>
-                {user.is_staff ? 'contracts':'your rented books'}
+                {user.is_staff ? 'contracts':'your books'}
             </button>
             }
             

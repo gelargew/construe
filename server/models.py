@@ -151,5 +151,17 @@ class Rating(models.Model):
         return f'{self.user.username} {self.rating} {self.book.title}'
 
 
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
+    comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    date = models.DateTimeField(auto_now_add=True)
+    body = models.CharField(max_length=300, )
 
+    class Meta:
+        ordering = ('-date',)
+        verbose_name = 'Comment'
+
+    def __str__(self) -> str:
+        return f'{self.date} ==== by: {self.user} ==== {self.body[:20]}'
 

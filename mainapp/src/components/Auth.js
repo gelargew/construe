@@ -1,12 +1,15 @@
 import React from 'react'
 
-const headers = {
+
+
+export const headers = {
     'Content-Type': 'application/json; charset=UTF-8',
-    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+    'X-CSRFToken': getCookie(),
 }
 export function Login({ setUser, setPage }) {
     const loginUser = async (e) => {
         e.preventDefault()
+        console.log(getCookie())
         const res = await fetch('auth/login/', {
             method: 'POST',
             mode: 'same-origin',
@@ -49,9 +52,9 @@ export function Login({ setUser, setPage }) {
 
 
 export function Register({ setUser, setPage }) {
-    console.log('register')
     const registerUser = async (e) => {
         e.preventDefault()
+        console.log(headers)
         const res = await fetch('auth/register/', {
             method: 'POST',
             mode: 'same-origin',
@@ -105,4 +108,22 @@ export function updateContracts(user) {
             headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,}
         })
     }
+}
+
+
+export function getCookie() {
+    const name = 'csrftoken'
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }

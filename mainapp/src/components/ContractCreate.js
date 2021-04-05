@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { headers } from './Auth'
 
 
 export function CreateContract() {
@@ -31,9 +32,7 @@ export function CreateContract() {
         }
         const response = await fetch('api/contract/create/', {
             method: 'POST',
-            headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-            },
+            headers: headers,
             body: JSON.stringify(data)       
         })
         if (response.status > 399) {

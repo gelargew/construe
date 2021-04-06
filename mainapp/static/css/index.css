@@ -162,3 +162,48 @@ progress:hover {
 input:active {
   outline: none;
 }
+
+textarea {
+  width: 90%;
+  background: none;
+  color: white;
+  outline: none;
+  border: none;
+  height: auto;
+}
+
+.comments {
+  margin-top: 50px;
+}
+
+.comment {
+  border-bottom: 1px solid #333;
+  clear: both;
+}
+
+.comment-reply {
+  background: none;
+  padding: 0;
+  margin: 1em auto;
+  box-shadow: none;
+}
+
+.comment-show-replies {
+  width: auto;
+  border: none;
+}
+
+.comment-options {
+  float: right;
+  padding-right: 30px;
+  transform: translateY(-30px);
+}
+
+.comment-options button {
+  border: none;
+}
+
+.comment-head small {
+  margin: 0 50px;
+  float: right;
+}

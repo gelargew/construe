@@ -105,7 +105,7 @@ export function updateContracts(user) {
     if (user.is_staff) {
         fetch('api/contract_update/', {
             method: 'PATCH',
-            headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,}
+            headers: headers
         })
     }
 }

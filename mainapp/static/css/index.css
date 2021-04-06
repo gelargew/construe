@@ -155,6 +155,10 @@ small {
   width: 100px;
 }
 
+.hidden {
+  display: none;
+}
+
 progress:hover {
   cursor: pointer;
 }
@@ -173,12 +177,14 @@ textarea {
 }
 
 .comments {
-  margin-top: 50px;
+  margin-top: 40px;
+  border-top: 1px solid #333;
 }
 
 .comment {
   border-bottom: 1px solid #333;
   clear: both;
+  padding-bottom: 20px;
 }
 
 .comment-reply {
@@ -196,7 +202,6 @@ textarea {
 .comment-options {
   float: right;
   padding-right: 30px;
-  transform: translateY(-30px);
 }
 
 .comment-options button {

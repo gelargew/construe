@@ -170,3 +170,9 @@ class CommentView(generics.ListCreateAPIView):
         elif self.kwargs['group'] == 'replies':
             comment = Comment.objects.get(pk=self.kwargs['pk'])
             serializer.save(user=self.request.user, comment=comment)
+
+
+class CommentEdit(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    

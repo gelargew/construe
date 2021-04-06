@@ -27,7 +27,7 @@ export function Sidebar({ book, setBook, setPage, books, setBooks, page }) {
             <button 
                 className='sidebar-toggle' 
                 onClick={() => setsidebarHidden(!sidebarHidden)}>
-                {sidebarHidden ? 'Find Books':'Back <'}
+                {sidebarHidden ? 'Find Book':'Back <'}
             </button>
 
             <div className={sidebarHidden ? 'sb-hidden sidebar' : 'sidebar'}>

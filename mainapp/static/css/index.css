@@ -209,6 +209,16 @@ textarea {
 }
 
 .comment-head small {
-  margin: 0 50px;
+  padding-right: 50px;
   float: right;
+}
+
+@media(max-width: 800px) {
+  ul {
+    padding-left: 1em;
+  }
+  
+  .comment-options, .comment-head small {
+    padding-right: 10px;
+  }
 }

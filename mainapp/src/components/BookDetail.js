@@ -38,6 +38,7 @@ export function BookDetail({book, user, setPage}) {
         setRatingAlert('')
         setRatingImpression(RatingImpressions[Math.ceil(book.rating.rating)])
         setRatingValue(book.rating.rating)
+        console.log(book)
     }, [book])
 
     const handleRating = (e) => {
@@ -61,14 +62,14 @@ export function BookDetail({book, user, setPage}) {
 
     return (
         <>
-        <div className='book-page main' onClick={hideBox}>         
+        <div className='book-page main' id='book-page' onClick={hideBox}>         
             
             <picture>
                 <source className='image' srcSet={book.image} />
                 <img className='image' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Noimage.svg/739px-Noimage.svg.png' />               
             </picture>
 
-            <div className='book-detail'>
+            <div className='book-detail' id='book-detail'>
                 <h2>{book.title}</h2>
                 rating: <progress 
                             className='rating' 

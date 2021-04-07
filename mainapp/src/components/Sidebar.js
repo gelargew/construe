@@ -5,6 +5,7 @@ import {render} from 'react-dom'
 export function Sidebar({ book, setBook, setPage, books, setBooks, page }) {
     const [sidebarHidden, setsidebarHidden] = useState(false)
     const [url, setUrl] = useState('api/books/')
+    
     const bookView = (curBook) => {
         setPage('Books')
         setBook(curBook)

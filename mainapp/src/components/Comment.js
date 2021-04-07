@@ -49,9 +49,11 @@ export function Comment({ comment, user }) {
                     <button onClick={submitEdit}>submit</button>
                     <button onClick={cancelEdit}>cancel</button>
                 </>:
+                <>
                     <button onClick={() => setEditMode(true)} >edit</button>  
-                }
-                <button onClick={deleteComment}>delete</button>
+                    <button onClick={deleteComment}>delete</button>
+                </>}
+                
             </div>}
             {comment.repliable && <Comments user={user} group='replies' comment={comment}/>}
         </li>

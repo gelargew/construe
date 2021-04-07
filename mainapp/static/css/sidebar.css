@@ -15,7 +15,7 @@
     overflow: auto;
 }
 
-.book-list li {
+li:not(.comment) {
     list-style: none;
     margin: 3px 10px;
     box-shadow: 0px 1px #222;
@@ -25,10 +25,11 @@
     overflow-y: auto
   }
   
-.book-list li:hover, .book-selected {
-    background: #666;
+li:not(.comment):hover, .book-selected {
+    background: rgba(117, 243, 170, 0.8);
     cursor: pointer;
     transform: translateX(10px);
+    color: black;
 }
 
 @media (max-width: 800px) {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useState } from 'react'
 import { render } from 'react-dom'
 import {
     BrowserRouter as Router,
@@ -12,13 +12,20 @@ import { Main } from './Main';
 import { Sidebar } from './Sidebar';
 
 
+export const userContext = createContext()
+
+
 function App() {
+    const [user, setUser] = useState({ name: 'guest', is_staff: true})
+
     return (
-        <Router>
-          <Header />
-          <Sidebar />
-          <Main />
-        </Router>
+        <userContext.Provider value={{user, setUser}}>
+          <Router>
+            <Header />
+            <Sidebar />
+            <Main />
+          </Router>
+        </userContext.Provider>
        
       );
     }

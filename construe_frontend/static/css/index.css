@@ -1,6 +1,29 @@
 body {
     margin: 0;
     top: 0;
-    min-height: 100vh;
+    height: 100vh;
     background: grey;
+}
+
+.root {
+    display: grid;
+    grid-template-columns: minmax(150px, 250px) minmax(650px, auto);
+    grid-template-rows: 50px auto;
+    min-height: 100%;
+}
+
+.header {
+    grid-column: 1/-1;
+    background: blue;
+}
+
+.sidebar {
+    grid-area: 2/1/3/2;
+    background: red;
+    
+}
+
+main {
+    grid-column: 2/3;
+    grid-row: 2;
 }

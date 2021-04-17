@@ -5,5 +5,4 @@ from .views import index
 
 urlpatterns = [
     path('', index),
-    re_path(r'.', index)
 ]

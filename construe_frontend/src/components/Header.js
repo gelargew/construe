@@ -7,8 +7,9 @@ export function Header() {
         <div className='header'>
             <Link to='/'>Home</Link>
             <div className='header-nav'>
-                <Link to='Login'>Login</Link>
-                <Link to='Logout'>Logout</Link>
+                <Link to='/login'>Login</Link>
+                <Link to='/logout'>Logout</Link>
+                <Link to='/contracts'>contracts</Link>
             </div>
             
         </div>

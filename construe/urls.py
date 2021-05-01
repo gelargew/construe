@@ -21,6 +21,7 @@ from django.urls.conf import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls')),
+    path('api/', include('books.urls')),
 
     re_path(r'^(?!admin)^(?!auth).*', include('construe_frontend.urls'))
 ]

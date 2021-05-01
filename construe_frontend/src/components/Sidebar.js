@@ -8,7 +8,7 @@ export function Sidebar() {
                 <input type='text' placeholder='Search Books...' />
                 
                 <div className='sidebar-book-list'>
-                    <Link to='/book/231' replace>BOOKPAGE</Link>
+                    <Link to='/book/231'>BOOKPAGE</Link>
                 </div>
             </div>
         </>

@@ -52,6 +52,10 @@ def user_register(request):
 
 def user_logout(request):
     logout(request)
+    context = UserSerializer(request.user).data
+    print(context)
+
+    return JsonResponse(context, status=200)
 
 
 class user_list(ListAPIView):

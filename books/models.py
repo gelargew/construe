@@ -1,27 +1,10 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
 
-
-#helpers
-def get_sentinel_user():
-    """
-    get default user for foreignkey relationship
-    """
-    return get_user_model().objects.get_or_create(username='deleted')[0]
-
-def get_default_expiry():
-    """
-    default contract expiry is 1 day
-    """
-    return (timezone.now() + timedelta(days=1)).date()
-
-
-def book_year_validator(value):
-    return 0 < value < timezone.now().year()
+from .utils import get_default_expiry, get_sentinel_user, book_year_validator
 
 
 class Category(models.Model):
@@ -42,8 +25,9 @@ class Book(models.Model):
     description = models.TextField(blank=True, null=True)
     added = models.DateField(auto_now_add=True)
     year = models.PositiveSmallIntegerField(validators=[book_year_validator])
-    quantity = models.IntegerField(default=1)
+    quantity = models.PositiveSmallIntegerField(default=1)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
+    slug = models.SlugField()
 
     class Meta:
         ordering = ('title',)

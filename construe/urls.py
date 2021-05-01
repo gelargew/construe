@@ -16,12 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from django.urls.conf import include
+from django.views.generic.base import RedirectView
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls')),
     path('api/', include('books.urls')),
+    path('', include('construe_frontend.urls')),
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    re_path(r'^(?!admin)^(?!auth).*', include('construe_frontend.urls'))
-]

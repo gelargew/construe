@@ -8,6 +8,7 @@ body {
     top: 0;
     height: 100vh;
     background: #111;
+    font-family: 'Roboto', sans-serif;
 }
 
 .root {
@@ -32,3 +33,10 @@ main {
     grid-column: 2/3;
     grid-row: 2;
 }
+
+.image {
+    width: 320px;
+    background: #222;
+    object-fit: contain;
+    height: 450px;
+  }

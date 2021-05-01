@@ -13,6 +13,7 @@ import { Sidebar } from './Sidebar';
 
 
 export const userContext = createContext()
+export const baseUrl = window.location.origin
 
 
 function App() {

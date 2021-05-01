@@ -1,5 +1,6 @@
 import React from 'react';
 
+export {LoginPage, headers}
 
 const headers = {
     'Content-Type': 'application/json; charset=UTF-8',
@@ -30,8 +31,6 @@ function LoginPage() {
 }
 
 
-export {LoginPage, headers}
-
 function getCookie() {
     const name = 'csrftoken'
     let cookieValue = null;
@@ -48,3 +47,4 @@ function getCookie() {
     }
     return cookieValue;
 }
+

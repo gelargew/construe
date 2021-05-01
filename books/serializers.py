@@ -4,19 +4,19 @@ from django.db.models import Avg
 from .models import Book, Category, Comment, Contract
 
 
-class CategorySerializer(serializers.Serializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('name',)
 
 
-class BookListSerializer(serializers.Serializer):
+class BookListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ('pk', 'title', 'slug')
 
 
-class BookSerializer(serializers.Serializer):
+class BookSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
     category = serializers.StringRelatedField(many=True)
 
@@ -35,7 +35,7 @@ class BookSerializer(serializers.Serializer):
         return {'rating': 0, 'count': 0}
 
     
-class ContractSerializer(serializers.Serializer):
+class ContractSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
     book = serializers.StringRelatedField()
 
@@ -44,7 +44,7 @@ class ContractSerializer(serializers.Serializer):
         fields = '__all__'
 
 
-class CommentSerializer(serializers.Serializer):
+class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
 
     class Meta:

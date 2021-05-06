@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 
 
-export function Home() {
+export const Home = () => {
     const [[quote, quotee], setQuote] = useState(['',''])
 
     useEffect(async () => {

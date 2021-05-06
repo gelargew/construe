@@ -10,17 +10,13 @@ from rest_framework.generics import ListAPIView
 
 # Create your views here.
 
+def get_current_user(request):
+    context = UserSerializer(request.user).data
+
+    return JsonResponse(context)
+
 
 def user_login(request):
-    if request.user.is_authenticated:
-        context = UserSerializer(request.user).data
-
-        return JsonResponse(context, status=200)
-
-    elif request.method != 'POST':
-
-        return HttpResponse(status=400)
-
     data = json.loads(request.body)
     user = authenticate(**data)
     if user:
@@ -45,7 +41,7 @@ def user_register(request):
         login(request, user)
         context = UserSerializer(user).data
 
-        return JsonResponse(context, status=200)
+        return JsonResponse(context, status=201)
 
     return HttpResponse(status=400)
 

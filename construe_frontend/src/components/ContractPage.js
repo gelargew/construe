@@ -1,10 +1,69 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { baseUrl, userContext } from './App'
+import { headers } from './Auth'
 
 
-export function ContractPage() {
+export const ContractPage = () => {
+    const {user} = useContext(userContext)
+    const [contracts, setContracts] = useState({results: []})
+    const [url, setUrl] = useState(`${baseUrl}/api/contracts/`)
+
+    useEffect(async () => {
+        const response = await fetch(url)
+        const data = await response.json()      
+        setContracts(data)
+    }, [url])
+
     return (
         <div className='contract-page'>
-            <h1>CONTRACT PAGE</h1>
+            <h3>{user.is_staff ? 'Contracts' : 'My Books'}</h3>
+
+            <ul>
+                {contracts.results.map((contract, idx) => 
+                <Contract key={contract.id} contract={contract} idx={idx} setContracts={setContracts} />)}
+            </ul>
+
+            <button onClick={() => setUrl(contracts.previous)} disabled={!contracts.previous}>
+                <i className="fas fa-caret-left fa-2x"></i>
+            </button>
+
+            <button onClick={() => setUrl(contracts.next)} disabled={!contracts.next}>
+                <i className="fas fa-caret-right fa-2x"></i>
+            </button>
         </div>
     )
+}
+
+
+const Contract = ({contract, idx, setContracts}) => {
+    const {user} = useContext(userContext)
+
+
+    const handleContract = async e => {
+        const response = await fetch(`${baseUrl}/api/contract/${contract.id}/${e.target.value}/`, {
+            method: 'PATCH',
+            headers: headers,
+            body: JSON.stringify({status: e.target.value})
+        })
+        if (response.status === 200) {
+            const data = await response.json()
+            setContracts(prev => {
+                prev.results[idx] = data
+                return {...prev}
+            })
+        }
+    }
+
+    return (
+        <li>
+            <span>{contract.book}-----{contract.user}</span>
+            <small>status: {contract.status} until: {contract.expiry}</small>
+            <span>
+                {user.is_staff && contract.status === 'waiting' && <button value='accept'>Accept</button>}
+                {user.is_staff && <button value='retrieve'>Retrieve</button>}
+                {contract.status === 'waiting' && <button value='cancelled' onClick={handleContract}>Cancel</button>}
+            </span>
+        </li>
+    )
+
 }

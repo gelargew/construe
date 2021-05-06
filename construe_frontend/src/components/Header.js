@@ -4,7 +4,7 @@ import { baseUrl, userContext } from './App';
 
 
 
-export function Header() {
+export const Header = () => {
     const {user, setUser} = useContext(userContext)
 
     const logoutUser = async () => {
@@ -33,6 +33,7 @@ export function Header() {
                 </>
             }
                 <p>{user.username}</p>
+                <button onClick={() => console.log(user)}>USER</button>
             </div>
             
         </div>

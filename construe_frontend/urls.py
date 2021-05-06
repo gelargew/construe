@@ -7,5 +7,5 @@ from .views import index
 urlpatterns = [
     path('', index),
 
-    re_path(r'^(?!admin)^(?!auth)^(?!media).*(?!api/?)$', index)
+    re_path(r'^(?!admin)^(?!auth)^(?!media)^(?!api).*', index)
 ]

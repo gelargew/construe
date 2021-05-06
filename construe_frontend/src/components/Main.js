@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { LoginPage } from './Auth';
+import { LoginPage, RegisterPage } from './Auth';
 import { Home } from './Home';
 import { userContext } from './App'
 import { BookPage } from './BookPage'
 import { ContractPage } from './ContractPage';
 
 
-export function Main() {
+export const Main = () => {
     const {user, setUser} = useContext(userContext)
  
     return (
@@ -17,7 +17,11 @@ export function Main() {
                     <LoginPage />
                 </Route>
 
-                <Route path='/book/:pk/:slug'>
+                <Route path='/register'>
+                    <RegisterPage />
+                </Route>
+
+                <Route path='/book/:book_pk/:slug'>
                     <BookPage />
                 </Route>
 

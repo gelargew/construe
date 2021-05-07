@@ -17,22 +17,15 @@ class BookListSerializer(serializers.ModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    rating = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
     category = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Book
         fields = '__all__'
 
-    def get_rating(self, book):
-        ratings = book.ratings.all()
-        count = ratings.count()
-        if count:
-            rating = ratings.aggregate(Avg('rating'))
-
-            return {'rating': rating['rating__avg'], 'count': count}
-
-        return {'rating': 0, 'count': 0}
+    def get_likes(self, book):
+        return {'likes': book.like.count(), 'dislikes': book.dislike.count()}
 
     
 class ContractSerializer(serializers.ModelSerializer):

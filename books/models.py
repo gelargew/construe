@@ -24,10 +24,12 @@ class Book(models.Model):
     category = models.ManyToManyField(Category, related_name='books', blank=True)
     description = models.TextField(blank=True, null=True)
     added = models.DateField(auto_now_add=True)
-    year = models.PositiveSmallIntegerField(validators=[book_year_validator])
+    year = models.PositiveSmallIntegerField(validators=[book_year_validator], blank=True, null=True)
     quantity = models.PositiveSmallIntegerField(default=1)
     image = models.ImageField(upload_to='images/', blank=True, null=True)
     slug = models.SlugField()
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True)
+    dislike = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dislikes', blank=True)
 
     class Meta:
         ordering = ('title',)
@@ -61,18 +63,10 @@ class Contract(models.Model):
 
     class Meta:
         ordering = ('expiry', '-status')
+        constraints = [models.UniqueConstraint(fields=['book', 'user'], name='unique_book_user', condition=models.Q(status='waiting'))]
 
     def __str__(self) -> str:
         return f'{self.user} ----- book: {self.book.title} ----- status: {self.status} {self.expiry}'
-
-
-class Rating(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='ratings')
-    rating = models.PositiveSmallIntegerField(null=True, default=0, blank=True)
-
-    def __str__(self) -> str:
-        return f'{self.book} rate: {self.rating} by: {self.user.username}'
 
 
 

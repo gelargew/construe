@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { baseUrl, userContext } from './App'
 import { headers } from './Auth'
 import { Comments } from './Comments'
 
 
 export const BookPage = () => {
+    const history = useHistory()
     const [showBox, setShowBox] = useState(false)
     const {user} = useContext(userContext)
     const {book_pk} = useParams()
@@ -13,7 +14,7 @@ export const BookPage = () => {
         title: 'title',
         category: []
     })
-    const [showComments, setShowComments] = useState(false)
+    const [message, setMessage] = useState('')
 
     useEffect(async () => {
         const response = await fetch(`${baseUrl}/api/book/${book_pk}/`)
@@ -32,6 +33,11 @@ export const BookPage = () => {
             })
         })
         const data = await response.json()
+        if (response.status > 300) {
+            setMessage(data.detail)
+        }
+        else history.push('/contracts')
+        
     }
 
     return (
@@ -48,6 +54,7 @@ export const BookPage = () => {
                     <p>{book.year}</p>
                     <p>{book.category.toString()}</p>
                     <button onClick={rentBook}>Rent this book</button>
+                    <small>{message}</small>
                 </div>
 
                 <Comments />

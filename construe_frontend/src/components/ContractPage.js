@@ -48,7 +48,8 @@ const Contract = ({contract, idx, setContracts}) => {
         if (response.status === 200) {
             const data = await response.json()
             setContracts(prev => {
-                prev.results[idx] = data
+                if (data.status === 'returned' || data.status === 'cancelled') prev.results.splice(idx, 1)
+                else prev.results[idx] = data
                 return {...prev}
             })
         }
@@ -59,9 +60,14 @@ const Contract = ({contract, idx, setContracts}) => {
             <span>{contract.book}-----{contract.user}</span>
             <small>status: {contract.status} until: {contract.expiry}</small>
             <span>
-                {user.is_staff && contract.status === 'waiting' && <button value='accept'>Accept</button>}
-                {user.is_staff && <button value='retrieve'>Retrieve</button>}
-                {contract.status === 'waiting' && <button value='cancelled' onClick={handleContract}>Cancel</button>}
+                {user.is_staff && contract.status === 'waiting' && 
+                <button value='active' onClick={handleContract}>Accept</button>}
+                
+                {user.is_staff && contract.status === 'active' && 
+                <button value='returned' onClick={handleContract}>Retrieve</button>}
+                
+                {contract.status === 'waiting' && 
+                <button value='cancelled' onClick={handleContract}>Cancel</button>}
             </span>
         </li>
     )

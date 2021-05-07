@@ -17,4 +17,7 @@ def get_default_expiry():
 
 
 def book_year_validator(value):
-    return 0 < value <= timezone.now().year
+    """
+    book year cannot be more than current year
+    """
+    return not value or 0 < value <= timezone.now().year

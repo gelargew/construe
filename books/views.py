@@ -4,11 +4,13 @@ from books.serializers import BookListSerializer
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework import exceptions
 
 from .serializers import BookListSerializer, CommentSerializer, ContractSerializer, BookSerializer
 from .models import Book, Comment, Contract
 from .permissions import IsOwnerOrReadOnly, IsStaffOrOwner, fiveBookLimit
 
+status_filter = ('waiting', 'late', 'active')
 
 class book_list(generics.ListAPIView):
     serializer_class = BookListSerializer
@@ -24,20 +26,30 @@ class book_detail(generics.RetrieveUpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
+    def perform_update(self, serializer):
+        if 'likes' in self.kwargs:
+            serializer.dislike.remove(self.request.user)
+            serializer.like.add(self.request.user)
+
 
 class contract_list(generics.ListCreateAPIView):
-    queryset = Contract.objects.filter(status__in=['waiting', 'active', 'late'])
+    queryset = Contract.objects.filter(status__in=status_filter)
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated, fiveBookLimit]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if not self.request.user.is_staff:
-            return Contract.objects.filter(user=self.request.user)
+            return Contract.objects.filter(user=self.request.user, status__in=status_filter)
         
         return super().get_queryset()
 
     def perform_create(self, serializer):
+        contracts = Contract.objects.filter(user=self.request.user, status__in=status_filter)  
+        if not self.request.user.is_staff and contracts.count() > 5:
+            raise exceptions.PermissionDenied('You have too many active contracts')
+        
         serializer.save(**self.request.data)
+        
 
 
 class contractDetail(generics.RetrieveUpdateAPIView):
@@ -65,7 +77,6 @@ class CommentsView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         group = self.kwargs['group']
         pk = self.kwargs['pk']
-        print(self.kwargs)
         if group == 'replies':
             comment = Comment.objects.get(pk=pk)
             serializer.save(user=self.request.user, reply=comment)
@@ -73,7 +84,7 @@ class CommentsView(generics.ListCreateAPIView):
             book = Book.objects.get(pk=pk)
             serializer.save(user=self.request.user, book=book)
         else:
-            return HttpResponse(status=400)
+            raise exceptions.ValidationError('bad request')
         
 
 class CommentView(generics.RetrieveUpdateDestroyAPIView):

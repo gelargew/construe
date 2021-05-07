@@ -21,6 +21,6 @@ class IsStaffOrOwner(permissions.BasePermission):
 class fiveBookLimit(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if not request.user.is_staff:
-            return Contract.objects.filter(user=request.user, status__in=['waiting', 'active', 'late']).count() < 6
+            return obj.count() < 6
         
         return True

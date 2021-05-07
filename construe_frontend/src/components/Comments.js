@@ -16,22 +16,28 @@ export const Comments = ({group='comments', pk=null}) => {
         const data = await response.json()
         setComments(data)
         setShowComments(false)
-        console.log(pk)
     }, [url, pk])
 
     const submitComment = async e => {
         e.preventDefault()
-        const response = await fetch(`${baseUrl}/'api/comment/${group}/${pk}`, {
+        console.log(pk)
+        const response = await fetch(`${baseUrl}/api/comment/${group}/${pk}/`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
-                body: e.target.body.value,
-                
+                body: e.target.body.value               
             })
         })
-        const data = await response.json()
-        console.log(data)
-        console.log('submited')
+        if (response.status === 201) {
+            const data = await response.json()
+            setComments({
+                ...comments, 
+                results: [data, ...comments.results], 
+                count: comments.count + 1}
+            )
+        }
+        e.target.body.value = ''
+        
     }
 
     return (
@@ -68,30 +74,54 @@ const Comment = ({comment, idx, setComments}) => {
     const {user} = useContext(userContext)
     const [editMode, setEditMode] = useState(false)
 
+    const cancelEdit = e => {
+        setEditMode(false)
+        setTempBody(comment.body)
+    }
+
+    const submitEdit = async e => {
+        e.preventDefault()
+        const response = await fetch(`${baseUrl}/api/comment_detail/${comment.id}/`, {
+            method: 'PATCH',
+            headers: headers,
+            body: JSON.stringify({body: tempBody})
+        })
+        if (response.status === 200) {
+            const data = await response.json()
+            setComments(prev => {
+                prev.results[idx] = data
+                return {...prev}
+            })
+        }
+        setEditMode(false)
+    }
+
     return (
         <li>
             <p>
                 <strong>@{comment.user}</strong>
                 <small>{comment.timestamp}</small>
             </p>
-            {!editMode ? <p>{tempBody}</p>:
-            <textarea value={tempBody} ></textarea>}
-            
-            {user.username === comment.user &&
+            {!editMode ? 
+            <>
+                <p>{tempBody}</p>
+                {user.username === comment.user &&
                 <div className='comment-option'>
-                    {editMode ?
-                    <>
-                        <button >Submit</button>    
-                        <button>Cancel</button>
-                    </>:
-                    <>
-                        {user.is_authenticated && <button>Reply</button>}
-                        <button>Edit</button>
-                        <button>Delete</button>
-                    </>
-                }
+                    <button onClick={() => setEditMode(true)}>Edit</button>
+                    <button>Delete</button>
+                </div>}
+            </>
+            :
+            <form onSubmit={submitEdit}>
+                <textarea value={tempBody} onChange={e => setTempBody(e.target.value)} autoFocus></textarea>
+                <div className='comment-option'>
+                    <button type='submit'>Submit</button>
+                    <button onClick={cancelEdit}>Cancel</button>
                 </div>
+            </form>
             }
+            
+            
             {comment.book && <Comments group='replies' pk={comment.id} />}
         </li>
     )

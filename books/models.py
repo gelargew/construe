@@ -60,7 +60,7 @@ class Contract(models.Model):
     status = models.CharField(choices=CONTRACT_STATUSES, default='waiting', max_length=36)
 
     class Meta:
-        ordering = ('expiry', 'status')
+        ordering = ('expiry', '-status')
 
     def __str__(self) -> str:
         return f'{self.user} ----- book: {self.book.title} ----- status: {self.status} {self.expiry}'

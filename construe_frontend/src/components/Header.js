@@ -22,7 +22,8 @@ export const Header = () => {
             <div className='header-auth'>
                 {user.is_authenticated ? 
                 <>
-                    <Link to='/contracts'>contracts</Link>
+                    {user.is_staff && <a href={`${baseUrl}/admin/books/book/`}>Administrator</a>}
+                    <Link to='/contracts'>Contracts</Link>
                     <a onClick={logoutUser}>Logout</a>
                 </>:
                 <>

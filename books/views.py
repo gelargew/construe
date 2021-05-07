@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 
 from .serializers import BookListSerializer, CommentSerializer, ContractSerializer, BookSerializer
 from .models import Book, Comment, Contract
-from .permissions import IsOwnerOrReadOnly, IsStaffOrOwner
+from .permissions import IsOwnerOrReadOnly, IsStaffOrOwner, fiveBookLimit
 
 
 class book_list(generics.ListAPIView):
@@ -28,21 +28,22 @@ class book_detail(generics.RetrieveUpdateAPIView):
 class contract_list(generics.ListCreateAPIView):
     queryset = Contract.objects.filter(status__in=['waiting', 'active', 'late'])
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, fiveBookLimit]
+
+    def get_queryset(self):
+        if not self.request.user.is_staff:
+            return Contract.objects.filter(user=self.request.user)
+        
+        return super().get_queryset()
 
     def perform_create(self, serializer):
-        print(self.request.data)
         serializer.save(**self.request.data)
 
 
 class contractDetail(generics.RetrieveUpdateAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
-    permission_classes = [IsAuthenticated, IsStaffOrOwner]
-
-
-
-    
+    permission_classes = [IsStaffOrOwner]
 
 
 class CommentsView(generics.ListCreateAPIView):
@@ -64,6 +65,7 @@ class CommentsView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         group = self.kwargs['group']
         pk = self.kwargs['pk']
+        print(self.kwargs)
         if group == 'replies':
             comment = Comment.objects.get(pk=pk)
             serializer.save(user=self.request.user, reply=comment)

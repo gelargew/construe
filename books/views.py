@@ -1,5 +1,5 @@
 from django.db.models import query
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 from books.serializers import BookListSerializer
 from django.shortcuts import render
 from rest_framework import generics
@@ -27,9 +27,31 @@ class book_detail(generics.RetrieveUpdateAPIView):
     serializer_class = BookSerializer
 
     def perform_update(self, serializer):
-        if 'likes' in self.kwargs:
-            serializer.dislike.remove(self.request.user)
-            serializer.like.add(self.request.user)
+        if 'like' in self.kwargs:
+            user = self.request.user
+            image = Book.objects.get(pk=self.kwargs['pk']).image
+            book = serializer.save(image=image)
+            if self.kwargs['like'] == 'like':
+                book.like.add(user)
+                book.dislike.remove(user)
+            elif self.kwargs['like'] == 'dislike':
+                book.like.remove(user)
+                book.dislike.add(user)
+
+
+def book_like(request, pk, like='like'):
+    if request.method == 'PUT':
+        book = Book.objects.get(pk=pk)
+        if like == 'like':
+            book.dislike.remove(request.user)
+            book.like.add(request.user)
+        elif like == 'dislike':
+            book.like.remove(request.user)
+            book.dislike.add(request.user)
+
+        context = BookSerializer(book).data
+
+        return JsonResponse(context, status=200)
 
 
 class contract_list(generics.ListCreateAPIView):

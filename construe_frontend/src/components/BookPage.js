@@ -12,7 +12,8 @@ export const BookPage = () => {
     const {book_pk} = useParams()
     const [book, setBook] = useState({
         title: 'title',
-        category: []
+        category: [],
+        likes: {count: 0, dislike: 0}
     })
     const [message, setMessage] = useState('')
 
@@ -40,6 +41,19 @@ export const BookPage = () => {
         
     }
 
+    const submitLike = async e => {
+        e.preventDefault()
+        const response = await fetch(`${baseUrl}/api/book/${book_pk}/${e.target.value}/`, {
+            method: 'PUT',
+            headers: headers
+        })
+        if (response.status === 200) {
+            const data = await response.json()
+            setBook(data)
+        }
+        
+    }
+
     return (
         <>
             <div className='book-page' >
@@ -49,6 +63,14 @@ export const BookPage = () => {
                 </picture>
 
                 <div className='book-detail'>
+                    <div>
+                        <button value='like' onClick={submitLike}>
+                            <i className="far fa-thumbs-up"></i>
+                        </button> <small>{book.likes.count}</small>
+                        <button value='dislike' onClick={submitLike}>
+                            <i className="far fa-thumbs-down"></i>
+                        </button><small>{book.likes.dislike}</small>
+                    </div>
                     <h1>{book.title}</h1>
                     <p>{book.author}</p>
                     <p>{book.year}</p>

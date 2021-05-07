@@ -22,10 +22,10 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ('id', 'likes', 'category', 'title', 'author', 'description', 'added', 'year', 'quantity', 'image', 'slug')
 
     def get_likes(self, book):
-        return {'likes': book.like.count(), 'dislikes': book.dislike.count()}
+        return {'count': book.like.count(), 'dislikes': book.dislike.count()}
 
     
 class ContractSerializer(serializers.ModelSerializer):

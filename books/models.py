@@ -99,4 +99,16 @@ class ContractUpdater(models.Model):
     def __str__(self) -> str:
         return f'{self.timestamp}'
 
-    #asd
+
+class ContactUs(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    message = models.CharField(max_length=512)
+    title = models.CharField(max_length=128)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'user report'
+        ordering = ('-pk',)
+
+    def __str__(self) -> str:
+        return f'{self.title}----{self.message[:50]}-----from:{self.user.username}'

@@ -70,7 +70,7 @@ const Contract = ({contract, idx, setContracts}) => {
                 {user.is_staff && contract.status === 'active' && 
                 <button value='returned' onClick={handleContract}>Retrieve</button>}
                 
-                {contract.status === 'waiting' && 
+                {contract.status === 'waiting' && user.is_staff &&
                 <button value='cancelled' onClick={handleContract}>Cancel</button>}
             </span>
         </li>

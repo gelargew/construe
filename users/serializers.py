@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'is_staff', 'is_authenticated', 'contracts')
 
     def get_contracts(self, user):
-        return [contract.book_id for contract in user.contracts.all()]
+        return [contract.book_id for contract in user.contracts.filter(status__in=['waiting', 'late', 'active'])]
 
 
 

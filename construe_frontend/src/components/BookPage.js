@@ -6,7 +6,6 @@ import { Comments } from './Comments'
 
 
 export const BookPage = () => {
-    const history = useHistory()
     const [showBox, setShowBox] = useState(false)
     const {user} = useContext(userContext)
     const {book_pk} = useParams()
@@ -24,28 +23,13 @@ export const BookPage = () => {
         setMessage('')
     }, [book_pk])
 
-    const rentBook = async e => {
-        setShowBox(true)
+    const rentBook = async e => {       
         if (user.contracts.includes(book.id)) {
             console.log('ASDAWDAWD')
             setMessage('you have an active contract of this book')
-        }
-        else {
-            const response = await fetch(`${baseUrl}/api/contracts/`, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
-                    book_id: book.id,
-                    user_id: user.id
-                })
-            })
-            const data = await response.json()
-            console.log(data)
-            if (response.status > 300) {
-                setMessage(data.detail)
-            }
-            else history.push('/contracts')
-        }
+            return
+        }        
+        setShowBox(true)       
     }
 
     const submitLike = async e => {
@@ -92,20 +76,63 @@ export const BookPage = () => {
                 <Comments />
 
             </div>
-            {showBox && <ContractBox setShowBox={setShowBox} />}
+            {showBox && <ContractBox setShowBox={setShowBox} book={book} />}
         </>
     )
 }
 
 
-const ContractBox = ({setShowBox}) => {
+const ContractBox = ({setShowBox, book}) => {
+    const {user, setUser} = useContext(userContext)
+    const history = useHistory()
+    const [message, setMessage] = useState('')
 
     const toggle = e => setShowBox(e.target.className != 'box-layout')
+
+    const submitForm = async e => {
+        e.preventDefault()
+        const response = await fetch(`${baseUrl}/api/contracts/`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                book_id: book.id,
+                duration: e.target.duration.value,
+                user_id: user.id
+            })
+        })
+        if (response.status === 201) {
+            setUser(prev => {
+                prev.contracts = [...prev.contracts, book.id]
+                return {...prev}
+            })
+            history.push('/contracts')
+            return
+        }
+        setMessage('something went wrong')
+    }
     
     return(
         <div className='box-layout' name='box-layout' onClick={toggle}>
             <div className='contract-box'>
-                <h1>this is rentbax</h1>
+                <form onSubmit={submitForm}>
+                    <p>request your book beforehand, our bookkeeper will prepare the book for you. save your time!</p>
+                    <h5>{book.title}</h5>
+                    <h6>{book.author}</h6>
+                    <label>
+                        how long do you intend to borrow the book?
+                        <select name='duration'>
+                            <option value='7'>1 week</option>
+                            <option value='14'>2 weeks</option>
+                            <option value='21'>3 weeks</option>
+                            <option value='28'>4 weeks</option>
+                        </select>
+                    </label>
+
+                    <p>you have 1 day to take your book after you submit your request </p>
+
+                    <button type='submit'>Request book</button>
+                </form>
+                <small>{message}</small>
             </div>
         </div>
     )

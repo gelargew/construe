@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import { LoginPage, RegisterPage } from './Auth';
 import { Home } from './Home';
 import { userContext } from './App'
 import { BookPage } from './BookPage'
 import { ContractPage } from './ContractPage';
+import { ContactUsPage } from './ContactUs';
 
 
 export const Main = () => {
@@ -29,10 +30,16 @@ export const Main = () => {
                     <ContractPage />
                 </Route>
 
+                <Route path='/contact'>
+                    <ContactUsPage />
+                </Route>
+
                 <Route path='/'>
                     <Home />
                 </Route>
             </Switch>
+
+            <Link to='/contact'>contact us</Link>
         </main>
     )
 }

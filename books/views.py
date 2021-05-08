@@ -7,9 +7,9 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import exceptions
 
-from .serializers import BookListSerializer, CommentSerializer, ContractSerializer, BookSerializer
-from .models import Book, Comment, Contract
-from .permissions import IsOwnerOrReadOnly, IsStaffOrOwner, fiveBookLimit
+from .serializers import BookListSerializer, CommentSerializer, ContactUsSerializer, ContractSerializer, BookSerializer
+from .models import Book, Comment, ContactUs, Contract
+from .permissions import ContactUsLimitEveryTwoHour, IsOwnerOrReadOnly, IsStaffOrOwner, fiveBookLimit
 
 status_filter = ('waiting', 'late', 'active')
 
@@ -18,7 +18,7 @@ class book_list(generics.ListAPIView):
 
     def get_queryset(self):
         if 'pattern' in self.kwargs:
-            return Book.objects.filter(title__contains=self.kwargs['pattern'])
+            return Book.objects.filter(title__icontains=self.kwargs['pattern'])
         
         return Book.objects.all()
 
@@ -113,3 +113,12 @@ class CommentView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsStaffOrOwner]
+
+
+class ContactUsView(generics.ListCreateAPIView):
+    queryset = ContactUs.objects.all()
+    serializer_class = ContactUsSerializer
+    permission_classes = [IsAuthenticated, ContactUsLimitEveryTwoHour]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

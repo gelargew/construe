@@ -1,5 +1,7 @@
+from datetime import timedelta
 from books.models import Contract
 from rest_framework import permissions
+from django.utils import timezone
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -24,3 +26,13 @@ class fiveBookLimit(permissions.BasePermission):
             return obj.count() < 6
         
         return True
+
+
+class ContactUsLimitEveryTwoHour(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        
+        limit = timezone.now() - timedelta(hours=2)
+
+        return not request.user.reports.filter(timestamp__lte=limit).count()

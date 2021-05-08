@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from rest_framework.pagination import PageNumberPagination
 from datetime import timedelta
 
 #helpers
@@ -21,3 +22,9 @@ def book_year_validator(value):
     book year cannot be more than current year
     """
     return not value or 0 < value <= timezone.now().year
+
+
+class noPagination(PageNumberPagination):
+    page_size = 50
+    max_page_size = 50
+

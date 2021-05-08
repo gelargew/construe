@@ -21,29 +21,36 @@ export const BookPage = () => {
         const response = await fetch(`${baseUrl}/api/book/${book_pk}/`)
         const data = await response.json()
         setBook(data)
+        setMessage('')
     }, [book_pk])
 
     const rentBook = async e => {
         setShowBox(true)
-        const response = await fetch(`${baseUrl}/api/contracts/`, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
-                book_id: book.id,
-                user_id: user.id
-            })
-        })
-        const data = await response.json()
-        if (response.status > 300) {
-            setMessage(data.detail)
+        if (user.contracts.includes(book.id)) {
+            console.log('ASDAWDAWD')
+            setMessage('you have an active contract of this book')
         }
-        else history.push('/contracts')
-        
+        else {
+            const response = await fetch(`${baseUrl}/api/contracts/`, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    book_id: book.id,
+                    user_id: user.id
+                })
+            })
+            const data = await response.json()
+            console.log(data)
+            if (response.status > 300) {
+                setMessage(data.detail)
+            }
+            else history.push('/contracts')
+        }
     }
 
     const submitLike = async e => {
         e.preventDefault()
-        const response = await fetch(`${baseUrl}/api/book/${book_pk}/${e.target.value}/`, {
+        const response = await fetch(`${baseUrl}/api/book/${book_pk}/${e.currentTarget.value}/`, {
             method: 'PUT',
             headers: headers
         })
@@ -69,13 +76,16 @@ export const BookPage = () => {
                         </button> <small>{book.likes.count}</small>
                         <button value='dislike' onClick={submitLike}>
                             <i className="far fa-thumbs-down"></i>
-                        </button><small>{book.likes.dislike}</small>
+                        </button><small>{book.likes.dislikes}</small>
                     </div>
                     <h1>{book.title}</h1>
                     <p>{book.author}</p>
                     <p>{book.year}</p>
                     <p>{book.category.toString()}</p>
-                    <button onClick={rentBook}>Rent this book</button>
+
+                    {book.quantity > 0 ?
+                        <button onClick={rentBook}>Rent this book</button>:
+                        <p><small>book currently unavailable</small></p>}
                     <small>{message}</small>
                 </div>
 

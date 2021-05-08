@@ -1,3 +1,4 @@
+from books.utils import noPagination
 from django.db.models import query
 from django.http.response import HttpResponse, JsonResponse
 from books.serializers import BookListSerializer
@@ -21,22 +22,15 @@ class book_list(generics.ListAPIView):
         
         return Book.objects.all()
 
+
+class new_books(generics.ListCreateAPIView):
+    serializer_class = BookSerializer
+    queryset = Book.objects.all().order_by('-pk')[:4]
+
     
 class book_detail(generics.RetrieveUpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
-    def perform_update(self, serializer):
-        if 'like' in self.kwargs:
-            user = self.request.user
-            image = Book.objects.get(pk=self.kwargs['pk']).image
-            book = serializer.save(image=image)
-            if self.kwargs['like'] == 'like':
-                book.like.add(user)
-                book.dislike.remove(user)
-            elif self.kwargs['like'] == 'dislike':
-                book.like.remove(user)
-                book.dislike.add(user)
 
 
 def book_like(request, pk, like='like'):
@@ -79,16 +73,22 @@ class contractDetail(generics.RetrieveUpdateAPIView):
     serializer_class = ContractSerializer
     permission_classes = [IsStaffOrOwner]
 
+    def perform_update(self, serializer):
+        print(self.request.data)
+        return super().perform_update(serializer)
+
 
 class CommentsView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    pagination_class = noPagination
 
     def get_queryset(self):
         pk = self.kwargs['pk']
         group = self.kwargs['group']
         if group == 'replies':
+            
             return Comment.objects.filter(reply__pk=pk)
         
         elif group == 'comments':

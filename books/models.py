@@ -56,10 +56,11 @@ CONTRACT_STATUSES = (
 )
 
 class Contract(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT, related_name='contracts')
     book = models.ForeignKey(Book, on_delete=models.RESTRICT)
     expiry = models.DateField(default=get_default_expiry, blank=True)
     status = models.CharField(choices=CONTRACT_STATUSES, default='waiting', max_length=36)
+    duration = models.PositiveSmallIntegerField(null=True, blank=True, default=7)
 
     class Meta:
         ordering = ('expiry', '-status')

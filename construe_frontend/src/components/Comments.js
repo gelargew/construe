@@ -16,6 +16,7 @@ export const Comments = ({group='comments', pk=null}) => {
         const data = await response.json()
         setComments(data)
         setShowComments(false)
+        console.log(data)
     }, [url, pk])
 
     const submitComment = async e => {
@@ -42,18 +43,16 @@ export const Comments = ({group='comments', pk=null}) => {
 
     return (
         <>
-            {!showComments ? 
-            <button onClick={() => setShowComments(true)}>show comments</button>:
+            <form onSubmit={submitComment}>
+                <textarea placeholder='write your comment here...' name='body'></textarea>
+                <button type='submit'>Submit</button>
+            </form>
+            <ul className='comments'>
+                {comments.results.map((comment, idx) => 
+                <Comment key={comment.id} comment={comment} setComments={setComments} idx={idx} />)}
+            </ul>
+            {comments.count > 50 &&
             <>
-                <form onSubmit={submitComment}>
-                    <textarea placeholder='write your comment here...' name='body'></textarea>
-                    <button type='submit'>Submit</button>
-                </form>
-                <ul className='comments'>
-                    {comments.results.map((comment, idx) => 
-                    <Comment key={comment.id} comment={comment} setComments={setComments} idx={idx} />)}
-                </ul>
-
                 <button onClick={() => setUrl(comments.previous)} disabled={!comments.previous}>
                     <i className="fas fa-caret-left fa-2x"></i>
                 </button>
@@ -61,10 +60,10 @@ export const Comments = ({group='comments', pk=null}) => {
                 <button onClick={() => setUrl(comments.next)} disabled={!comments.next}>
                     <i className="fas fa-caret-right fa-2x"></i>
                 </button>
+            </>}
 
-                <small>{comments.results.length} of {comments.count} </small>
-            </> }
-        </>
+            <small>{comments.results.length} of {comments.count} </small>
+        </> 
     )
 }
 
@@ -73,6 +72,7 @@ const Comment = ({comment, idx, setComments}) => {
     const [tempBody, setTempBody] = useState(comment.body)
     const {user} = useContext(userContext)
     const [editMode, setEditMode] = useState(false)
+    const [showReplies, setShowReplies] = useState(false)
 
     const cancelEdit = e => {
         setEditMode(false)
@@ -121,8 +121,10 @@ const Comment = ({comment, idx, setComments}) => {
             </form>
             }
             
-            
-            {comment.book && <Comments group='replies' pk={comment.id} />}
+            {comment.reply_count > 0 && !showReplies && 
+            <button onClick={() => setShowReplies(true)}>{comment.reply_count} replies</button>}
+
+            {comment.book && showReplies && <Comments group='replies' pk={comment.id} />}
         </li>
     )
 }

@@ -29,14 +29,16 @@ export const Sidebar = () => {
                     )}
                 </div>
 
-                {/* navigation button */}
-                <button onClick={() => setUrl(books.previous)} disabled={!books.previous}>
-                    <i className="fas fa-caret-left fa-2x"></i>
-                </button>
-                
-                <button onClick={() =>setUrl(books.next)} disabled={!books.next}>
-                    <i className="fas fa-caret-right fa-2x"></i>
-                </button>
+                {/* navigation button */ books.count > 20 &&
+                <>
+                    <button onClick={() => setUrl(books.previous)} disabled={!books.previous}>
+                        <i className="fas fa-caret-left fa-2x"></i>
+                    </button>
+                    
+                    <button onClick={() =>setUrl(books.next)} disabled={!books.next}>
+                        <i className="fas fa-caret-right fa-2x"></i>
+                    </button>
+                </>}
                 
                 {books.count ?
                     <p><small>showing {books.results.length} of {books.count} books</small></p> : ''

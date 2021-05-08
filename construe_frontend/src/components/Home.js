@@ -1,11 +1,17 @@
 import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import { baseUrl } from './App'
 
 
 export const Home = () => {
     const [[quote, quotee], setQuote] = useState(['',''])
+    const [books, setBooks] = useState({results:[]})
 
     useEffect(async () => {
         setQuote(quotes[getRandomInt(quotes.length)])
+        const response = await fetch(`${baseUrl}/api/newbooks/`)
+        const data = await response.json()
+        setBooks(data)
     }, [])
 
     return (
@@ -15,6 +21,17 @@ export const Home = () => {
                 <p>"{quote}"</p>
                 <em>-{quotee}</em>
             </div>
+
+            <div className='newbooks'>
+                {books.results.map(book => 
+                    <Link key={book.id} to={`book/${book.id}/${book.slug}`}>
+                        <div>
+                            <h4>{book.title}</h4>
+                            <p>{book.author}</p>
+                        </div>
+                    </Link>)}
+            </div>
+
         </div>
     )
 }

@@ -22,14 +22,18 @@ export const ContractPage = () => {
                 {contracts.results.map((contract, idx) => 
                 <Contract key={contract.id} contract={contract} idx={idx} setContracts={setContracts} />)}
             </ul>
+            
+            {contracts.count > 20 &&
+            <>
+                <button onClick={() => setUrl(contracts.previous)} disabled={!contracts.previous}>
+                    <i className="fas fa-caret-left fa-2x"></i>
+                </button>
 
-            <button onClick={() => setUrl(contracts.previous)} disabled={!contracts.previous}>
-                <i className="fas fa-caret-left fa-2x"></i>
-            </button>
-
-            <button onClick={() => setUrl(contracts.next)} disabled={!contracts.next}>
-                <i className="fas fa-caret-right fa-2x"></i>
-            </button>
+                <button onClick={() => setUrl(contracts.next)} disabled={!contracts.next}>
+                    <i className="fas fa-caret-right fa-2x"></i>
+                </button>
+            </>}
+            <small>{contracts.results.length} of {contracts.count}</small>
         </div>
     )
 }

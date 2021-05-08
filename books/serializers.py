@@ -39,7 +39,11 @@ class ContractSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
+    reply_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
         fields = '__all__'
+
+    def get_reply_count(self, obj):
+        return obj.replies.all().count()

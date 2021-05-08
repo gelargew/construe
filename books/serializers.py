@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.db.models import Avg
 
-from .models import Book, Category, Comment, Contract
+from .models import Book, Category, Comment, ContactUs, Contract
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -43,6 +43,18 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
+        fields = '__all__'
+
+    def get_reply_count(self, obj):
+        return obj.replies.all().count()
+
+
+class ContactUsSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    reply_count = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = ContactUs
         fields = '__all__'
 
     def get_reply_count(self, obj):

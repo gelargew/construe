@@ -105,6 +105,7 @@ class ContactUs(models.Model):
     message = models.CharField(max_length=512)
     title = models.CharField(max_length=128)
     timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    reply = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
 
     class Meta:
         verbose_name = 'user report'

@@ -122,3 +122,10 @@ class ContactUsView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+    
+    def get_queryset(self):
+        if 'replies' in self.kwargs:
+            return ContactUs.objects.filter(reply_id=self.kwargs['pk'])
+        if self.request.user.is_staff:
+            return ContactUs.objects.filter(reply=None)
+        return ContactUs.objects.filter(reply=None, user=self.request.user)

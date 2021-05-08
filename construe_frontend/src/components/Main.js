@@ -5,7 +5,7 @@ import { Home } from './Home';
 import { userContext } from './App'
 import { BookPage } from './BookPage'
 import { ContractPage } from './ContractPage';
-import { ContactUsPage } from './ContactUs';
+import { ContactUsPage, MessagePage } from './ContactUs';
 
 
 export const Main = () => {
@@ -32,6 +32,10 @@ export const Main = () => {
 
                 <Route path='/contact'>
                     <ContactUsPage />
+                </Route>
+
+                <Route path='/message/:message_pk/:slug'>
+                    <MessagePage />
                 </Route>
 
                 <Route path='/'>

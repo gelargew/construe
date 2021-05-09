@@ -21,11 +21,9 @@ export const Sidebar = () => {
                 
                 <div className='sidebar-book-list'>
                     {books.results.map(book => 
-                        <li key={book.slug}>
-                            <Link to={`/book/${book.pk}/${book.slug}`} >
-                                {book.title}
-                            </Link>
-                        </li>
+                        <Link key={book.slug} to={`/book/${book.pk}/${book.slug}`} >
+                            {book.title}
+                        </Link>                       
                     )}
                 </div>
 

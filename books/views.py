@@ -120,14 +120,10 @@ class ContactUsView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         if not valid_report(self.request.user):
-            raise exceptions.PermissionDenied('you have sent too many messages')
-        
-        return super().perform_create()
-
-    
+            raise exceptions.PermissionDenied('you have sent too many messages')        
+        serializer.save(user=self.request.user)
+  
     def get_queryset(self):
-        if 'replies' in self.kwargs:
-            return ContactUs.objects.filter(reply_id=self.kwargs['pk'])
         if self.request.user.is_staff:
             return ContactUs.objects.filter(reply=None)
         return ContactUs.objects.filter(reply=None, user=self.request.user)
@@ -137,4 +133,5 @@ class ContactUsDetail(generics.RetrieveDestroyAPIView):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsDetailSerializer
     permission_classes = [IsAuthenticated]
+
 

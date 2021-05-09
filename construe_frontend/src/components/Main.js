@@ -42,8 +42,9 @@ export const Main = () => {
                     <Home />
                 </Route>
             </Switch>
+        
+            <Link className='footer' to='/contact'>contact us</Link>
 
-            <Link to='/contact'>contact us</Link>
         </main>
     )
 }

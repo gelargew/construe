@@ -34,7 +34,6 @@ export const Header = () => {
                 </>
             }
                 <p>{user.username}</p>
-                <button onClick={() => console.log(user)}>USER</button>
             </div>
             
         </div>

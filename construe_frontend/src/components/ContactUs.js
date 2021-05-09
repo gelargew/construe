@@ -6,6 +6,12 @@ import { headers } from './Auth'
 
 export const ContactUsPage = () => {
     const [messages, setMessages] = useState({results: []})
+
+    useEffect(async () => {
+        const response = await fetch(`${baseUrl}/api/contactus/`)
+        const data = await response.json()
+        if (response.status === 200) setMessages(data)
+    },[])
     
     const submitForm = async e => {
         e.preventDefault()
@@ -31,12 +37,14 @@ export const ContactUsPage = () => {
                 <textarea placeholder='write your message here...' name='message'></textarea>
                 <button type='submit'>Submit</button>
             </form>
-            <div className='messages'>
-                {messages.results.map(message => 
-                    <Link key={message.id} to={`/message/${message.id}/${message.slug}`}>
-                        {message.title} ---- {message.message.slice(0, 20)} --- replies: {message.reply_count}
-                    </Link>)}
-            </div>
+            <ul className='messages'>
+                {messages.results.map(message =>
+                    <li key={message.id}>
+                        <Link  to={`/message/${message.id}/${message.slug}`}>
+                            {message.title} ---- {message.message.slice(0, 20)} --- replies: {message.reply_count}
+                        </Link>
+                    </li> )}
+            </ul>
         </>
     )
 }

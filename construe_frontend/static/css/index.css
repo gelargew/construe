@@ -1,11 +1,3 @@
-a {
-    color: white;
-}
-
-small {
-    opacity: 50%;
-}
-
 body {
     color: aliceblue;
     margin: 0;
@@ -18,7 +10,7 @@ body {
 .root {
     display: grid;
     grid-template-columns: minmax(150px, 250px) minmax(650px, auto);
-    grid-template-rows: 50px auto;
+    grid-template-rows: minmax(30px, 40px) auto;
     height: 100%;
 }
 
@@ -34,21 +26,60 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 30px;
+    padding: 5px 20px;
 }
 
 .header-auth {
     display: flex;
     flex-direction: row;
-    gap: 30px;
+    gap: 20px;
+    place-items: center;
 }
 
 .sidebar {
     grid-area: 2/1/3/2;
     background: #222;
     overflow-y: auto;
-    
+    padding: 15px;
+    gap: 20px;
 }
+
+.sidebar input {
+    width: 90%;
+}
+
+.sidebar-book-list {
+    margin-top: 15px;
+    overflow-y: auto;
+    min-height: 80%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 1px 1px 1px #555;
+    border-radius: 5px;
+}
+
+.sidebar-book-list a:hover {
+    transform: translateX(15px);
+    background: #555;
+    color: greenyellow;
+}
+
+.sidebar-book-list a:active {
+    background: #888;
+    color: rgb(99, 138, 40);
+}
+
+.footer {
+    background: none;
+    position: fixed;
+    bottom: 15px;
+    right: 4%;
+    font-size: smaller;
+    opacity: 80%;
+}
+
 
 .image {
     width: 320px;
@@ -76,4 +107,27 @@ main {
     margin: auto;
     width: 60%;
     background-color: blue;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+    border-radius: 25%;
+    padding: 3px;
+    font-size: medium;
+}
+
+a:hover {
+    background: rgba(160, 247, 31, 0.7);
+    transform: translate(4px, 4px);
+    cursor: pointer;
+    color: black;
+}
+
+small {
+    opacity: 50%;
+}
+
+li {
+    list-style-type: disclosure-closed;
 }

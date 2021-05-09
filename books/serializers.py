@@ -55,7 +55,7 @@ class ContactUsSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = ContactUs
-        fields = ('id', 'user', 'message', 'timestamp', 'reply_count')
+        fields = ('id', 'user', 'message', 'timestamp', 'reply_count', 'title')
 
     def get_reply_count(self, obj):
         return obj.replies.all().count()

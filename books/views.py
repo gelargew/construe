@@ -1,4 +1,6 @@
-from books.utils import noPagination
+from datetime import timedelta
+from django.utils import timezone
+from books.utils import noPagination, valid_report
 from django.db.models import query
 from django.http.response import HttpResponse, JsonResponse
 from books.serializers import BookListSerializer
@@ -7,7 +9,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import exceptions
 
-from .serializers import BookListSerializer, CommentSerializer, ContactUsSerializer, ContractSerializer, BookSerializer
+from .serializers import BookListSerializer, CommentSerializer, ContactUsDetailSerializer, ContactUsSerializer, ContractSerializer, BookSerializer
 from .models import Book, Comment, ContactUs, Contract
 from .permissions import ContactUsLimitEveryTwoHour, IsOwnerOrReadOnly, IsStaffOrOwner, fiveBookLimit
 
@@ -73,10 +75,6 @@ class contractDetail(generics.RetrieveUpdateAPIView):
     serializer_class = ContractSerializer
     permission_classes = [IsStaffOrOwner]
 
-    def perform_update(self, serializer):
-        print(self.request.data)
-        return super().perform_update(serializer)
-
 
 class CommentsView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -118,10 +116,14 @@ class CommentView(generics.RetrieveUpdateDestroyAPIView):
 class ContactUsView(generics.ListCreateAPIView):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializer
-    permission_classes = [IsAuthenticated, ContactUsLimitEveryTwoHour]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        if not valid_report(self.request.user):
+            raise exceptions.PermissionDenied('you have sent too many messages')
+        
+        return super().perform_create()
+
     
     def get_queryset(self):
         if 'replies' in self.kwargs:
@@ -129,3 +131,10 @@ class ContactUsView(generics.ListCreateAPIView):
         if self.request.user.is_staff:
             return ContactUs.objects.filter(reply=None)
         return ContactUs.objects.filter(reply=None, user=self.request.user)
+
+
+class ContactUsDetail(generics.RetrieveDestroyAPIView):
+    queryset = ContactUs.objects.all()
+    serializer_class = ContactUsDetailSerializer
+    permission_classes = [IsAuthenticated]
+

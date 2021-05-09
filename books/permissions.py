@@ -30,9 +30,8 @@ class fiveBookLimit(permissions.BasePermission):
 
 class ContactUsLimitEveryTwoHour(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        
-        limit = timezone.now() - timedelta(hours=2)
+        print(obj)
 
-        return not request.user.reports.filter(timestamp__lte=limit).count()
+        latest = request.user.reports.first()
+        
+        return obj.timestamp - latest.timestamp > timedelta(hours=2)

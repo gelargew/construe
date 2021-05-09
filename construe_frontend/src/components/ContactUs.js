@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { baseUrl } from './App'
 import { headers } from './Auth'
 
@@ -44,20 +44,32 @@ export const ContactUsPage = () => {
 
 export const MessagePage = () => {
     const [message, setMessage] = useState()
+    const {message_pk} = useParams()
+
+    useEffect(async () => {
+        const response = await fetch(`${baseUrl}/api/contactus/${message_pk}/`)
+        const data = await response.json()
+        console.log(data)
+        setMessage(data)
+    },[])
 
     return (
         <>
-            <div>
-                <h4>{message.title}</h4><small>{message.timestamp}</small>
-                <p>{message.message}</p>
-            </div>
-            <div>
-                {message.replies.map(value => 
-                    <li>
-                        <h4>{value.title}</h4><small>{value.timestamp}</small>
-                        <p>{value.message}</p>
-                    </li>)}
-            </div>
+            {message ?
+            <>
+                <div>
+                    <h4>{message.title}</h4><small>{message.timestamp}</small>
+                    <p>{message.message}</p>
+                </div>
+                <div>
+                    {message.replies.map(value => 
+                        <li>
+                            <h4>{value.title}</h4><small>{value.timestamp}</small>
+                            <p>{value.message}</p>
+                        </li>)}
+                </div>
+            </>:
+            <h2>Something went wrong</h2>}
         </>
     )
 }

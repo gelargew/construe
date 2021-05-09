@@ -28,3 +28,13 @@ class noPagination(PageNumberPagination):
     page_size = 50
     max_page_size = 50
 
+
+def valid_report(user):
+    """
+    non staff users can only send 1 message every 2 hours
+    """
+    if user.is_staff:
+        return True
+
+    latest = user.reports.first()
+    return timezone.now() - latest.timestamp > timedelta(hours=2)

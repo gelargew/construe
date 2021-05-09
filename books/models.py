@@ -101,11 +101,12 @@ class ContractUpdater(models.Model):
 
 
 class ContactUs(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reports')
     message = models.CharField(max_length=512)
     title = models.CharField(max_length=128)
     timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     reply = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
+    slug = models.SlugField()
 
     class Meta:
         verbose_name = 'user report'

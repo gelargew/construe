@@ -47,35 +47,43 @@ export const BookPage = () => {
 
     return (
         <>
-            <div className='book-page' >
+            <div className='book-detail'>
                 <picture>
                     <source className='image' srcSet={book.image} />
                     <img className='image' src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Noimage.svg/739px-Noimage.svg.png' />               
                 </picture>
 
-                <div className='book-detail'>
-                    <div>
+                <div className='book-desc'>
+                    <h2>{book.title}</h2>
+                    <div className='book-option'>
                         <button value='like' onClick={submitLike}>
                             <i className="far fa-thumbs-up"></i>
-                        </button> <small>{book.likes.count}</small>
+                            <small>{book.likes.count}</small>
+                        </button> 
                         <button value='dislike' onClick={submitLike}>
                             <i className="far fa-thumbs-down"></i>
-                        </button><small>{book.likes.dislikes}</small>
-                    </div>
-                    <h1>{book.title}</h1>
-                    <p>{book.author}</p>
-                    <p>{book.year}</p>
-                    <p>{book.category.toString()}</p>
+                            <small>{book.likes.dislikes}</small>
+                        </button>
 
-                    {book.quantity > 0 ?
-                        <button onClick={rentBook}>Rent this book</button>:
+                        {book.quantity > 0 ?
+                        <button className='rentbook' onClick={rentBook}>Rent this book</button>:
                         <p><small>book currently unavailable</small></p>}
-                    <small>{message}</small>
-                </div>
+                        <small>{message}</small>
+                    </div>
+                    <p><strong>{book.author}</strong></p>
+                    <p>{book.year}</p>
+                    <p><smalll>categories: {book.category.toString()}</smalll></p>
 
+                    
+
+                    <p className='book-description'>{book.description}</p>
+
+                </div>
+            </div>
+            <hr />
                 <Comments />
 
-            </div>
+            
             {showBox && <ContractBox setShowBox={setShowBox} book={book} />}
         </>
     )

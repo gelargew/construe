@@ -11,7 +11,7 @@ from rest_framework import exceptions
 
 from .serializers import BookListSerializer, CommentSerializer, ContactUsDetailSerializer, ContactUsSerializer, ContractSerializer, BookSerializer
 from .models import Book, Comment, ContactUs, Contract
-from .permissions import ContactUsLimitEveryTwoHour, IsOwnerOrReadOnly, IsStaffOrOwner, fiveBookLimit
+from .permissions import IsStaffOrOwner, fiveBookLimit
 
 status_filter = ('waiting', 'late', 'active')
 

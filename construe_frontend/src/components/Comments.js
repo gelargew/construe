@@ -42,12 +42,12 @@ export const Comments = ({group='comments', pk=null}) => {
     }
 
     return (
-        <>
+        <div className='comments'>
             <form onSubmit={submitComment}>
-                <textarea placeholder='write your comment here...' name='body'></textarea>
+                <textarea className='comment-input' placeholder='write your comment here...' name='body'></textarea>
                 <button type='submit'>Submit</button>
             </form>
-            <ul className='comments'>
+            <ul className='comment-list'>
                 {comments.results.map((comment, idx) => 
                 <Comment key={comment.id} comment={comment} setComments={setComments} idx={idx} />)}
             </ul>
@@ -63,7 +63,7 @@ export const Comments = ({group='comments', pk=null}) => {
             </>}
 
             <small>{comments.results.length} of {comments.count} </small>
-        </> 
+        </div> 
     )
 }
 

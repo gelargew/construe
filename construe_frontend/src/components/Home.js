@@ -15,7 +15,7 @@ export const Home = () => {
     }, [])
 
     return (
-        <div className='main home'>
+        <>
             <h1>CONSTRUE</h1>
             <div className='quote'>
                 <p>"{quote}"</p>
@@ -24,15 +24,20 @@ export const Home = () => {
 
             <div className='newbooks'>
                 {books.results.map(book => 
-                    <Link key={book.id} to={`book/${book.id}/${book.slug}`}>
-                        <div>
-                            <h4>{book.title}</h4>
-                            <p>{book.author}</p>
-                        </div>
+                    <Link className='newbook' key={book.id} to={`book/${book.id}/${book.slug}`}>
+                        
+                        <picture>
+                            <source className='image-small' srcSet={book.image} />
+                            <img className='image-small' 
+                            src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Noimage.svg/739px-Noimage.svg.png' />               
+                        </picture>
+                        <h4>{book.title}</h4>
+                        <p>{book.author}</p>
+                        
                     </Link>)}
             </div>
 
-        </div>
+        </>
     )
 }
 

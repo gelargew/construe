@@ -1,0 +1,33 @@
+.book-detail {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    width: 90%;
+}
+
+.book-option {
+    margin: 15px;
+}
+
+.book-option button {
+    margin-left: 15px;
+}
+
+.book-description {
+    margin-top: 20px;
+    font-size: small;
+}
+
+.comments {
+    width: 90%;
+}
+
+.comment-input {
+    width: 95%;
+    padding: 5px;
+}
+
+form button {
+    float: right;
+    margin-right: 5%;
+}

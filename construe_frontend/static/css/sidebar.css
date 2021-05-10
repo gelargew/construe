@@ -1,0 +1,33 @@
+.sidebar {
+    grid-area: 2/1/3/2;
+    background: #222;
+    overflow-y: auto;
+    padding: 15px;
+    gap: 20px;
+}
+
+.sidebar input {
+    width: 90%;
+}
+
+.sidebar-book-list {
+    margin-top: 15px;
+    overflow-y: auto;
+    min-height: 80%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 1px 1px 1px #555;
+    border-radius: 5px;
+}
+
+.sidebar-book-list a:hover {
+    transform: translateX(15px);
+    box-shadow: -10px 0px 5px greenyellow;
+}
+
+.sidebar-book-list a:active {
+    background: #888;
+    color: rgb(99, 138, 40);
+}

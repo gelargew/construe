@@ -32,16 +32,18 @@ export const ContactUsPage = () => {
 
     return (
         <>
-            <form onSubmit={submitForm}>
-                <input type='text' placeholder='title' name='title'></input>
-                <textarea placeholder='write your message here...' name='message'></textarea>
+            <form onSubmit={submitForm} className='contact-form'>
+                <h2>Contact us: </h2>
+                <input type='text' placeholder='title' name='title' required></input>
+                <textarea placeholder='write your message here...' name='message' required></textarea>
                 <button type='submit'>Submit</button>
             </form>
             <ul className='messages'>
                 {messages.results.map(message =>
                     <li key={message.id}>
-                        <Link  to={`/message/${message.id}/${message.slug}`}>
-                            {message.title} ---- {message.message.slice(0, 20)} --- replies: {message.reply_count}
+                        <Link className='message-link'  to={`/message/${message.id}/${message.slug}`}>
+                            <p className='message-title'>{message.title} <small> {message.reply_count} replies</small></p>
+                            <p className='message-body'>{message.message}</p>
                         </Link>
                     </li> )}
             </ul>
@@ -69,13 +71,13 @@ export const MessagePage = () => {
                     <h4>{message.title}</h4><small>{message.timestamp}</small>
                     <p>{message.message}</p>
                 </div>
-                <div>
+                <ul className='messages'>
                     {message.replies.map(value => 
-                        <li>
-                            <h4>{value.title}</h4><small>{value.timestamp}</small>
-                            <p>{value.message}</p>
+                        <li className='message-list'>
+                            <p className='message-title'>{value.title}<small>{value.timestamp}</small></p>
+                            <p className='message-body'>{value.message}</p>
                         </li>)}
-                </div>
+                </ul>
             </>:
             <h2>Something went wrong</h2>}
         </>

@@ -20,4 +20,4 @@ class ContactUsAdmin(admin.ModelAdmin):
 admin.site.register((Category, ContractUpdater, Comment,))
 admin.site.register(Contract, ContractAdmin)
 admin.site.register(Book, BookAdmin)
-admin.site.register(ContactUs)
+admin.site.register(ContactUs, ContactUsAdmin)

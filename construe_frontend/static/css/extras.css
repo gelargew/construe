@@ -11,3 +11,48 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
+
+.contact-form {
+    width: 60%;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    place-items: center;
+}
+
+.contact-form textarea {
+    height: 4rem;
+}
+
+.contact-form button {
+    width: 80px;
+    align-self: flex-end;
+    margin-top: -10px;
+}
+
+.messages {
+    list-style: none;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.messages li {
+    border-radius: 5px;
+    box-shadow: 0.4px 0.4px rgba(248, 248, 248, 0.5);
+}
+
+.message-title {
+    display: grid;
+    grid-template-columns: minmax(100px, 4fr) 1fr
+}
+
+.message-body {
+    font-size: small;
+    padding-top: 5px;
+}
+
+.message-link {
+    padding: 0;
+}

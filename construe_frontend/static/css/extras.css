@@ -1,0 +1,13 @@
+.contract-page {
+    width: 90%;
+}
+
+.contract-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contract-page ul li {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}

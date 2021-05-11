@@ -11,7 +11,16 @@
 
 .book-option button {
     margin-left: 15px;
+    border: none;
+    color: greenyellow;
+    opacity: 0.6;
 }
+
+.book-option button:hover {
+    opacity: 1;
+    background: none;
+}
+
 
 .book-description {
     margin-top: 20px;
@@ -46,7 +55,8 @@ form button {
 }
 
 .comment-option {
-    margin: 10px;
+    margin: 5px;
+    margin-bottom: 30px;
     display: flex;
     gap: 20px;
 }
@@ -60,4 +70,30 @@ form button {
 .comment-head {
     display: flex;
     gap: 15px;
+}
+
+.replies-form textarea {
+    height: 1rem;
+}
+
+.box-layout {
+    position:fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    background-color: rgba(119, 119, 119, 0.6);
+    display: flex;
+    place-items: center;
+    transition: 0.5s;
+}
+
+.box-layout div {
+    z-index: 50;
+    margin: auto;
+    width: 60%;
+    background-color: #222;
+    border-radius: 10px;
+    padding: 40px;
 }

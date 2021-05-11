@@ -13,15 +13,15 @@ export const Comments = ({group='comments', pk=null}) => {
     const [hidden, setHidden] = useState('hidden')
 
     useEffect(async () => {
-    
-        console.log(book_pk)
-        console.log(url)
         const response = await fetch(url)
         const data = await response.json()
         setComments(data)
-    }, [book_pk])
+    }, [url])
+
+    useEffect(() => setUrl(`${baseUrl}/api/comment/${group}/${pk ? pk : book_pk}/`), [book_pk])
 
     const submitComment = async e => {
+        console.log('asd')
         e.preventDefault()
         const response = await fetch(url, {
             method: 'POST',
@@ -39,6 +39,7 @@ export const Comments = ({group='comments', pk=null}) => {
             )
         }
         e.target.body.value = ''
+        setHidden('hidden')
         
     }
 
@@ -47,9 +48,11 @@ export const Comments = ({group='comments', pk=null}) => {
 
             {user.is_authenticated &&
             <form onSubmit={submitComment} className={`${group}-form`}>
-                <textarea onFocus={() => setHidden('')} onBlur={() => setHidden('hidden')} 
-                className='comment-input' placeholder='write your comment here...' name='body'></textarea>
+                <textarea onFocus={() => setHidden('')} className='comment-input' 
+                placeholder={group === 'replies' ? 'add a reply...':'add a review...'} 
+                name='body'></textarea>
                 <button className={hidden} type='submit'>Submit</button>
+                <button className={hidden} type='button' onClick={() => setHidden('hidden')}>Cancel</button>
             </form>}
 
             <ul className='comment-list'>

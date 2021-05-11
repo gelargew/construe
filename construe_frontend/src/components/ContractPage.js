@@ -56,6 +56,7 @@ const Contract = ({contract, idx, setContracts}) => {
                 else prev.results[idx] = data
                 return {...prev}
             })
+            console.log(data)
         }
     }
 

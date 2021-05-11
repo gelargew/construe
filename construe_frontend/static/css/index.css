@@ -4,7 +4,7 @@ body {
     top: 0;
     height: 100vh;
     background: #111;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto';
 }
 
 .root {
@@ -60,27 +60,6 @@ hr {
     object-fit: contain;
     height: 360px;
   }
-
-
-.box-layout {
-    position:fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 10;
-    background-color: red;
-    opacity: 70%;
-    display: flex;
-    place-items: center;
-}
-
-.box-layout div {
-    z-index: 50;
-    margin: auto;
-    width: 60%;
-    background-color: blue;
-}
 
 p {
     margin: 3px;

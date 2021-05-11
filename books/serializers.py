@@ -19,6 +19,7 @@ class BookListSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField()
     category = serializers.StringRelatedField(many=True)
+    quantity = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -26,6 +27,9 @@ class BookSerializer(serializers.ModelSerializer):
 
     def get_likes(self, book):
         return {'count': book.like.count(), 'dislikes': book.dislike.count()}
+
+    def get_quantity(self, book):
+        return book.quantity - Contract.objects.filter(book_id=book.id, status__in=('waiting', 'active', 'late')).count()
 
     
 class ContractSerializer(serializers.ModelSerializer):

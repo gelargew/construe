@@ -55,24 +55,25 @@ export const BookPage = () => {
 
                 <div className='book-desc'>
                     <h2>{book.title}</h2>
+                    {book.quantity > 0 && <small>{book.quantity} books currently available</small>}
                     <div className='book-option'>
                         <button value='like' onClick={submitLike}>
-                            <i className="far fa-thumbs-up"></i>
+                            <i className="fas fa-thumbs-up"></i> 
                             <small>{book.likes.count}</small>
                         </button> 
                         <button value='dislike' onClick={submitLike}>
-                            <i className="far fa-thumbs-down"></i>
+                            <i className="fas fa-thumbs-down"></i> 
                             <small>{book.likes.dislikes}</small>
                         </button>
 
                         {book.quantity > 0 ?
-                        <button className='rentbook' onClick={rentBook}>Rent this book</button>:
+                        <button className='rentbook' onClick={rentBook}>Reserve this book</button>:
                         <p><small>book currently unavailable</small></p>}
-                        <small>{message}</small>
+                        <p><small>{message}</small></p>
                     </div>
-                    <p><strong>{book.author}</strong></p>
-                    <p>{book.year}</p>
-                    <p><smalll>categories: {book.category.toString()}</smalll></p>
+                    <p><strong>author : {book.author}</strong></p>
+                    <p>year : {book.year}</p>
+                    <p><smalll>categories : {book.category.toString()}</smalll></p>
 
                     
 
@@ -123,12 +124,13 @@ const ContractBox = ({setShowBox, book}) => {
         <div className='box-layout' name='box-layout' onClick={toggle}>
             <div className='contract-box'>
                 <form onSubmit={submitForm}>
-                    <p>request your book beforehand, our bookkeeper will prepare the book for you. save your time!</p>
-                    <h5>{book.title}</h5>
-                    <h6>{book.author}</h6>
+                    <p>Reserve your book beforehand, our bookkeeper will prepare the book for you. save your time!</p>
+                    <h5>book : {book.title}</h5>
+                    <h6>author : {book.author}</h6>
                     <label>
                         how long do you intend to borrow the book?
                         <select name='duration'>
+                            <option value='1'>read in the library</option>
                             <option value='7'>1 week</option>
                             <option value='14'>2 weeks</option>
                             <option value='21'>3 weeks</option>
@@ -136,9 +138,9 @@ const ContractBox = ({setShowBox, book}) => {
                         </select>
                     </label>
 
-                    <p>you have 1 day to take your book after you submit your request </p>
+                    <p>you have 1 day to checkout your book after you submit your reservation</p>
 
-                    <button type='submit'>Request book</button>
+                    <button type='submit'>Submit reservation</button>
                 </form>
                 <small>{message}</small>
             </div>

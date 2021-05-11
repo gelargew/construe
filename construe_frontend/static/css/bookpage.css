@@ -31,3 +31,33 @@ form button {
     float: right;
     margin-right: 5%;
 }
+
+.hidden {
+    display: none;
+}
+
+
+.comments form {
+    margin-bottom: 20px;
+}
+
+.comment-list li {
+    gap: 20px;
+}
+
+.comment-option {
+    margin: 10px;
+    display: flex;
+    gap: 20px;
+}
+
+.comment-option button {
+    font-size: small;
+    border: none;
+    color: greenyellow;
+}
+
+.comment-head {
+    display: flex;
+    gap: 15px;
+}

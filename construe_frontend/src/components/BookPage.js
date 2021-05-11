@@ -81,7 +81,7 @@ export const BookPage = () => {
                 </div>
             </div>
             <hr />
-                <Comments />
+                <Comments book_pk={book.id} />
 
             
             {showBox && <ContractBox setShowBox={setShowBox} book={book} />}

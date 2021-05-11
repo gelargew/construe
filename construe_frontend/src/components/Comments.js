@@ -1,28 +1,29 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import { baseUrl, userContext } from './App'
 import { headers } from './Auth'
 
 
 
 export const Comments = ({group='comments', pk=null}) => {
-    pk ??= useParams().book_pk
+    const {book_pk} = useParams()
+    const {user} = useContext(userContext)
     const [comments, setComments] = useState({results: []})
-    const [showComments, setShowComments] = useState(false)
-    const [url, setUrl] = useState(`${baseUrl}/api/comment/${group}/${pk}/`)
+    const [url, setUrl] = useState(`${baseUrl}/api/comment/${group}/${pk ? pk : book_pk}/`)
+    const [hidden, setHidden] = useState('hidden')
 
     useEffect(async () => {
+    
+        console.log(book_pk)
+        console.log(url)
         const response = await fetch(url)
         const data = await response.json()
         setComments(data)
-        setShowComments(false)
-        console.log(data)
-    }, [url, pk])
+    }, [book_pk])
 
     const submitComment = async e => {
         e.preventDefault()
-        console.log(pk)
-        const response = await fetch(`${baseUrl}/api/comment/${group}/${pk}/`, {
+        const response = await fetch(url, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({
@@ -43,10 +44,14 @@ export const Comments = ({group='comments', pk=null}) => {
 
     return (
         <div className='comments'>
-            <form onSubmit={submitComment}>
-                <textarea className='comment-input' placeholder='write your comment here...' name='body'></textarea>
-                <button type='submit'>Submit</button>
-            </form>
+
+            {user.is_authenticated &&
+            <form onSubmit={submitComment} className={`${group}-form`}>
+                <textarea onFocus={() => setHidden('')} onBlur={() => setHidden('hidden')} 
+                className='comment-input' placeholder='write your comment here...' name='body'></textarea>
+                <button className={hidden} type='submit'>Submit</button>
+            </form>}
+
             <ul className='comment-list'>
                 {comments.results.map((comment, idx) => 
                 <Comment key={comment.id} comment={comment} setComments={setComments} idx={idx} />)}
@@ -62,7 +67,7 @@ export const Comments = ({group='comments', pk=null}) => {
                 </button>
             </>}
 
-            <small>{comments.results.length} of {comments.count} </small>
+            {group === 'comments' && <small>{comments.results.length} of {comments.count} </small>}
         </div> 
     )
 }
@@ -73,6 +78,7 @@ const Comment = ({comment, idx, setComments}) => {
     const {user} = useContext(userContext)
     const [editMode, setEditMode] = useState(false)
     const [showReplies, setShowReplies] = useState(false)
+
 
     const cancelEdit = e => {
         setEditMode(false)
@@ -98,18 +104,22 @@ const Comment = ({comment, idx, setComments}) => {
 
     return (
         <li>
-            <p>
+            <p className='comment-head'>
                 <strong>@{comment.user}</strong>
                 <small>{comment.timestamp}</small>
             </p>
             {!editMode ? 
             <>
                 <p>{tempBody}</p>
-                {user.username === comment.user &&
                 <div className='comment-option'>
-                    <button onClick={() => setEditMode(true)}>Edit</button>
-                    <button>Delete</button>
-                </div>}
+                {user.username === comment.user &&
+                    <>
+                        <button onClick={() => setEditMode(true)}>Edit</button>
+                        <button>Delete</button>
+                    </>}
+                    {comment.book && !showReplies && 
+                    <button onClick={() => setShowReplies(true)}>{comment.reply_count} replies</button>}
+                </div>
             </>
             :
             <form onSubmit={submitEdit}>
@@ -120,11 +130,10 @@ const Comment = ({comment, idx, setComments}) => {
                 </div>
             </form>
             }
-            
-            {comment.reply_count > 0 && !showReplies && 
-            <button onClick={() => setShowReplies(true)}>{comment.reply_count} replies</button>}
 
-            {comment.book && showReplies && <Comments group='replies' pk={comment.id} />}
+            {showReplies && <Comments group='replies' pk={comment.id} />}
+            
+
         </li>
     )
 }
@@ -132,10 +141,33 @@ const Comment = ({comment, idx, setComments}) => {
 
 const CommentWrite = ()=> {
 
+    const submitComment = async e => {
+        e.preventDefault()
+        console.log(pk)
+        const response = await fetch(`${baseUrl}/api/comment/${group}/${pk}/`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                body: e.target.body.value               
+            })
+        })
+        if (response.status === 201) {
+            const data = await response.json()
+            setComments({
+                ...comments, 
+                results: [data, ...comments.results], 
+                count: comments.count + 1}
+            )
+        }
+        e.target.body.value = ''
+        
+    }
+
     return (
-        <form>
-            <textarea placeholder='write your comment here...'></textarea>
-            <button type='submit'>Post</button>
+        <form onSubmit={submitComment} className={`${group}-form`}>
+            <textarea onFocus={() => setHidden('')} onBlur={() => setHidden('hidden')} 
+            className='comment-input' placeholder='write your comment here...' name='body'></textarea>
+            <button className={hidden} type='submit'>Submit</button>
         </form>
     )
 }

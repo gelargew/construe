@@ -112,6 +112,7 @@ input[type=text], textarea {
     border-radius: 5px;
     transition: 0.3s;
     caret-color: aliceblue;
+    width: 90%;
 }
 
 input[type=text]:focus, textarea:focus {

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.utils import timezone
+from django.utils.text import slugify
 from datetime import timedelta
 
 from .utils import get_default_expiry, get_sentinel_user, book_year_validator
@@ -103,14 +104,13 @@ class ContractUpdater(models.Model):
 class ContactUs(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reports')
     message = models.CharField(max_length=512)
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     reply = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
-    slug = models.SlugField()
 
     class Meta:
         verbose_name = 'user report'
         ordering = ('-pk',)
 
     def __str__(self) -> str:
-        return f'{self.title}----{self.message[:50]}-----from:{self.user.username}'
+        return f'{self.title} - {self.message[:50]} - from:{self.user.username}'

@@ -1,3 +1,10 @@
+div.contactus {
+    padding: 0;
+    width: 90%;
+    display: flex;
+    place-items: center;
+}
+
 .contract-page {
     width: 90%;
 }
@@ -30,22 +37,27 @@
     margin-top: -10px;
 }
 
+.message-main {
+    width: 90%;
+}
+
 .messages {
     list-style: none;
-    width: 90%;
     display: flex;
     flex-direction: column;
     gap: 35px;
+    padding: 0;
+    width: 88%;
 }
 
-.messages li {
+.messages li, .message-main {
     border-radius: 5px;
     box-shadow: 0.4px 0.4px rgba(248, 248, 248, 0.5);
 }
 
 .message-title {
     display: grid;
-    grid-template-columns: minmax(100px, 4fr) 1fr
+    grid-template-columns: minmax(100px, 3fr) 1fr
 }
 
 .message-body {
@@ -55,4 +67,23 @@
 
 .message-link {
     padding: 0;
+}
+
+.contactus form {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+
+.contactus form button {
+    align-self: flex-end;
+}
+
+.contactus form button:hover {
+    transform: none;
+}
+
+.contactus form textarea {
+    height: 5rem;
 }

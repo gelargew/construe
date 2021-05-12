@@ -56,13 +56,17 @@ class CommentSerializer(serializers.ModelSerializer):
 class ContactUsSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
     reply_count = serializers.SerializerMethodField()
+    timestamp = serializers.SerializerMethodField()
     
     class Meta:
         model = ContactUs
-        fields = ('id', 'user', 'message', 'timestamp', 'reply_count', 'title', 'slug')
+        fields = ('id', 'user', 'message', 'timestamp', 'reply_count', 'title')
 
     def get_reply_count(self, obj):
         return obj.replies.all().count()
+
+    def get_timestamp(self, obj):
+        return obj.timestamp
 
 
 class ContactUsDetailSerializer(serializers.ModelSerializer):

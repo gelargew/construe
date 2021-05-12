@@ -121,7 +121,7 @@ class ContactUsView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if not valid_report(self.request.user):
             raise exceptions.PermissionDenied('you have sent too many messages')        
-        serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user, **self.request.data)
   
     def get_queryset(self):
         if self.request.user.is_staff:

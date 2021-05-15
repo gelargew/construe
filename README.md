@@ -18,6 +18,8 @@ you dont need this to run the app
 
 
 ## 🌵 Folder Structures
+<details open="open">
+          <summary>folder structures</summary>
 ```
 construe
 │
@@ -56,6 +58,7 @@ construe
 └── manage.py
 
 ```
+</details>
 
 
 ## Construe_frontend (ReactApp)

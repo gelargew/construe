@@ -56,4 +56,10 @@ construe
 └── manage.py
 
 ```
+
+
+## Construe_frontend (ReactApp)
+##### BookPage.js
+features: - like/dislike book
+          - reserve book
       

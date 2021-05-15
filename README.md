@@ -1,8 +1,8 @@
 <h1 align="center"> CONSTRUE </h1>
 <h3 align="center"> Library Management System </h3>
 
-<p>Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.</p>
----
+Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.
+
 
 ### Dependencies
 <a href="https://python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3.6++-green" /></a>

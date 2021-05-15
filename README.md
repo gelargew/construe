@@ -19,7 +19,7 @@ you dont need this to run the app
 
 ## 🌵 Folder Structures
 
-<details open=false>
+<details>
   <summary>show</summary>
   
     ```

@@ -86,7 +86,7 @@ small {
     opacity: 50%;
 }
 
-input[type=text], textarea {
+input[type=text], input[type=password], input[type=email], textarea {
     background: #333;
     border-radius: 5px;
     transition: 0.3s;
@@ -98,9 +98,9 @@ input[type=text], textarea {
     color: aliceblue;
 }
 
-input[type=text]:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, textarea:focus {
     outline: none;
-    border: none;
+    border: 0.4px solid greenyellow;
     color: aliceblue;
 }
 
@@ -108,3 +108,4 @@ input[type=text]:focus, textarea:focus {
     color: rgba(173, 255, 51, 0.5);
     text-align: center;
 }
+

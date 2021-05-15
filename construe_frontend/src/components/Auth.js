@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { baseUrl, userContext } from './App';
 
@@ -58,17 +58,17 @@ const LoginPage = () => {
     }
 
     return (
-        <div>
+        <div className='auth-page'>
             <h3>Login</h3>
             <form onSubmit={login}>
                 <label>
                     Username:
-                    <input type='text' name='username' placeholder='username' disabled={disabled}/>
+                    <input type='text' name='username' placeholder='username' disabled={disabled} required/>
                 </label>
 
                 <label>
                     Password:
-                    <input type='password' name='password' placeholder='password' disabled={disabled} />
+                    <input type='password' name='password' placeholder='password' disabled={disabled} required/>
                 </label>
 
                 <button type='submit' disabled={disabled}>Login</button>
@@ -84,6 +84,9 @@ const RegisterPage = () => {
     const {setUser} = useContext(userContext)
     const history = useHistory()
     const [disabled, setDisabled] = useState(false)
+    const passwordInput = useRef(null)
+    const [passwordConfirmed, setPasswordConfirmed] = useState(true)
+
     
     const register = async e => {
         e.preventDefault()
@@ -109,26 +112,41 @@ const RegisterPage = () => {
         }
     }
 
+    const confirmPassword = e => {
+        setPasswordConfirmed(e.target.value === passwordInput.current.value)
+    }
+
     return (
-        <div>
+        <div className='auth-page'>
             <h3>Login</h3>
             <form onSubmit={register}>
                 <label>
                     Username:
-                    <input type='text' name='username' placeholder='username' disabled={disabled} />
+                    <input type='text' name='username' placeholder='username...' disabled={disabled} 
+                    title='Enter an username consisting of 8-16 hexadecimal digits' pattern="[0-9a-fA-F]{8,16}" required />
                 </label>
 
                 <label>
                     email:
-                    <input type='email' name='email' placeholder='email' disabled={disabled} />
+                    <input type='email' name='email' placeholder='email...' disabled={disabled} 
+                    title='Enter your email' required/>
                 </label>
 
                 <label>
                     Password:
-                    <input type='password' name='password' placeholder='password' disabled={disabled} />
+                    <input ref={passwordInput} type='password' name='password'
+                    pattern="[0-9a-fA-F]{8,16}" title="Enter an ID consisting of 8-16 hexadecimal digits"
+                    placeholder='password...' disabled={disabled} required/>
                 </label>
 
-                <button type='submit'>Register</button>
+                <label>
+                    Confirm password:
+                    <input onInput={confirmPassword} type='password' name='confirmpassword' 
+                    placeholder='confirm password...' disabled={disabled} title='Confirm your password' required
+                    className={passwordConfirmed ? '' : 'alert'} />
+                </label>
+
+                <button type='submit' disabled={!passwordConfirmed}>Register</button>
             </form>
             <small>{message}</small>
         </div>

@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { baseUrl } from './App'
+import { baseUrl, userContext } from './App'
 import { headers } from './Auth'
 
 
 export const ContactUsPage = () => {
+    const {user} = useContext(userContext)
     const [messages, setMessages] = useState({results: []})
 
     useEffect(async () => {
@@ -33,21 +34,26 @@ export const ContactUsPage = () => {
 
     return (
         <div className='contactus'>
-            <form onSubmit={submitForm} className='contact-form'>
-                <h2>Contact us: </h2>
-                <input type='text' placeholder='title' name='title' required></input>
-                <textarea placeholder='write your message here...' name='message' required></textarea>
-                <button type='submit'>Submit</button>
-            </form>
-            <ul className='messages'>
-                {messages.results.map(message =>
-                    <li key={message.id}>
-                        <Link className='message-link'  to={`/message/${message.id}/${message.slug}`}>
-                            <p className='message-title'>{message.title} <small> {message.timestamp} --- {message.reply_count} replies</small></p>
-                            <p className='message-body'>{message.message}</p>
-                        </Link>
-                    </li> )}
-            </ul>
+            {user.is_authenticated ?
+            <>
+                <form onSubmit={submitForm} className='contact-form'>
+                    <h2>Contact us: </h2>
+                    <input type='text' placeholder='title' name='title' required></input>
+                    <textarea placeholder='write your message here...' name='message' required></textarea>
+                    <button type='submit'>Submit</button>
+                </form>
+                <h4>Your recent messages: </h4>
+                <ul className='messages'>
+                    {messages.results.map(message =>
+                        <li key={message.id}>
+                            <Link className='message-link'  to={`/message/${message.id}/${message.slug}`}>
+                                <p className='message-title'><strong>{message.title}</strong> <small>  {message.reply_count} replies</small></p>
+                                <p className='message-body'>{message.message}</p>
+                            </Link>
+                        </li> )}
+                </ul>
+            </>:
+            <p>you need to login to access this page, <Link to='/login'><u>Login</u></Link></p>}
         </div>
     )
 }

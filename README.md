@@ -18,7 +18,7 @@ you dont need this to run the app
 
 
 ## 🌵 Folder Structures
-
+```
 construe
 │
 ├── books
@@ -28,7 +28,7 @@ construe
       ├── permissions.py
       ├── utils.py
       └── ...
-      
+```
       
 code
     .

@@ -28,3 +28,18 @@ construe
       ├── permissions.py
       ├── utils.py
       └── ...
+      
+      
+code
+    .
+    │
+    ├── data
+    │   ├── raw_data
+    │   │   ├── phone
+    │   │   │   ├── accel
+    │   │   │   └── gyro
+    │   │   ├── watch
+    │   │       ├── accel
+    │   │       └── gyro
+    │   │
+    │   ├── transformed_data

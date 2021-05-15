@@ -1,7 +1,7 @@
 <h1 align="center"> CONSTRUE </h1>
 <h3 align="center"> Library Management System </h3>
 
-Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.
+<p>Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.</p>
 ---
 
 ### Dependencies

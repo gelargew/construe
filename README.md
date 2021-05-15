@@ -19,8 +19,8 @@ you dont need this to run the app
 
 ## 🌵 Folder Structures
 
-<details open="closed">
-  <summary>Folder structures</summary>
+<details open=false>
+  <summary>show</summary>
   
     ```
     construe

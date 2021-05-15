@@ -1,4 +1,4 @@
-<h1 align="center"> CONSTRUE </h1>
+<h1 id="construe" align="center"> CONSTRUE </h1>
 <h3 align="center"> Library Management System </h3>
 
 Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.
@@ -16,8 +16,18 @@ you dont need this to run the app
 <a href="https://reactrouter.com/"><img src="https://img.shields.io/badge/react--router--dom-5-green" /></a>
 
 
+<h2 id="contents">Table of Contents</h2>
+<details>
+  <summary>show</summary>
+    <ol>
+      <li><a href="#construe">CONSTRUE</a></li>
+      <li><a href="#contents">Table of Contents</a></li>
+    </ol>
+</details>
 
-## 🌵 Folder Structures
+
+
+<h2 id="folders"> 🌵 Folder Structures </h2>
 
 <details>
   <summary>show</summary>
@@ -62,7 +72,7 @@ you dont need this to run the app
 </details>
 
 
-## Construe_frontend (ReactApp)
+<h2 id="construe-frontend">Construe_frontend (ReactApp)</h2>
 ##### BookPage.js
 features: - like/dislike book
           - reserve book

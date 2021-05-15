@@ -19,10 +19,10 @@ you dont need this to run the app
 
 ## 🌵 Folder Structures
 
-<details open="open">
-  <summary>Table of Contents</summary>
+<details open="closed">
+  <summary>Folder structures</summary>
+  
     ```
-  ```
     construe
     │
     ├── books               # rest APIs
@@ -58,9 +58,6 @@ you dont need this to run the app
     │     └── ...
     │
     └── manage.py
-
-    ```
-    asd
     ```
 </details>
 

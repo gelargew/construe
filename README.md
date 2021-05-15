@@ -67,7 +67,8 @@ you dont need this to run the app
     │     ├── serializers.py
     │     └── ...
     │
-    └── manage.py
+    ├── manage.py
+    └── reuirements.txt
     ```
 </details>
 
@@ -76,4 +77,21 @@ you dont need this to run the app
 ##### BookPage.js
 features: - like/dislike book
           - reserve book
+
+
+<h2 id="how-to-run">How to Run</h2>
+install requirements
+```
+pip install -r requirements.txt
+```
+run the server
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
+create superuser for admin page
+```
+python manage.py createsuperuser
+```
       

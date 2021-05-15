@@ -22,7 +22,7 @@ const getCookie = () => {
     return cookieValue;
 }
 
-const headers = {
+const headers =  {
     'Content-Type': 'application/json; charset=UTF-8',
     'X-CSRFToken': getCookie()
 }

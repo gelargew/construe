@@ -34,11 +34,14 @@ class BookSerializer(serializers.ModelSerializer):
     
 class ContractSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
-    book = serializers.StringRelatedField()
+    book = serializers.SerializerMethodField()
 
     class Meta:
         model = Contract
         fields = '__all__'
+
+    def get_book(self, obj):
+        return {'id': obj.book.id, 'title': obj.book.title}
 
 
 class CommentSerializer(serializers.ModelSerializer):

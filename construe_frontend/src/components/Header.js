@@ -1,17 +1,19 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { baseUrl, userContext } from './App';
 
 
 
 export const Header = () => {
     const {user, setUser} = useContext(userContext)
+    const history = useHistory()
 
     const logoutUser = async () => {
         const response = await fetch(`${baseUrl}/auth/logout/`)
         if (response.status === 200) {
             const data = await response.json()
             setUser(data)
+            history.push('/')
         }
     }
 

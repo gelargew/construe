@@ -25,7 +25,6 @@ export const BookPage = () => {
 
     const rentBook = async e => {       
         if (user.contracts.includes(book.id)) {
-            console.log('ASDAWDAWD')
             setMessage('you have an active contract of this book')
             return
         }        
@@ -117,6 +116,8 @@ const ContractBox = ({setShowBox, book}) => {
             history.push('/contracts')
             return
         }
+        const data = await response.json()
+        console.log(data)
         setMessage('something went wrong')
     }
     

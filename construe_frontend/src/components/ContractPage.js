@@ -40,7 +40,7 @@ export const ContractPage = () => {
 
 
 const Contract = ({contract, idx, setContracts}) => {
-    const {user} = useContext(userContext)
+    const {user, setUser} = useContext(userContext)
 
 
     const handleContract = async e => {
@@ -52,17 +52,23 @@ const Contract = ({contract, idx, setContracts}) => {
         if (response.status === 200) {
             const data = await response.json()
             setContracts(prev => {
-                if (data.status === 'returned' || data.status === 'cancelled') prev.results.splice(idx, 1)
+                if (data.status === 'returned' || data.status === 'cancelled') {
+                    prev.results.splice(idx, 1)
+                    prev.count -= 1
+                    setUser({...user, contracts: user.contracts.filter(ele => ele != data.book.id)})
+                }
                 else prev.results[idx] = data
                 return {...prev}
             })
-            console.log(data)
         }
+
+        const data = await response.json()
+        console.log(data)
     }
 
     return (
         <li>
-            <span>{contract.book}-----{contract.user}</span>
+            <span>{contract.book.title} <small>user: {contract.user}</small></span>
             <small>status: {contract.status} until: {contract.expiry}</small>
             <span>
                 {user.is_staff && contract.status === 'waiting' && 

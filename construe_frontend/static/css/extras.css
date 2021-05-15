@@ -25,6 +25,7 @@ div.contactus {
     gap: 15px;
     flex-direction: column;
     place-items: center;
+    max-width: 500px;
 }
 
 .contact-form textarea {
@@ -39,6 +40,8 @@ div.contactus {
 
 .message-main {
     width: 90%;
+    min-height: 100px;
+    margin-bottom: 20px;
 }
 
 .messages {

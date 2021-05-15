@@ -34,7 +34,7 @@ export const Main = () => {
                     <ContactUsPage />
                 </Route>
 
-                <Route path='/message/:message_pk/:slug'>
+                <Route path='/message/:message_pk'>
                     <MessagePage />
                 </Route>
 

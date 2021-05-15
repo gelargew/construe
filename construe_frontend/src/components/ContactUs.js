@@ -46,7 +46,7 @@ export const ContactUsPage = () => {
                 <ul className='messages'>
                     {messages.results.map(message =>
                         <li key={message.id}>
-                            <Link className='message-link'  to={`/message/${message.id}/${message.slug}`}>
+                            <Link className='message-link'  to={`/message/${message.id}`}>
                                 <p className='message-title'><strong>{message.title}</strong> <small>  {message.reply_count} replies</small></p>
                                 <p className='message-body'>{message.message}</p>
                             </Link>
@@ -90,14 +90,18 @@ export const MessagePage = () => {
             {message ?
             <>
                 <div className='message-main'>
-                    <p className='message-title'>{message.title}</p><small>{message.timestamp}</small>
+                    <p className='message-title'>
+                        <strong>{message.title ?? '-'}</strong>
+                        <small>{message.timestamp}</small>
+                    </p>
                     <p className='message-body'>{message.message}</p>
                 </div>
                 <hr/>
                 <ul className='messages'>
                     {message.replies.map(value => 
                         <li key={value.id} className='message-list'>
-                            <p className='message-title'>@{value.user}<small>{toLocalTimestamp(value.timestamp)}</small></p>
+                            <p className='message-title'><strong>@{value.user}</strong>
+                            <small>{toLocalTimestamp(value.timestamp)}</small></p>
                             <p className='message-body'>{value.message}</p>
                         </li>)}
                 </ul>
@@ -112,5 +116,6 @@ export const MessagePage = () => {
 }
 
 const toLocalTimestamp = timestamp => {
-    return new Date(timestamp).toLocaleString()
+    let options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false, hour: 'numeric', minute: 'numeric'};
+    return new Date(timestamp).toLocaleString('en-US', options)
 }

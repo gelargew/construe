@@ -21,25 +21,39 @@ you dont need this to run the app
 ```
 construe
 │
-├── books
+├── books               # rest APIs
 │     ├── models.py 
-      ├── views.py
-      ├── serializers.py
-      ├── permissions.py
-      ├── utils.py
-      └── ...
+│     ├── views.py
+│     ├── serializers.py
+│     ├── permissions.py
+│     ├── utils.py
+│     └── ...
+│ 
+├── construe
+│     ├── settings.py
+│     └── ...
+│
+├── construe_frontend   #react frontend
+│     ├── src
+│     │    └── Components
+│     │            ├── App.js
+│     │            ├── Auth.js
+│     │            ├── BookPage.js
+│     │            ├── Comments.js
+│     │            ├── Header.js
+│     │            └── ...
+│     │
+│     ├── static
+│     ├── templates
+|     └── ...
+|
+├── users     
+│     ├── models.py 
+│     ├── views.py
+│     ├── serializers.py
+│     └── ...
+│
+└── manage.py
+
 ```
       
-code
-    .
-    │
-    ├── data
-    │   ├── raw_data
-    │   │   ├── phone
-    │   │   │   ├── accel
-    │   │   │   └── gyro
-    │   │   ├── watch
-    │   │       ├── accel
-    │   │       └── gyro
-    │   │
-    │   ├── transformed_data

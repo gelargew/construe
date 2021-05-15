@@ -80,10 +80,8 @@ features: - like/dislike book
 
 
 <h2 id="how-to-run">How to Run</h2>
-install requirements
-```
--pip install -r requirements.txt
-```
+install requirements `-pip install -r requirements.txt`
+
 run the server
 ```
 -python manage.py makemigrations

@@ -14,3 +14,17 @@ you dont need this to run the app
 <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Nodejs-15.6.0-green" /></a>
 <a href="https://reactjs.org"><img src="https://img.shields.io/badge/React-17.0.2-green" /> </a>
 <a href="https://reactrouter.com/"><img src="https://img.shields.io/badge/react--router--dom-5-green" /></a>
+
+
+
+## 🌵 Folder Structures
+
+construe
+│
+├── books
+│     ├── models.py 
+      ├── views.py
+      ├── serializers.py
+      ├── permissions.py
+      ├── utils.py
+      └── ...

@@ -1,4 +1,4 @@
-<h1 id="construe" align="center"> CONSTRUE </h1>
+<h1 id="construe" align="center">:book: CONSTRUE </h1>
 <h3 align="center"> Library Management System </h3>
 
 Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.
@@ -16,7 +16,7 @@ you dont need this to run the app
 <a href="https://reactrouter.com/"><img src="https://img.shields.io/badge/react--router--dom-5-green" /></a>
 
 
-<h2 id="contents">Table of Contents</h2>
+<h2 id="contents"> Table of Contents</h2>
 <details open>
   <summary>show</summary>
     <ol>

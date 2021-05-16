@@ -100,4 +100,14 @@ create superuser for admin page
 ```
 -python manage.py createsuperuser
 ```
-      
+
+<h2 id="app">App</h2>
+Components/Pages:
+<ul>
+  <li>
+    ![image](https://user-images.githubusercontent.com/20294259/118383224-23c41e80-b626-11eb-9352-4075c73008a8.png)
+    Header
+    consists of several buttons to navigate through the application
+  </li>
+ </ul>
+

@@ -17,7 +17,7 @@ you dont need this to run the app
 
 
 <h2 id="contents">Table of Contents</h2>
-<details>
+<details open>
   <summary>show</summary>
     <ol>
       <li><a href="#construe">CONSTRUE</a></li>
@@ -29,7 +29,7 @@ you dont need this to run the app
 
 <h2 id="folders"> 🌵 Folder Structures </h2>
 
-<details>
+<details open>
   <summary>show</summary>
   
     ```

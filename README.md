@@ -84,9 +84,9 @@ features: - like/dislike book
 
 
 <h2 id="how-to-run">:zap: How to Run</h2>
-<p>install requirements</p>
+<p>install requirements </p> `-pip install -r requirements.txt`
 
-`-pip install -r requirements.txt`
+
 
 run the server
 ```

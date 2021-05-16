@@ -22,6 +22,7 @@ Construe helps you look after the book you wanted, check availability and reserv
 
 <details open>
   <summary>show</summary>
+  List of important files to look for
   
     ```
     construe
@@ -32,6 +33,7 @@ Construe helps you look after the book you wanted, check availability and reserv
     │     ├── serializers.py
     │     ├── permissions.py
     │     ├── utils.py
+    │     ├── urls.py
     │     └── ...
     │ 
     ├── construe

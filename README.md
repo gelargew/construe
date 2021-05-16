@@ -12,6 +12,7 @@ Construe helps you look after the book you wanted, check availability and reserv
       <li><a href="#contents">:bookmark_tabs: Table of Contents</a></li>
       <li><a href="#folders">:cactus: Folder Structures</a></li>
       <li><a href="#dependencies">:cd: Dependencies</a></li>
+      <li><a href="#how-to-run">:zap: How to Run</a></li>
     </ol>
 </details>
 

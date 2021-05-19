@@ -58,7 +58,7 @@ CONTRACT_STATUSES = (
 
 class Contract(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT, related_name='contracts')
-    book = models.ForeignKey(Book, on_delete=models.RESTRICT)
+    book = models.ForeignKey('books.Book', on_delete=models.RESTRICT)
     expiry = models.DateField(default=get_default_expiry, blank=True)
     status = models.CharField(choices=CONTRACT_STATUSES, default='waiting', max_length=36)
     duration = models.PositiveSmallIntegerField(null=True, blank=True, default=7)
@@ -73,7 +73,7 @@ class Contract(models.Model):
 
 
 class Comment(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
+    book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET(get_sentinel_user))
     body = models.CharField(max_length=300)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -91,7 +91,7 @@ class ContractUpdater(models.Model):
     this model will update active and waiting contracts that has been expired, 
     the updated contracts will be written in this model as an update history
     """
-    contracts = models.ManyToManyField(Contract, blank=True)
+    contracts = models.ManyToManyField('books.Contract', blank=True)
     timestamp = models.DateField(blank=True, default=timezone.now)
 
     class Meta:

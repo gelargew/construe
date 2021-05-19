@@ -1,4 +1,3 @@
-from books.models import Contract
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from rest_framework.pagination import PageNumberPagination
@@ -44,4 +43,4 @@ def valid_report(user):
 def update_contracts():
         
 
-    Contract.objects.filter(status__in=['waiting', 'active'])
+    pass

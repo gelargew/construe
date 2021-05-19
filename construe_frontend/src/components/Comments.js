@@ -111,6 +111,22 @@ const Comment = ({comment, idx, setComments}) => {
         setEditMode(false)
     }
 
+    const deleteComment = async e => {
+        const response = await fetch(`${baseUrl}/api/comment_detail/${comment.id}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'X-CSRFToken': getCsrf()
+            }
+        })
+        if (response.status === 204) {
+            setComments(prev => {
+                prev.results.splice(idx, 1)
+                return {...prev}
+            })
+        }
+    }
+
     return (
         <li>
             <p className='comment-head'>
@@ -124,7 +140,7 @@ const Comment = ({comment, idx, setComments}) => {
                 {user.username === comment.user &&
                     <>
                         <button onClick={() => setEditMode(true)}>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={deleteComment}>Delete</button>
                     </>}
                     {comment.book && !showReplies && 
                     <button onClick={() => setShowReplies(true)}>{comment.reply_count} replies</button>}

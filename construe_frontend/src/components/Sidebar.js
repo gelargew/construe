@@ -12,7 +12,6 @@ export const Sidebar = () => {
         const response = await fetch(url)
         const data = await response.json()
         setBooks(data)
-        console.log(data.results)
     }, [url])
 
 

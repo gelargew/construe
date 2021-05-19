@@ -12,6 +12,7 @@ export const Sidebar = () => {
         const response = await fetch(url)
         const data = await response.json()
         setBooks(data)
+        console.log(data.results)
     }, [url])
 
 
@@ -28,7 +29,7 @@ export const Sidebar = () => {
                 
                 <div className='sidebar-book-list'>
                     {books.results.map(book => 
-                        <Link key={book.slug} to={`/book/${book.pk}/${book.slug}`} >
+                        <Link key={book.pk} to={`/book/${book.pk}/${book.slug}`} >
                             {book.title}
                         </Link>                       
                     )}

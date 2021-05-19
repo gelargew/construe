@@ -86,11 +86,12 @@ const RegisterPage = () => {
     const passwordInput = useRef(null)
     const [passwordConfirmed, setPasswordConfirmed] = useState(true)
 
-    
+    console.log(getCsrf())
     const register = async e => {
         e.preventDefault()
         setMessage('')
         setDisabled(true)
+        console.log(getCsrf())
         const response = await fetch(`${baseUrl}/auth/register/`, {
             method: 'POST',
             headers: {
@@ -103,15 +104,16 @@ const RegisterPage = () => {
                 email: e.target.email.value
             })
         })
+        
         if (response.status === 201) {
             const data = await response.json()
             setUser(data)
             history.push('/')
         }
-        else {
-        setMessage('something went wrong, please try again')
-        setDisabled(false)
+        else if (response.status === 403) {
+        setMessage('something went wrong, if you are in private mode please enable cookies for csrf token')
         }
+        setDisabled(false)
     }
 
     const confirmPassword = e => {
@@ -120,7 +122,7 @@ const RegisterPage = () => {
 
     return (
         <div className='auth-page'>
-            <h3>Login</h3>
+            <h3>Register</h3>
             <form onSubmit={register}>
                 <label>
                     Username:

@@ -95,7 +95,7 @@ install requirements
 
 run the server
 ```
--python manage.py makemigrations
+-python manage.py makemigrations books
 -python manage.py migrate
 -python manage.py runserver
 ```
@@ -240,7 +240,7 @@ class UserSerializer(serializers.ModelSerializer):
 #### Types of Users and its permissions
 - non-user, can only search and view book availability.
 - user, can reserve book, write comments, rate book, write reports.
-- staff, accept/cancel reservation, reply to any reports, admin page. more permissions can be added by superuser
+- staff, accept/cancel reservation, reply to any reports, admin page. more permissions can be added by superuser(e.g. create book)
 - [superuser](https://en.wikipedia.org/wiki/Superuser)
 
 ### [Books](/books)

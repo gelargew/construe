@@ -11,6 +11,7 @@
 .newbooks {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: 40px;
     width: 100%;
     justify-content: center;

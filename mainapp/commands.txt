@@ -1,4 +1,0 @@
-yarn init -y
-yarn add webpack webpack-cli --dev
-yarn add react react-dom --dev
-yarn add @babel/core babel-loader @babel/preset-env @babel/preset-react --dev

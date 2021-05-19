@@ -1,9 +1,9 @@
 .auth-page {
-    width: 70%;
+    max-width: 300px;
 }
 
 .auth-page * {
-    width: 90%;
+    width: 100%;
 }
 
 .auth-page form{

@@ -1,0 +1,106 @@
+@keyframes slidein {
+    from {
+        transform: translateX(-100%);
+    }
+    
+    to {
+        transform: translateX(0%);
+    }
+}
+
+.sidebar {
+    animation: 0.4s ease-in 1 slidein;
+}
+
+.sidebar-book-list {
+    margin-top: 15px;
+    overflow-y: auto;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 1px 1px 1px #555;
+    border-radius: 5px;
+}
+
+@media(min-width: 800px) {
+    .sidebar {
+        grid-area: 2/1/3/2;
+        background: #222;
+        overflow-y: auto;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .toggle-sidebar {
+        display: none;
+    }
+}
+
+
+
+@media(max-width: 800px) {
+    .root {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        padding: 80px 0 0 10px;
+        opacity: 0.9;
+        z-index: 2;
+        height: 100vh;
+        width: 50vw;
+        background: #222;
+        transition: 0.3s;
+        overflow: hidden;
+    }
+
+    .sidebar.sb-hidden {
+        padding: 80px 0;
+        width: 0;
+    }
+
+    .toggle-sidebar {
+        display: block;
+        position: fixed;
+        top: 40px;
+        left: 10px;
+        z-index: 10;
+        opacity: 0.7;
+        border: none;
+    }
+
+    .toggle-sidebar.sb-hidden {
+        left: 50%;
+        width: 80px;
+        transform: translateX(-80px);
+    }
+
+    .bg-logo h1 {
+        left: 50% !important;
+    }
+
+    .sidebar-book-list {
+        height: 70%;
+    }
+}
+
+.sidebar input {
+    width: 90%;
+}
+
+
+
+.sidebar-book-list a:hover {
+    transform: translateX(15px);
+    box-shadow: -10px 0px 5px greenyellow;
+}
+
+.sidebar-book-list a:active {
+    background: #888;
+    color: rgb(99, 138, 40);
+}

@@ -1,5 +1,6 @@
-__pycache__
 migrations
-db.sqlite3
-bookAssets
 node_modules
+__pycache__
+db.sqlite3
+images
+package-lock.json

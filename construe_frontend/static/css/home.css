@@ -1,0 +1,59 @@
+
+
+.quote {
+    max-width: 70%;
+}
+
+.quote em {
+    float: right;
+}
+
+.newbooks {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 40px;
+    width: 100%;
+    justify-content: center;
+}
+
+.newbook {
+    padding-top: 10px;
+}
+
+.newbook:hover {
+    transform: translate(-5px, -10px);
+    box-shadow: 5px 5px 3px greenyellow;
+}
+
+.newbook h4, .newbook p {
+    margin: 3px;
+    text-align: center;
+}
+
+.image-small {
+    width: 100px;
+    background: #222;
+    object-fit: contain;
+    height: 130px;
+  }
+
+
+
+.bg-logo h1{
+    font-size: 50vh;
+    position: fixed;
+    left: calc(50% + 120px);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    z-index: -100;
+    opacity: 0.5;
+    color: #222;
+}
+
+@media(max-width: 800px) {
+    main {
+        gap: 50px;
+    }
+}

@@ -1,0 +1,93 @@
+div.contactus {
+    padding: 0;
+    width: 90%;
+    display: flex;
+    place-items: center;
+}
+
+.contract-page {
+    width: 90%;
+}
+
+.contract-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contract-page ul li {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    word-break: break-word;
+}
+
+.contact-form {
+    width: 60%;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    place-items: center;
+    max-width: 500px;
+}
+
+.contact-form textarea {
+    height: 4rem;
+}
+
+.contact-form button {
+    width: 80px;
+    align-self: flex-end;
+    margin-top: -10px;
+}
+
+.message-main {
+    width: 90%;
+    min-height: 100px;
+    margin-bottom: 20px;
+}
+
+.messages {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    padding: 0;
+    width: 88%;
+}
+
+.messages li, .message-main {
+    border-radius: 5px;
+    box-shadow: 0.4px 0.4px rgba(248, 248, 248, 0.5);
+}
+
+.message-title {
+    display: grid;
+    grid-template-columns: minmax(100px, 3fr) 1fr
+}
+
+.message-body {
+    font-size: small;
+    padding-top: 5px;
+}
+
+.message-link {
+    padding: 0;
+}
+
+.contactus form {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+
+.contactus form button {
+    align-self: flex-end;
+}
+
+.contactus form button:hover {
+    transform: none;
+}
+
+.contactus form textarea {
+    height: 5rem;
+}

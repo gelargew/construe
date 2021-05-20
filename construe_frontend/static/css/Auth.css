@@ -1,0 +1,22 @@
+.auth-page {
+    max-width: 300px;
+}
+
+.auth-page * {
+    width: 100%;
+}
+
+.auth-page form{
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    gap: 20px;
+} 
+
+.auth-page button[type=submit] {
+    width: 30%;
+}
+
+.alert {
+    border: 0.8px solid red !important;
+}

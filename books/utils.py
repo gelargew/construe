@@ -40,7 +40,5 @@ def valid_report(user):
     return not latest or timezone.now() - latest.timestamp > timedelta(minutes=5)
 
 
-def update_contracts():
-        
 
-    pass
+

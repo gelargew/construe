@@ -38,15 +38,6 @@ class Book(models.Model):
     def __str__(self) -> str:
         return self.title[:20]
 
-    def add(self):
-        self.quantity += 1
-        super().save()
-
-    def substract(self):
-        self.quantity -= 1
-        super().save()
-
-
 CONTRACT_STATUSES = (
     ('waiting', 'waiting'),
     ('active', 'active'),
@@ -69,6 +60,11 @@ class Contract(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user} ----- book: {self.book.title} ----- status: {self.status} {self.expiry}'
+
+    def save(self, *args, **kwargs):
+        if self.status == 'active':
+            self.expiry = timezone.now().date() + timedelta(days=self.duration)
+        super().save(*args, **kwargs)
 
 
 

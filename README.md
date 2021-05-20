@@ -104,6 +104,9 @@ create superuser for admin page
 -python manage.py createsuperuser
 ```
 
+login with superuser account, there should be a administrator button to go to the admin page. then add some book samples.
+back to the main page to try its features.
+
 <h2 id="app">:door: App</h2>
 this is the frontend part of the project, all files related to the frontend app can be found in <a href="/construe_frontend">construe_frontend</a>, <br/>
 all the pages are styled using plain <a href="/construe_frontend/static/css">CSS</a>

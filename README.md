@@ -1,3 +1,14 @@
+## Distinctiveness and Complexity
+This project is a library management system to help library users and librarian with the proccess of borrowing book, it is similar to an e-commerce site but instead of buying products, user can create a contract to reserve a book. the contract model has 3 main statuses, **waiting** means the contract is waiting for user to take the book, **active** means  the book is in the user hand and need to be returned before the due date, **late** mean the book has not been returned after the due date have passed, **expired** mean the waiting time has expired 
+
+
+
+
+
+
+
+
+
 <h1 id="construe" align="center"> CONSTRUE </h1>
 <h3 align="center">:book: Library Management System </h3>
 

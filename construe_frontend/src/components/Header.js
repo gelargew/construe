@@ -17,17 +17,18 @@ export const Header = () => {
         }
     }
 
-
     return (
         <div className='header'>
             <Link to='/'>Home</Link>
             <div className='header-auth'>
-                {user.is_authenticated ? 
+                {user.is_authenticated 
+                ? 
                 <>
                     {user.is_staff && <a href={`${baseUrl}/admin/books/book/`}>Administrator</a>}
                     <Link to='/contracts'>{user.is_staff ? 'Contracts' : 'My books'}</Link>
                     <a onClick={logoutUser}>Logout</a>
-                </>:
+                </>
+                :
                 <>
                     
                     <Link to='/login'>Login</Link>

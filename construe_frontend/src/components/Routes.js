@@ -7,7 +7,7 @@ import { ContractPage } from './ContractPage';
 import { ContactUsPage, MessagePage } from './ContactUs';
 
 
-export const Main = () => {
+export const Routes = () => {
  
     return (
         <main>

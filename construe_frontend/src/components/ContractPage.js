@@ -42,7 +42,6 @@ export const ContractPage = () => {
 const Contract = ({contract, idx, setContracts}) => {
     const {user, setUser} = useContext(userContext)
 
-
     const handleContract = async e => {
         const response = await fetch(`${baseUrl}/api/contract/${contract.id}/${e.target.value}/`, {
             method: 'PATCH',
@@ -64,9 +63,6 @@ const Contract = ({contract, idx, setContracts}) => {
                 return {...prev}
             })
         }
-
-        const data = await response.json()
-        console.log(data)
     }
 
     return (

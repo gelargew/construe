@@ -5,25 +5,6 @@ import { baseUrl, userContext } from './App';
 export {LoginPage, RegisterPage, getCsrf}
 
 
-const getCsrf = () => {
-    const name = 'csrftoken'
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-
-
 const LoginPage = () => {
     const [message, setMessage] = useState('')
     const {setUser} = useContext(userContext)
@@ -86,12 +67,10 @@ const RegisterPage = () => {
     const passwordInput = useRef(null)
     const [passwordConfirmed, setPasswordConfirmed] = useState(true)
 
-    console.log(getCsrf())
     const register = async e => {
         e.preventDefault()
         setMessage('')
         setDisabled(true)
-        console.log(getCsrf())
         const response = await fetch(`${baseUrl}/auth/register/`, {
             method: 'POST',
             headers: {
@@ -103,19 +82,17 @@ const RegisterPage = () => {
                 password: e.target.password.value,
                 email: e.target.email.value
             })
-        })
-        
+        })       
         if (response.status === 201) {
             const data = await response.json()
             setUser(data)
             history.push('/')
         }
         else if (response.status === 403) {
-        setMessage('something went wrong, if you are in private mode please enable cookies for csrf token')
+            setMessage('something went wrong, if you are in private mode please enable cookies for csrf token')
         }
         setDisabled(false)
     }
-
     const confirmPassword = e => {
         setPasswordConfirmed(e.target.value === passwordInput.current.value)
     }
@@ -158,20 +135,19 @@ const RegisterPage = () => {
 }
 
 
-const handleAuth = async (e, type='login', body) => {
-    e.preventDefault()
-    const response = await fetch(`${baseUrl}/auth/${type}/`, {
-        method: 'POST',
-        mode: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'X-CSRFToken': getCsrf()
-        },
-        body: body
-    })
-    return response
-
+const getCsrf = () => {
+    const name = 'csrftoken'
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
-
-
-

@@ -45,8 +45,11 @@ export const Sidebar = () => {
                     </button>
                 </>}
                 
-                {books.count ?
-                    <p><small>showing {books.results.length} of {books.count} books</small></p> : ''
+                {books.count 
+                    ?
+                    <p><small>showing {books.results.length} of {books.count} books</small></p> 
+                    : 
+                    ''
                 }
             </div>
         </>

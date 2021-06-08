@@ -21,7 +21,6 @@ export const Comments = ({group='comments', pk=null}) => {
     useEffect(() => setUrl(`${baseUrl}/api/comment/${group}/${pk ? pk : book_pk}/`), [book_pk])
 
     const submitComment = async e => {
-        console.log('asd')
         e.preventDefault()
         const response = await fetch(url, {
             method: 'POST',
@@ -42,8 +41,7 @@ export const Comments = ({group='comments', pk=null}) => {
             )
         }
         e.target.body.value = ''
-        setHidden('hidden')
-        
+        setHidden('hidden')       
     }
 
     return (
@@ -84,7 +82,6 @@ const Comment = ({comment, idx, setComments}) => {
     const {user} = useContext(userContext)
     const [editMode, setEditMode] = useState(false)
     const [showReplies, setShowReplies] = useState(false)
-
 
     const cancelEdit = e => {
         setEditMode(false)

@@ -8,6 +8,16 @@ from datetime import timedelta
 from .utils import get_default_expiry, get_sentinel_user, book_year_validator
 
 
+CONTRACT_STATUSES = (
+    ('waiting', 'waiting'),
+    ('active', 'active'),
+    ('returned', 'returned'),
+    ('late', 'late'),
+    ('expired', 'expired'),
+    ('cancelled', 'cancelled'),
+)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=128)
 
@@ -38,14 +48,6 @@ class Book(models.Model):
     def __str__(self) -> str:
         return self.title[:20]
 
-CONTRACT_STATUSES = (
-    ('waiting', 'waiting'),
-    ('active', 'active'),
-    ('returned', 'returned'),
-    ('late', 'late'),
-    ('expired', 'expired'),
-    ('cancelled', 'cancelled'),
-)
 
 class Contract(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT, related_name='contracts')

@@ -9,13 +9,13 @@ export const BookPage = () => {
     const [showBox, setShowBox] = useState(false)
     const {user} = useContext(userContext)
     const {book_pk} = useParams()
+    const [message, setMessage] = useState('')
     const [book, setBook] = useState({
         title: 'title',
         category: [],
         likes: {count: 0, dislike: 0}
     })
-    const [message, setMessage] = useState('')
-
+    
     useEffect(async () => {
         const response = await fetch(`${baseUrl}/api/book/${book_pk}/`)
         const data = await response.json()
@@ -43,8 +43,7 @@ export const BookPage = () => {
         if (response.status === 200) {
             const data = await response.json()
             setBook(data)
-        }
-        
+        }       
     }
 
     return (

@@ -2,17 +2,15 @@ import React, { createContext, useEffect, useState } from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter } from "react-router-dom";
 import { Header } from './Header';
-import { Main } from './Main';
+import { Routes } from './Routes';
 import { Sidebar } from './Sidebar';
-
 
 export const userContext = createContext()
 export const baseUrl = window.location.origin
 
 
 const App = () => {
-    const [user, setUser] = useState('')
-    const [showSidebar, setShowSidebar] = useState(false)
+    const [user, setUser] = useState({})
 
     useEffect(async () => {
       const response = await fetch(baseUrl + '/auth/current_user/')
@@ -25,10 +23,9 @@ const App = () => {
           <BrowserRouter>
             <Header />
             <Sidebar />
-            <Main />
+            <Routes />
           </BrowserRouter>
-        </userContext.Provider>
-       
+        </userContext.Provider>      
       );
     }
     

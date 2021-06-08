@@ -2,14 +2,19 @@ from datetime import timedelta
 from django.utils import timezone
 from books.utils import noPagination, valid_report
 from django.db.models import query
-from django.http.response import HttpResponse, JsonResponse
+from django.http.response import Http404, HttpResponse, JsonResponse
 from books.serializers import BookListSerializer
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import exceptions
 
-from .serializers import BookListSerializer, CommentSerializer, ContactUsDetailSerializer, ContactUsSerializer, ContractSerializer, BookSerializer
+from .serializers import (BookListSerializer, 
+                        CommentSerializer, 
+                        ContactUsDetailSerializer, 
+                        ContactUsSerializer, 
+                        ContractSerializer, 
+                        BookSerializer)
 from .models import Book, Comment, ContactUs, Contract
 from .permissions import IsStaffOrOwner, fiveBookLimit
 
@@ -44,10 +49,11 @@ def book_like(request, pk, like='like'):
         elif like == 'dislike':
             book.like.remove(request.user)
             book.dislike.add(request.user)
-
         context = BookSerializer(book).data
 
         return JsonResponse(context, status=200)
+    
+    return HttpResponse(status=404)
 
 
 class contract_list(generics.ListCreateAPIView):

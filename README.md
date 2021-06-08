@@ -31,7 +31,7 @@ this is the frontend part of the apps, the index() view in views.py will render 
 
 
 
-<details open>
+<details>
   <summary>folder structures</summary>
   List of important files to look for
   

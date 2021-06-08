@@ -76,7 +76,11 @@ In ***App.js*** the user state is being passed as a global state **userContext**
 ##### BookPage.js
 BookPage have  a reserve book button for authenticated user that will triger a **rentBook** function and render ***ContractBox*** component. in ***ContractBox*** there is a function **toggle** that will check the class name of the clicked div, if its not a 'box-layout'(in this case outside of the contract box) it will unmount the **ContractBox** component.
 
-##### ContactPage.js
+##### ContractPage.js
+The **ContractPage** will render a list of authenticated user contracts (all users contracts if its a staff user), The pagination of the list is created using django-rest-framework pagination and ***useEffect*** hook. the api will return a JSON contain { results: ..., next: *url, previous: *url}. a next or previous button will change the url state thus will trigger the **useEffect** hooks and fetch the next/previous url. and if there are no next/previous url the button should be disabled. this method also used for the book list in **Sidebar.js**.
+
+##### Home.js
+The Home components will render a list of recently added books and a random quote about books from a list of quote in quotes.
 
 
 
@@ -84,18 +88,12 @@ BookPage have  a reserve book button for authenticated user that will triger a *
 
 
 
-<h2 id="dependencies">:cd: Dependencies</h2>
-<a href="https://python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3.6++-green" /></a>
+## :zap: How to Run
+
+### :cd: Dependencies
+<a href="https://python.org" target="_blank"><img src="https://img.shields.io/badge/Python-3.9-green" /></a>
 <a href="https://www.djangoproject.com/"><img src="https://img.shields.io/badge/Django-3.2-green" /></a>
 <a href="https://www.django-rest-framework.org/"><img src="https://img.shields.io/badge/django--rest--framework-3.12-green" /></a>
-
-#### React Development Dependencies (optional)
-<a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Nodejs-15.6.0-green" /></a>
-<a href="https://reactjs.org"><img src="https://img.shields.io/badge/React-17.0.2-green" /> </a> <br>
-this is only needed if the javascript need to be changed, refer to [frontend](/construe_frontend) page for more detail to run the react development mode.
-
-
-<h2 id="how-to-run">:zap: How to Run</h2>
 
 install requirements
 
@@ -103,7 +101,7 @@ install requirements
 -pip install -r requirements.txt
 ```
 
-run the server
+migrate
 
 ```
 -python manage.py makemigrations books
@@ -120,3 +118,6 @@ login with superuser account, there should be an administrator button to go to t
 back to the main page to try its features.
 
 
+## Aditional information !
+- Cookie must be enabled to be able to authenticate a user (CSRF token is acquired from cookie),
+- to edit the react components, refer to [Construe_frontend](/construe_frontend/README.md) to start react development mode

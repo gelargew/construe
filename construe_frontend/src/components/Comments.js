@@ -165,7 +165,6 @@ const CommentWrite = ()=> {
 
     const submitComment = async e => {
         e.preventDefault()
-        console.log(pk)
         const response = await fetch(`${baseUrl}/api/comment/${group}/${pk}/`, {
             method: 'POST',
             headers: {

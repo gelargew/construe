@@ -122,7 +122,6 @@ const ContractBox = ({setShowBox, book}) => {
             return
         }
         const data = await response.json()
-        console.log(data)
         setMessage('something went wrong')
     }
     

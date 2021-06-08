@@ -1,37 +1,38 @@
-<h1 id="construe" align="center"> CONSTRUE </h1>
-<h3 align="center">:book: Library Management System </h3>
+## Distinctiveness and Complexity
+This project is a library management system to help library users and librarian with the proccess of borrowing book. There are 5 main models in this project: ***Book***, ***Comment***, ***Contract***, ***User***, ***ContractUpdater***. it is similar to an e-commerce site but instead of buying products, user can create a contract to reserve a book. the contract model has 4 main statuses: ***waiting***,  means the contract is waiting for user to take the book, ***expired*** mean the waiting time has expired and the contract become not eligible, ***active*** mean the staff has accepted the contract, the book is in the user hand and need to be returned before the due date, ***late*** mean the book has not been returned after the due date have passed.
 
-Construe helps you look after the book you wanted, check availability and reserve your book before going to the Library.
-
-<img align="center" src="repoAssets/mobile.png" heigh="300" />
-
-<details>
-  <summary>show more images</summary>
-  <img src="repoAssets/contracts.png" />
-  <img src="repoAssets/bookpage.png" />
-</details>
+**ContractUpdater** is a daily updater that whenever saved, it checks the date on waiting, and active contracts and change its status based on its expiration date and current date. It is not exactly a daily update, it will be created whenever a staff authenticate/visit the website and no **ContractUpdater** already present in the current date.
 
 
-<h2 id="contents">:bookmark_tabs: Table of Contents</h2>
+## What's contained in each file
+#### books/models.py
+- Book model contain common field such as title, description, author, slug and category. The quantity field will determine if the book currently available and can be reserved.
+- Contract model have a UniqueConstraint Meta class where a user can't have 2 contracts with the same book. the save() method will extend the expiry if the status changed to active.
+- Comment model contain common field such as book(which book page this comment is in), user, body, timestamp, reply(which comment is this comment/reply is in). The reply comment will have a **None** book field and a relation to a book comment and Book comment will have **None** reply field and a book object.
+- ContractUpdater have a contracts ManyToManyField where it stores all the contracts that has been automatically updated at the at the current date.
+- ContactUS model is similar to Comment, just different table.
+
+#### books/serializers.py
+Most of the ModelSerializer use a default django-rest-framework settings. in BookSerializer, get_quantity method will substract the actual book quantity with the book active + waiting contracts 
+
+#### books/permissions.py & books/utils.py
+these files provide some helper function for the views.py like custom permissions and validators.
+
+#### books/views.py
+Most of the views in this file are created using django rest framework generic views. The get_queryset() method in book_list class optionally take an argument 'pattern' to filter the books before its get returned as a response. The get_queryset() method in **CommentsView** takes 2 arguments 'group' and 'pk'. if the group is 'replies' then the pk is a comment_id thus will return comment objects that has reply relation to the comment with the given id, if the groupd is 'comments' then the pk will be a book_id thus will return comment objects with a relation to the book. The same thing is also applied to the perform_create() method.
+
+#### construe_frontend
+this is the frontend part of the apps, the index() view in views.py will render  html template templates/construe_frontend/index.html with a script that link to static/construe_frontend/main.js. inside main.js is a bundling of react components from src/components.js folder.
+
+
+
+
+
+
+
+
 <details open>
-  <summary>show</summary>
-    <ol>
-      <li><a href="#construe">:book: CONSTRUE</a></li>
-      <li><a href="#contents">:bookmark_tabs: Table of Contents</a></li>
-      <li><a href="#folders">:cactus: Folder Structures</a></li>
-      <li><a href="#dependencies">:cd: Dependencies</a></li>
-      <li><a href="#how-to-run">:zap: How to Run</a></li>
-      <li><a href="#app">:door: App</a></li>
-      <li><a href="#backend">:floppy_disk: Backend</a></li>
-    </ol>
-</details>
-
-
-
-<h2 id="folders"> 🌵 Folder Structures </h2>
-
-<details open>
-  <summary>show</summary>
+  <summary>folder structures</summary>
   List of important files to look for
   
     ```
@@ -87,196 +88,27 @@ this is only needed if the javascript need to be changed, refer to [frontend](/c
 
 
 <h2 id="how-to-run">:zap: How to Run</h2>
+
 install requirements
 
-`-pip install -r requirements.txt`
-
-
+```
+-pip install -r requirements.txt
+```
 
 run the server
+
 ```
 -python manage.py makemigrations books
 -python manage.py migrate
--python manage.py runserver
 ```
 create superuser for admin page
+
 ```
 -python manage.py createsuperuser
+-python manage.py runserver
 ```
 
-login with superuser account, there should be a administrator button to go to the admin page. then add some book samples.
+login with superuser account, there should be an administrator button to go to the admin page. then create some book samples(only book title is required to save a book object).
 back to the main page to try its features.
 
-<h2 id="app">:door: App</h2>
-this is the frontend part of the project, all files related to the frontend app can be found in <a href="/construe_frontend">construe_frontend</a>, <br/>
-all the pages are styled using plain <a href="/construe_frontend/static/css">CSS</a>
-
-Components/Pages:
-#### [Header](/construe_frontend/src/components/Header.js)
-a fixed components at the top consists of buttons to navigate through the App using BrowserRouter from react-router-dom. 
-
-```
-=====Header.js=====
-...
-{user.is_staff && <a href={`${baseUrl}/admin/books/book/`}>Administrator</a>}
-                    <Link to='/contracts'>Contracts</Link>
-                    <a onClick={logoutUser}>Logout</a>
-...
-
-=====Main.js======
-<main>
-    <Switch>
-        <Route path='/login'>
-            <LoginPage />
-        </Route>
-
-        <Route path='/register'>
-            <RegisterPage />
-        </Route>
-
-        <Route path='/book/:book_pk/:slug'>
-            <BookPage />
-        </Route>
-        ...
-
-```
-
-#### [Sidebar](/construe_frontend/src/components/Sidebar.js)
-show a paginated list of books and a search bar which automatically fetch and filter the books as the user type.
-<details>
-  <summary>snippet</summary>
-    
-```
-export const Sidebar = () => {
-    const [books, setBooks] = useState({results: []})
-    const [url, setUrl] = useState(`${baseUrl}/api/books/`)
-
-    useEffect(async () => {
-        const response = await fetch(url)
-        const data = await response.json()
-        setBooks(data)
-    }, [url])
-
-
-    return (
-        <>
-            <div className='sidebar'>
-                <input type='text' placeholder='Search Books...' 
-                onChange={e => setUrl(`${baseUrl}/api/books/${e.target.value}`)} />
-                
-                <div className='sidebar-book-list'>
-                    {books.results.map(book => 
-                        <Link key={book.slug} to={`/book/${book.pk}/${book.slug}`} >
-                            {book.title}
-                        </Link>                       
-                    )}
-                </div>
-
-                {/* navigation button */ books.count > 20 &&
-                <>
-                    <button onClick={() => setUrl(books.previous)} disabled={!books.previous}>
-                        <i className="fas fa-caret-left fa-2x"></i>
-                    </button>
-                    
-                    <button onClick={() =>setUrl(books.next)} disabled={!books.next}>
-                        <i className="fas fa-caret-right fa-2x"></i>
-                    </button>
-                </>}
-                
-                {books.count ?
-                    <p><small>showing {books.results.length} of {books.count} books</small></p> : ''
-                }
-            </div>
-        </>
-    )
-}
-```
-
-most of the react components in this app look similar like the one above, with some states and a useeffect hooks to update those stats. in the code above, the onChange on the input will change the url state and thus will trigger the useEffect to fetch another list of books based on the current value of the input.
-
-</details>
-
-
-#### Homepage 
-
-The home page created by using very simple react component called [Home](/construe_frontend/src/components/Home.js).
-
-#### Bookpage
-Consists of 2 main components [Bookpage](/construe_frontend/src/components/BookPage.js) & [Comments](/construe_frontend/src/components/Comments.js). 
-in this page, user can check book availability, add review, reply to review, reserve & like/dislike book
-
-#### [ContractPage](/construe_frontend/src/components/ContractPage.js)
-This page show list of active contract of current user like currently borrowed books and reserved book( waiting to be borrowed ). the staff user will see all of the active contracts from all users and can accept/cancel a reserve request and retrieve a borrowed book
-
-#### [ContactUsPage](/construe_frontend/src/components/ContactUs.js)
-Consists of 2 routes/components ContactUsPage & messagePage. The first page will show a form to start a message session with the staff and a list of message session which when clicked will bring the user to the message page where user and the staffs can reply to the particular message session
-
-
-<h2 id="backend">:floppy_disk: Backend</h2>
-
-Rest APIs for the App
-
-### [Users](/users)
-
-Using django base user model with default authentication views, with an addition of get_current_user view that return a serialized current user data.
-get_contracts method will add a list of book.id that user currently in contract with  into the serializer
-
-```
-===========views.py============
-def get_current_user(request):
-    return JsonResponse(UserSerializer(request.user).data)
-    
-========serializers.py=========  
-class UserSerializer(serializers.ModelSerializer):
-    contracts = serializers.SerializerMethodField()
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'is_staff', 'is_authenticated', 'contracts')
-
-    def get_contracts(self, user):
-        if user.is_authenticated:
-            return [contract.book_id for contract in user.contracts.filter(status__in=['waiting', 'late', 'active'])]
-        
-        return []
-```
-
-#### Types of Users and its permissions
-- non-user, can only search and view book availability.
-- user, can reserve book, write comments, rate book, write reports.
-- staff, accept/cancel reservation, reply to any reports, admin page. more permissions can be added by superuser(e.g. create book)
-- [superuser](https://en.wikipedia.org/wiki/Superuser)
-
-### [Books](/books)
-
-list of APIs 
-```
-path('books/', book_list.as_view()),                                # return a default book list
-path('books/<str:pattern>/', book_list.as_view()),                  # return a filtered book list according to pattern
-path('book/<int:pk>/', book_detail.as_view()),                      # return a detailed book information for the book page
-path('book/<int:pk>/<str:like>/', book_like),                       # request PATCH to like/dislike book
-path('newbooks/', new_books.as_view()),                             # return 5 newest added books
-path('comment/<str:group>/<int:pk>/', CommentsView.as_view()),      # comment list of certain book page, request POST to create comment
-path('comment_detail/<int:pk>/', CommentView.as_view()),            # update/ delete comment
-path('contracts/', contract_list.as_view()),                        # list of contract of current user (all contracts for staff)
-path('contract/<int:pk>/<str:command>/', contractDetail.as_view()), # accept/cancel/retrieve book from contract (for staff only)
-path('contactus/', ContactUsView.as_view()),                        # list of contact us messages from current user
-path('contactus/<int:pk>/', ContactUsDetail.as_view())              # return the message detail and also its replies
-```
-
-most of the views are created using django-rest-framework generic view and adding some necessary changes to some of the methods:
-```
-class CommentsView(generics.ListCreateAPIView):
-...
-def get_queryset(self):
-        pk = self.kwargs['pk']
-        group = self.kwargs['group']
-        #if the request come from the replies group, return all the comments for a certain comment
-        if group == 'replies':            
-            return Comment.objects.filter(reply__pk=pk)
-        
-        # if the request come from the comments group, return all the comments for a certain book
-        elif group == 'comments':
-            return Comment.objects.filter(book__pk=pk)
-```
-with this, book comments and comment replies only need one view. the same method apply for the perform_create method
 

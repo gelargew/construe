@@ -3,6 +3,8 @@ This project is a library management system to help library users and librarian 
 
 **ContractUpdater** is a daily updater that whenever saved, it checks the date on waiting, and active contracts and change its status based on its expiration date and current date. It is not exactly a daily update, it will be created whenever a staff authenticate/visit the website and no **ContractUpdater** already present in the current date.
 
+The app is mobile responsive, it is styled using plain css.
+
 
 
 <details>

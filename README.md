@@ -57,7 +57,7 @@ The app is mobile responsive, it is styled using plain css.
 - Book model contain common field such as title, description, author, slug and category. The quantity field will determine if the book currently available and can be reserved.
 - Contract model have a UniqueConstraint Meta class where a user can't have 2 contracts with the same book. the save() method will extend the expiry if the status changed to active.
 - Comment model contain common field such as book(which book page this comment is in), user, body, timestamp, reply(which comment is this comment/reply is in). The reply comment will have a **None** book field and a relation to a book comment and Book comment will have **None** reply field and a book object.
-- ContractUpdater have a contracts ManyToManyField where it stores all the contracts that has been automatically updated at the at the current date.
+- ContractUpdater have a contracts ManyToManyField where it stores all the contracts that has been automatically updated at the current date.
 - ContactUS model is similar to Comment, just different table.
 
 #### books/serializers.py
@@ -67,7 +67,7 @@ Most of the ModelSerializer use a default django-rest-framework settings. in Boo
 these files provide some helper function for the views.py like custom permissions and validators.
 
 #### books/views.py
-Most of the views in this file are created using django rest framework generic views. The get_queryset() method in book_list class optionally take an argument 'pattern' to filter the books before its get returned as a response. The get_queryset() method in **CommentsView** takes 2 arguments 'group' and 'pk'. if the group is 'replies' then the pk is a comment_id thus will return comment objects that has reply relation to the comment with the given id, if the groupd is 'comments' then the pk will be a book_id thus will return comment objects with a relation to the book. The same thing is also applied to the perform_create() method.
+Most of the views in this file are created using django rest framework generic views. The get_queryset() method in book_list class optionally take an argument 'pattern' to filter the books before its get returned as a response. The get_queryset() method in **CommentsView** takes 2 arguments 'group' and 'pk'. if the group is 'replies' then the pk is a comment_id thus will return comment objects that has reply relation to the comment with the given id, if the group is 'comments' then the pk will be a book_id thus will return comment objects with a relation to the book. The same thing is also applied to the perform_create() method.
 
 #### construe_frontend/
 this is the frontend part of the apps, the index() view in views.py will render html with an empty div templates/construe_frontend/index.html with a script that link to static/construe_frontend/main.js. inside main.js is a bundling of react components from src/components.js folder.

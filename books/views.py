@@ -1,10 +1,6 @@
-from datetime import timedelta
-from django.utils import timezone
 from books.utils import noPagination, valid_report
-from django.db.models import query
 from django.http.response import Http404, HttpResponse, JsonResponse
 from books.serializers import BookListSerializer
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import exceptions
